@@ -147,7 +147,18 @@ function bees() {
     // Entities...
 
     var base_entity = {
-        sim: sim, x: 0, y: 0, speedx: 0, speedy: 0, hp: 1, sprites: [], framerate: 60, scary: false, harmless: false, death_sound: "enemy_death", score: 0
+        sim: sim,
+        x: 0,
+        y: 0,
+        speedx: 0,
+        speedy: 0,
+        hp: 1,
+        sprites: [],
+        framerate: 60,
+        scary: false,
+        harmless: false,
+        death_sound: "enemy_death",
+        score: 0
     };
 
     base_entity.draw = function () {
@@ -157,7 +168,7 @@ function bees() {
         sprite_index = Math.floor(this.sim.iteration / this.framerate) % this.sprites.length;
         sprite = this.sprites[sprite_index];
         virtue.drawImage(sprite, this.x - sprite.width / 2, this.y - sprite.height / 2);
-    }
+    };
 
     base_entity.move = function () {
         this.x += this.speedx;
@@ -176,7 +187,7 @@ function bees() {
             return true;
         }
         return false;
-    }
+    };
 
     base_entity.damage = function () {
         var n;
@@ -224,7 +235,9 @@ function bees() {
 
     base_shot.scary = true;
 
-    base_shot.damage = function () {};
+    base_shot.damage = function () {
+        return;
+    };
 
     // SHOOTER
 
@@ -241,10 +254,8 @@ function bees() {
 
         var new_shot;
         var vector;
-        var vecx;
-        var vecy;
 
-        if (this.age % 50 == 49 && this.sim.player.alive && this.in_bounds()) {
+        if (this.age % 50 === 49 && this.sim.player.alive && this.in_bounds()) {
 
             new_shot = Object.create(base_shot);
             new_shot.x = this.x;
@@ -258,7 +269,7 @@ function bees() {
         }
 
         base_entity.move.apply(this);        // For normal movement.
-    }
+    };
 
     // CRACKED SHIP
 
@@ -297,7 +308,7 @@ function bees() {
 
     while (sim.bees.length < BEECOUNT) {
         bee = Object.create(base_bee);
-        bee.sim = sim,
+        bee.sim = sim;
         r = Math.floor(Math.random() * 127 + 128);
         g = Math.floor(Math.random() * 127 + 128);
         b = Math.floor(Math.random() * 127 + 128);
@@ -307,24 +318,24 @@ function bees() {
 
     sim.reset_bees = function () {
         var n;
-        var bee;
+        var item;
 
         for (n = 0; n < this.bees.length; n += 1) {
 
-            bee = this.bees[n];
+            item = this.bees[n];
 
-            if (bee.x <= 0 || bee.x >= this.width || bee.y <= 0 || bee.y >= this.height) {
-                bee.x = this.player.x;
-                bee.y = this.player.y;
-                bee.lastx = bee.x;
-                bee.lasty = bee.y;
-                bee.oldx = bee.x;
-                bee.oldy = bee.y;
-                bee.speedx = Math.random() * 10 - 5;
-                bee.speedy = Math.random() * 10 - 5;
+            if (item.x <= 0 || item.x >= this.width || item.y <= 0 || item.y >= this.height) {
+                item.x = this.player.x;
+                item.y = this.player.y;
+                item.lastx = item.x;
+                item.lasty = item.y;
+                item.oldx = item.x;
+                item.oldy = item.y;
+                item.speedx = Math.random() * 10 - 5;
+                item.speedy = Math.random() * 10 - 5;
             }
         }
-    }
+    };
 
     // Set up player...
 
@@ -336,7 +347,7 @@ function bees() {
         this.player.respawn_timer = 120;
         this.player.immune_timer = 120;
         this.player.alive = true;
-    }
+    };
 
     sim.player = {
         sim: sim,
@@ -344,7 +355,7 @@ function bees() {
         sprites: [newimage("res/ship1.png"), newimage("res/ship2.png")],
         framerate: 60,
         keyboard: {"w": false, "a": false, "s": false, "d": false, " ": false}
-    }
+    };
 
     sim.reset_player();
     sim.player.lives = 3;
@@ -441,7 +452,7 @@ function bees() {
                 }
             }
         }
-    }
+    };
 
     sim.player.crack = function () {
         var left = Object.create(base_cracked_left);
@@ -457,7 +468,7 @@ function bees() {
         right.speedx = this.speedx + 2;
         right.speedy = this.speedy;
         this.sim.entities.push(right);
-    }
+    };
 
     sim.target = sim.player;
 
@@ -472,7 +483,7 @@ function bees() {
         e.speedy = Math.random() * 4 - 2;
 
         return e;
-    }
+    };
 
     sim.new_shooter = function () {
         var e;
@@ -481,7 +492,7 @@ function bees() {
         e.y = Math.random() * this.height;
         e.speedx = -3;
         return e;
-    }
+    };
 
     sim.enemy_gen = function () {
         var ret = [];
@@ -561,7 +572,7 @@ function bees() {
         if (this.player.alive) {
 
             this.player.move();
-            this.player.damage()
+            this.player.damage();
 
         } else {
 
@@ -678,7 +689,7 @@ function bees() {
 
     sim.play_sound = function (s) {
         var a;
-        var thistime = (new Date()).getTime();
+        var thistime = Date.now();
 
         for (a = 0; a < this.audiochannels.length; a += 1) {
             if (this.audiochannels[a].finished < thistime) {
