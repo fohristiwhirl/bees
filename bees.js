@@ -239,7 +239,7 @@ function bees() {
             if (item.hp <= 0 || oob) {
                 arr.splice(n, 1);   // Deletes from array in place; the reference arr thus works.
                 if (oob === false) {
-                    this.play_sound(enemy_death_sound);
+                    this.play_sound("enemy_death.wav");
                 }
             }
         }
@@ -322,8 +322,6 @@ function bees() {
 
     // Sound from Thomas Sturm: http://www.storiesinflight.com/html5/audio.html
 
-    var enemy_death_sound = new Audio("res/enemy_death.wav");
-
     sim.audiochannels = [];
     while (sim.audiochannels.length < 8) {
         sim.audiochannels.push({channel: new Audio(), finished: -1});
@@ -335,8 +333,8 @@ function bees() {
 
         for (a = 0; a < sim.audiochannels.length; a += 1) {
             if (sim.audiochannels[a].finished < thistime) {
-                sim.audiochannels[a].finished = thistime + s.duration * 1000;
-                sim.audiochannels[a].channel.src = s.src;
+                sim.audiochannels[a].finished = thistime + document.getElementById(s).duration * 1000;
+                sim.audiochannels[a].channel.src = document.getElementById(s).src;
                 sim.audiochannels[a].channel.load();
                 sim.audiochannels[a].channel.play();
                 break;
