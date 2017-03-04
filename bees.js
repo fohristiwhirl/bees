@@ -14,7 +14,7 @@ function bees() {
     "use strict";
 
     var MARGIN_OF_ERROR = 2;
-    var PLAYER_MAX_SPEED = 10;
+    var PLAYER_MAX_SPEED = 7.5;
     var BEECOUNT = 35;
 
     var canvas = document.getElementById("bees");
@@ -74,11 +74,11 @@ function bees() {
             var vecy = vector[1];
 
             if (vecx === 0 && vecy === 0) {
-                this.speedx += (Math.random() * 4 - 2) * this.accel_mod;
-                this.speedy += (Math.random() * 4 - 2) * this.accel_mod;
+                this.speedx += Math.random() * this.accel_mod;
+                this.speedy += Math.random() * this.accel_mod;
             } else {
-                this.speedx += vecx * Math.random() * this.accel_mod;
-                this.speedy += vecy * Math.random() * this.accel_mod;
+                this.speedx += vecx * Math.random() * 2 * this.accel_mod / 2;
+                this.speedy += vecy * Math.random() * 2 * this.accel_mod / 2;
             }
 
         } else {
@@ -147,7 +147,7 @@ function bees() {
     // Entities...
 
     var base_entity = {
-        sim: sim, x: 0, y: 0, speedx: 0, speedy: 0, hp: 1, sprites: [], framerate: 60, scary: false, harmless: false, death_sound: "enemy_death"
+        sim: sim, x: 0, y: 0, speedx: 0, speedy: 0, hp: 1, sprites: [], framerate: 60, scary: false, harmless: false, death_sound: "enemy_death", score: 0
     };
 
     base_entity.draw = function () {
@@ -215,6 +215,8 @@ function bees() {
     var base_stupid = Object.create(base_entity);
     base_stupid.sprites = [newimage("res/stupid.png")];
 
+    base_stupid.score = 10;
+
     // SHOT
 
     var base_shot = Object.create(base_entity);
@@ -229,6 +231,8 @@ function bees() {
     var base_shooter = Object.create(base_entity);
     base_shooter.sprites = [newimage("res/shooter.png")];
 
+    base_shooter.score = 100;
+
     base_shooter.age = 0;
 
     base_shooter.move = function () {
@@ -240,7 +244,7 @@ function bees() {
         var vecx;
         var vecy;
 
-        if (this.age % 25 == 24 && this.sim.player.alive && this.in_bounds()) {
+        if (this.age % 50 == 49 && this.sim.player.alive && this.in_bounds()) {
 
             new_shot = Object.create(base_shot);
             new_shot.x = this.x;
@@ -282,6 +286,7 @@ function bees() {
     sim.height = window.innerHeight;
 
     sim.iteration = 0;
+    sim.score = 0;
     sim.bees = [];
     sim.entities = [];
 
@@ -380,11 +385,20 @@ function bees() {
             this.speedy = 0;
         }
 
-        var speed = Math.sqrt(this.speedx * this.speedx + this.speedy * this.speedy);
+        if (this.speedx > this.max_speed) {
+            this.speedx = this.max_speed;
+        }
 
-        if (speed > this.max_speed) {
-            this.speedx *= this.max_speed / speed;
-            this.speedy *= this.max_speed / speed;
+        if (this.speedx < -this.max_speed) {
+            this.speedx = -this.max_speed;
+        }
+
+        if (this.speedy > this.max_speed) {
+            this.speedy = this.max_speed;
+        }
+
+        if (this.speedy < -this.max_speed) {
+            this.speedy = -this.max_speed;
         }
 
         if ((this.x < this.sprites[0].width && this.speedx < 0) || (this.x > this.sim.width - this.sprites[0].width && this.speedx > 0)) {
@@ -454,7 +468,9 @@ function bees() {
         e = Object.create(base_stupid);
         e.x = this.width + 32;
         e.y = Math.random() * this.height;
-        e.speedx = -3;
+        e.speedx = Math.random() * -3 - 1;
+        e.speedy = Math.random() * 4 - 2;
+
         return e;
     }
 
@@ -524,9 +540,10 @@ function bees() {
             if (item.hp <= 0 || oob) {
                 arr.splice(n, 1);           // Deletes from array in place; the reference arr thus works.
                 if (oob === false) {
-                    if (item.death_sound !== null && item.death_sound !== undefined){
+                    if (item.death_sound !== null && item.death_sound !== undefined) {
                         this.play_sound(item.death_sound);
                     }
+                    this.score += item.score;
                 }
             }
         }
@@ -573,6 +590,12 @@ function bees() {
         var n;
         var sprite_index;
         var sprite;
+
+        // Update title with score sometimes...
+
+        if (this.iteration % 10 === 7) {
+            document.title = "The Bees (score: " + this.score.toString() + ")";
+        }
 
         // Adjust canvas size if needed...
 
