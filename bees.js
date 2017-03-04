@@ -241,8 +241,6 @@ function bees() {
     var base_shot = Object.create(base_entity);
     base_shot.sprites = [newimage("res/shot.png")];
 
-    base_shot.scary = true;
-
     base_shot.damage = function () {
         return;
     };
