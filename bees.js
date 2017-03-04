@@ -14,9 +14,9 @@ function bees() {
 
     var canvas = document.getElementById("bees");
     var virtue = canvas.getContext("2d");
-    var sim;
+    var sim = {};
 
-    var base_bug = {x: 0, y: 0, lastx: 0, lasty: 0, oldx: 0, oldy: 0, speedx: 0, speedy: 0, accel_mod: 0.77, max_speed: 9, colour: "#ffffff"};
+    var base_bug = {sim: sim, x: 0, y: 0, lastx: 0, lasty: 0, oldx: 0, oldy: 0, speedx: 0, speedy: 0, accel_mod: 0.77, max_speed: 9, colour: "#ffffff"};
 
     base_bug.move = function () {
 
@@ -54,8 +54,8 @@ function bees() {
     };
 
     base_bug.unit_vector_to_target = function () {
-        var dx = sim.target.x - this.x;
-        var dy = sim.target.y - this.y;
+        var dx = this.sim.target.x - this.x;
+        var dy = this.sim.target.y - this.y;
 
         if (dx < 0.01 && dx > -0.01 && dy < 0.01 && dy > -0.01) {
             return [0, 0];
@@ -67,7 +67,7 @@ function bees() {
 
     // Enemies...
 
-    var base_enemy = {x: 0, y: 0, speedx: 0, speedy: 0, hp: 1, sprite: null};
+    var base_enemy = {sim: sim, x: 0, y: 0, speedx: 0, speedy: 0, hp: 1, sprite: null};
 
     base_enemy.move = function () {
         this.x += this.speedx;
@@ -75,7 +75,7 @@ function bees() {
     };
 
     base_enemy.out_of_bounds = function () {
-        if (this.x < -200 || this.x > sim.width + 200 || this.y < -200 || this.y > sim.height + 200) {
+        if (this.x < -200 || this.x > this.sim.width + 200 || this.y < -200 || this.y > this.sim.height + 200) {
             return true;
         }
         return false;
@@ -83,8 +83,8 @@ function bees() {
 
     base_enemy.damage = function () {
         var n;
-        var arr = sim.bugs;
-        var len = sim.bugs.length;
+        var arr = this.sim.bugs;
+        var len = this.sim.bugs.length;
         var bug;
         var dx;
         var dy;
@@ -109,8 +109,6 @@ function bees() {
 
     // Set up sim...
 
-    sim = Object.create(null);
-
     sim.width = window.innerWidth;
     sim.height = window.innerHeight;
 
@@ -125,6 +123,7 @@ function bees() {
 
     while (sim.bugs.length < BUGCOUNT) {
         bug = Object.create(base_bug);
+        bug.sim = sim,
         bug.x = sim.width / 2;
         bug.y = sim.height / 2;
         bug.lastx = sim.width / 2;
@@ -143,6 +142,7 @@ function bees() {
     // Set up player...
 
     sim.player = {
+        sim: sim,
         x: sim.width / 2,
         y: sim.height / 2,
         speedx: 0,
@@ -183,10 +183,10 @@ function bees() {
             this.speedy *= this.max_speed / speed;
         }
 
-        if ((this.x < 16 && this.speedx < 0) || (this.x > sim.width - 16 && this.speedx > 0)) {
+        if ((this.x < 16 && this.speedx < 0) || (this.x > this.sim.width - 16 && this.speedx > 0)) {
             this.speedx *= -1;
         }
-        if ((this.y < 16 && this.speedy < 0) || (this.y > sim.height - 16 && this.speedy > 0)) {
+        if ((this.y < 16 && this.speedy < 0) || (this.y > this.sim.height - 16 && this.speedy > 0)) {
             this.speedy *= -1;
         }
 
@@ -205,8 +205,8 @@ function bees() {
 
         if (i % 100 === 99) {
             e = Object.create(base_stupid);
-            e.x = sim.width + 32;
-            e.y = Math.random() * sim.height;
+            e.x = this.width + 32;
+            e.y = Math.random() * this.height;
             e.speedx = -3;
 
             ret.push(e);
@@ -237,7 +237,7 @@ function bees() {
             oob = item.out_of_bounds();
 
             if (item.hp <= 0 || oob) {
-                arr.splice(n, 1);   // Deletes from array in place; the reference arr thus works.
+                arr.splice(n, 1);           // Deletes from array in place; the reference arr thus works.
                 if (oob === false) {
                     this.play_sound("enemy_death.wav");
                 }
@@ -331,12 +331,12 @@ function bees() {
         var a;
         var thistime = (new Date()).getTime();
 
-        for (a = 0; a < sim.audiochannels.length; a += 1) {
-            if (sim.audiochannels[a].finished < thistime) {
-                sim.audiochannels[a].finished = thistime + document.getElementById(s).duration * 1000;
-                sim.audiochannels[a].channel.src = document.getElementById(s).src;
-                sim.audiochannels[a].channel.load();
-                sim.audiochannels[a].channel.play();
+        for (a = 0; a < this.audiochannels.length; a += 1) {
+            if (this.audiochannels[a].finished < thistime) {
+                this.audiochannels[a].finished = thistime + document.getElementById(s).duration * 1000;
+                this.audiochannels[a].channel.src = document.getElementById(s).src;
+                this.audiochannels[a].channel.load();
+                this.audiochannels[a].channel.play();
                 break;
             }
         }
