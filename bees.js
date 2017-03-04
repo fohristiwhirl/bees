@@ -21,7 +21,9 @@ function bees() {
     var virtue = canvas.getContext("2d");
     var sim = {};
 
-    // Bees...
+
+    // ---------------------------------------------------------------------------------------------
+    // BEES
 
     var base_bee = {
         sim: sim,
@@ -37,7 +39,7 @@ function bees() {
         max_speed: 9,
         colour: "#ffffff",
         target: null,
-        avoidance: 4200
+        avoidance: 3500
     };
 
     base_bee.move = function () {
@@ -88,7 +90,7 @@ function bees() {
             this.speedx *= 2;
             this.speedy *= 2;
         }
-/*
+
         // Avoid scary entities...
 
         var n;
@@ -107,8 +109,8 @@ function bees() {
                 continue;
             }
 
-            var dx = (enemy.x - this.x) * 0.75;       // Reduce the distance, to strengthen the effect
-            var dy = (enemy.y - this.y) * 0.75;
+            var dx = (enemy.x - this.x);
+            var dy = (enemy.y - this.y);
             distance_squared = dx * dx + dy * dy;
             distance = Math.sqrt(distance_squared);
             if (distance > 0.01) {
@@ -117,7 +119,7 @@ function bees() {
                 this.speedy -= dy * adjusted_force * Math.random();
             }
         }
-*/
+
         // Throttle speed...
 
         var speed = Math.sqrt(this.speedx * this.speedx + this.speedy * this.speedy);
@@ -144,7 +146,9 @@ function bees() {
         return [dx / distance, dy / distance];
     };
 
-    // Entities...
+
+    // ---------------------------------------------------------------------------------------------
+    // BASE ENTITY
 
     var base_entity = {
         sim: sim,
@@ -221,6 +225,8 @@ function bees() {
         return [dx / distance, dy / distance];
     };
 
+
+    // ---------------------------------------------------------------------------------------------
     // STUPID
 
     var base_stupid = Object.create(base_entity);
@@ -228,6 +234,8 @@ function bees() {
 
     base_stupid.score = 10;
 
+
+    // ---------------------------------------------------------------------------------------------
     // SHOT
 
     var base_shot = Object.create(base_entity);
@@ -239,6 +247,8 @@ function bees() {
         return;
     };
 
+
+    // ---------------------------------------------------------------------------------------------
     // SHOOTER
 
     var base_shooter = Object.create(base_entity);
@@ -271,6 +281,8 @@ function bees() {
         base_entity.move.apply(this);        // For normal movement.
     };
 
+
+    // ---------------------------------------------------------------------------------------------
     // CRACKED SHIP
 
     var base_cracked = Object.create(base_entity);
@@ -291,7 +303,9 @@ function bees() {
     var base_cracked_right = Object.create(base_cracked);
     base_cracked_right.sprites = [newimage("res/cracked_right.png")];
 
-    // Set up sim...
+
+    // ---------------------------------------------------------------------------------------------
+    // SIM
 
     sim.width = window.innerWidth;
     sim.height = window.innerHeight;
@@ -337,7 +351,9 @@ function bees() {
         }
     };
 
-    // Set up player...
+
+    // ---------------------------------------------------------------------------------------------
+    // PLAYER
 
     sim.reset_player = function () {
         this.player.x = -120;
@@ -472,7 +488,9 @@ function bees() {
 
     sim.target = sim.player;
 
-    // Main logic functions...
+
+    // ---------------------------------------------------------------------------------------------
+    // GAME LOGIC
 
     sim.new_stupid = function () {
         var e;
@@ -508,21 +526,7 @@ function bees() {
 
         return ret;
     };
-/*
-    sim.mouse = function (evt) {
 
-        var new_target = {};
-        new_target.x = evt.clientX - canvas.offsetLeft;
-        new_target.y = evt.clientY - canvas.offsetTop;
-
-        var arr = this.bees;
-        var len = this.bees.length;
-        var n;
-        for (n = 0; n < len; n += 1) {
-            this.bees[n].target = new_target;
-        }
-    };
-*/
     sim.update = function () {
 
         var arr;
@@ -663,7 +667,9 @@ function bees() {
         }, 0);
     };
 
-    // Set up the document...
+
+    // ---------------------------------------------------------------------------------------------
+    // DOCUMENT
 
     document.addEventListener("keydown", function (evt) {
         sim.player.keyboard[evt.key] = true;
@@ -675,12 +681,10 @@ function bees() {
 
     canvas.width = sim.width;
     canvas.height = sim.height;
-/*
-    canvas.addEventListener("mousedown", function (evt) {
-        sim.mouse(evt);
-    });
-*/
-    // Sound from Thomas Sturm: http://www.storiesinflight.com/html5/audio.html
+
+
+    // ---------------------------------------------------------------------------------------------
+    // SOUND - from Thomas Sturm: http://www.storiesinflight.com/html5/audio.html
 
     sim.audiochannels = [];
     while (sim.audiochannels.length < 8) {
@@ -702,9 +706,13 @@ function bees() {
         }
     };
 
-    // Everything is set...
+
+    // ---------------------------------------------------------------------------------------------
+    // DONE
 
     return sim;
 }
+
+
 
 bees().update();
