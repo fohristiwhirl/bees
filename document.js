@@ -1,3 +1,5 @@
+"use strict";
+
 document.addEventListener("keydown", function (evt) {
     sim.player.keyboard[evt.key] = true;
 });
