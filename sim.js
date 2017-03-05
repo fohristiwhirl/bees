@@ -2,9 +2,6 @@
 
 function setup_sim() {
 
-    sim.width = canvas.width;
-    sim.height = canvas.height;
-
     sim.iteration = 0;
     sim.score = 0;
 
@@ -97,6 +94,8 @@ function setup_sim() {
         var n;
         var sprite_index;
         var sprite;
+        var new_width;
+        var new_height;
 
         // Update title with score sometimes...
 
@@ -108,17 +107,16 @@ function setup_sim() {
 
         if (this.iteration % 60 === 0) {
 
-            this.width = window.innerWidth;
-            this.height = window.innerHeight;
+            new_width = window.innerWidth;
+            new_height = window.innerHeight;
 
-            canvas.width = this.width;
-            canvas.height = this.height;
-
-        } else {
-
-            virtue.clearRect(0, 0, this.width, this.height);
-
+            if (new_width !== canvas.width || new_height !== canvas.height) {
+                canvas.width = new_width;
+                canvas.height = new_height;
+            }
         }
+
+        virtue.clearRect(0, 0, canvas.width, canvas.height);
 
         // Draw bees...
 

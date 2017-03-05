@@ -150,7 +150,7 @@ function make_bees() {
 
             item = this[n];
 
-            if (item.x <= 0 || item.x >= sim.width || item.y <= 0 || item.y >= sim.height) {
+            if (item.x <= 0 || item.x >= canvas.width || item.y <= 0 || item.y >= canvas.height) {
                 item.x = sim.player.x;
                 item.y = sim.player.y;
                 item.lastx = item.x;

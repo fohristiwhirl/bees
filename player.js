@@ -37,7 +37,7 @@ function make_player() {
 
     player.reset = function () {
         this.x = -120;
-        this.y = sim.height / 2;
+        this.y = canvas.height / 2;
         this.speedx = 4;
         this.speedy = 0;
         this.respawn_timer = 120;
@@ -95,10 +95,10 @@ function make_player() {
             this.speedy = -this.max_speed;
         }
 
-        if ((this.x < this.sprites[0].width && this.speedx < 0) || (this.x > sim.width - this.sprites[0].width && this.speedx > 0)) {
+        if ((this.x < this.sprites[0].width && this.speedx < 0) || (this.x > canvas.width - this.sprites[0].width && this.speedx > 0)) {
             this.speedx = 0;
         }
-        if ((this.y < this.sprites[0].height && this.speedy < 0) || (this.y > sim.height - this.sprites[0].height && this.speedy > 0)) {
+        if ((this.y < this.sprites[0].height && this.speedy < 0) || (this.y > canvas.height - this.sprites[0].height && this.speedy > 0)) {
             this.speedy = 0;
         }
 

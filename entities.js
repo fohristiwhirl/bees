@@ -32,14 +32,14 @@ base_entity.move = function () {
 };
 
 base_entity.out_of_bounds = function () {
-    if (this.x < -200 || this.x > sim.width + 200 || this.y < -200 || this.y > sim.height + 200) {
+    if (this.x < -200 || this.x > canvas.width + 200 || this.y < -200 || this.y > canvas.height + 200) {
         return true;
     }
     return false;
 };
 
 base_entity.in_bounds = function () {
-    if (this.x > 0 && this.x < sim.width && this.y > 0 && this.y < sim.height) {
+    if (this.x > 0 && this.x < canvas.width && this.y > 0 && this.y < canvas.height) {
         return true;
     }
     return false;
@@ -138,8 +138,8 @@ base_shooter.move = function () {
 function new_stupid() {
     var e;
     e = Object.create(base_stupid);
-    e.x = sim.width + 32;
-    e.y = Math.random() * sim.height;
+    e.x = canvas.width + 32;
+    e.y = Math.random() * canvas.height;
     e.speedx = Math.random() * -3 - 1;
     e.speedy = Math.random() * 4 - 2;
     return e;
@@ -148,8 +148,8 @@ function new_stupid() {
 function new_shooter() {
     var e;
     e = Object.create(base_shooter);
-    e.x = sim.width + 32;
-    e.y = Math.random() * sim.height;
+    e.x = canvas.width + 32;
+    e.y = Math.random() * canvas.height;
     e.speedx = -3;
     return e;
 }
