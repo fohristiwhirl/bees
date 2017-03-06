@@ -52,7 +52,7 @@ function draw_lightning(x1, y1, x2, y2) {
     var x = x1;
     var y = y1;
 
-    virtue.strokeStyle = "#00ffff";
+    virtue.strokeStyle = "#009999";
 
     for (n = 0; n < 10; n += 1) {
         vector = unit_vector(x, y, x2, y2);
@@ -67,8 +67,8 @@ function draw_lightning(x1, y1, x2, y2) {
             nextx = x2;
             nexty = y2;
         } else {
-            nextx = x + (vecx * distance / (10 - n)) + (Math.random() * 20) - 10;
-            nexty = y + (vecy * distance / (10 - n)) + (Math.random() * 20) - 10;
+            nextx = x + (vecx * distance / (10 - n)) + (Math.random() * 10) - 5;
+            nexty = y + (vecy * distance / (10 - n)) + (Math.random() * 10) - 5;
         }
 
         virtue.beginPath();
