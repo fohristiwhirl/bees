@@ -9,8 +9,8 @@ document.addEventListener("keyup", function (evt) {
 });
 
 var canvas = document.getElementById("bees");
-var virtue = canvas.getContext("2d");
-
-// These values can get changed dynamically later...
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
+
+var virtue = canvas.getContext("2d");
+virtue.lineWidth = 3;

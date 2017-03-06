@@ -77,7 +77,6 @@ base_entity.unit_vector_to_player = function () {
     return [dx / distance, dy / distance];
 };
 
-
 // ---------------------------------------------------------------------------------------------
 // STUPID
 
@@ -85,7 +84,6 @@ var base_stupid = Object.create(base_entity);
 base_stupid.sprites = [newimage("res/stupid.png")];
 
 base_stupid.score = 10;
-
 
 // ---------------------------------------------------------------------------------------------
 // SHOT
@@ -96,7 +94,6 @@ base_shot.sprites = [newimage("res/shot.png")];
 base_shot.damage = function () {
     return;
 };
-
 
 // ---------------------------------------------------------------------------------------------
 // SHOOTER
@@ -130,7 +127,6 @@ base_shooter.move = function () {
 
     base_entity.move.apply(this);        // For normal movement.
 };
-
 
 // ---------------------------------------------------------------------------------------------
 // CONSTRUCTORS
