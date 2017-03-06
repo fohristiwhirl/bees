@@ -133,7 +133,7 @@ function make_revolver() {
         }
     }
 
-    revolver.x = canvas.width + 64;
+    revolver.x = canvas.width + 200;
     revolver.y = canvas.height / 2;
     revolver.speedx = -2;
     revolver.speedy = -1;
