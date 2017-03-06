@@ -13,4 +13,3 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 var virtue = canvas.getContext("2d");
-virtue.lineWidth = 3;

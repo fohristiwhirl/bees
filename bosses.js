@@ -13,6 +13,8 @@ function draw_boss_hitpoints(fraction) {
     w = canvas.width / 2;
     h = 10;
 
+    virtue.lineWidth = 3;
+
     virtue.strokeStyle = "#ff0000";
     virtue.beginPath();
     virtue.rect(x1,y1,w,h);
