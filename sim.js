@@ -10,6 +10,7 @@ function setup_sim() {
 
     sim.player = make_player();
     sim.bees = make_bees();
+    sim.stars = make_stars();
 
     sim.player.reset();
     sim.bees.reset();
@@ -65,6 +66,10 @@ function setup_sim() {
         for (n = 0; n < len; n += 1) {
             arr[n].move();
         }
+
+        // Move stars...
+
+        this.stars.move();
 
         // Update player...
 
@@ -133,6 +138,10 @@ function setup_sim() {
         for (n = 0; n < len; n += 1) {
             arr[n].draw();
         }
+
+        // Draw stars...
+
+        this.stars.draw();
 
         // Draw entities...
 
