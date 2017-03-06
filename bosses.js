@@ -35,7 +35,7 @@ function make_revolver() {
     });
 
     var initial_health = revolver.hp;
-    var last_sound_iteration = sim.iteration;
+    var last_sound_iteration = 0;
 
     revolver.draw = function () {
         var n;
@@ -72,8 +72,8 @@ function make_revolver() {
         }
 
         if (this.hp !== hp_before) {                                        // We took damage.
-            if (sim.iteration - last_sound_iteration > 3) {
-                last_sound_iteration = sim.iteration;
+            if (sim.iteration_total - last_sound_iteration > 3) {
+                last_sound_iteration = sim.iteration_total;
                 mixer.play("click");
             }
         }

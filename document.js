@@ -1,7 +1,13 @@
 "use strict";
 
 document.addEventListener("keydown", function (evt) {
-    sim.player.keyboard[evt.key] = true;
+
+    if (evt.key === "n") {
+        sim.next_level();
+        alert("Skipped to level " + sim.level);
+    } else {
+        sim.player.keyboard[evt.key] = true;
+    }
 });
 
 document.addEventListener("keyup", function (evt) {

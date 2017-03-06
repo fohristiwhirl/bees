@@ -4,6 +4,7 @@ function setup_sim() {
 
     sim.level = 1;
     sim.iteration = 0;
+    sim.iteration_total = 0;        // Not affected by level change.
     sim.score = 0;
 
     sim.entities = [];
@@ -32,6 +33,7 @@ function setup_sim() {
         var oob;
 
         this.iteration += 1;
+        this.iteration_total += 1;
 
         // Add new enemies...
 
@@ -111,7 +113,7 @@ function setup_sim() {
         // Update title with score sometimes...
 
         if (this.iteration % 10 === 7) {
-            document.title = "The Bees (score: " + this.score.toString() + ")";
+            document.title = "Bees Level " + this.level + " (Score: " + this.score.toString() + ")";
         }
 
         // Adjust canvas size if needed...
