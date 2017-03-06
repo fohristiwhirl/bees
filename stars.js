@@ -53,13 +53,13 @@ function make_stars() {
 
     stars.move = function () {
 
-        if (this.length < 175) {
+        if (this.length < 120) {
             this.push({
                 x: canvas.width / 2,
                 y: canvas.height / 2,
                 speedx: Math.random() * 4 - 2,
                 speedy: Math.random() * 4 - 2,
-                brightness: Math.random() * 0.5
+                brightness: Math.random() * 0.25 + 0.25
             });
         }
 
@@ -76,7 +76,7 @@ function make_stars() {
                 this[n].y = canvas.height / 2;
                 this[n].speedx = Math.random() * 4 - 2;
                 this[n].speedy = Math.random() * 4 - 2;
-                this[n].brightness = Math.random() * 0.5;
+                this[n].brightness = Math.random() * 0.25 + 0.25;
             }
         }
     };
