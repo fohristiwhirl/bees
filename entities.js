@@ -77,7 +77,7 @@ base_entity.collides_with_player = function () {
         return true;
     }
     return false;
-}
+};
 
 // ---------------------------------------------------------------------------------------------
 // STUPID

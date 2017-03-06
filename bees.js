@@ -83,8 +83,8 @@ base_bee.move = function () {
             continue;
         }
 
-        var dx = (enemy.x - this.x);
-        var dy = (enemy.y - this.y);
+        dx = (enemy.x - this.x);
+        dy = (enemy.y - this.y);
         distance_squared = dx * dx + dy * dy;
         distance = Math.sqrt(distance_squared);
         if (distance > 0.01) {
@@ -127,7 +127,7 @@ base_bee.draw = function () {
     virtue.moveTo(this.oldx, this.oldy);
     virtue.lineTo(this.x, this.y);
     virtue.stroke();
-}
+};
 
 // ---------------------------------------------------------------------------------------------
 // BEE ARRAY CONSTRUCTOR

@@ -11,26 +11,24 @@ function draw_boss_hitpoints(fraction) {
     x1 = canvas.width / 4;
     y1 = 10;
     w = canvas.width / 2;
-    h = 10;
+    h = 15;
 
     virtue.lineWidth = 3;
 
     virtue.strokeStyle = "#ff0000";
     virtue.beginPath();
-    virtue.rect(x1,y1,w,h);
+    virtue.rect(x1, y1, w, h);
     virtue.stroke();
 
     // Filled rect...
 
     virtue.fillStyle = "#ff0000";
-    virtue.beginPath();
-    virtue.rect(x1, y1, w * fraction, h);
-    virtue.fill();
+    virtue.fillRect(x1, y1, w * fraction, h);
 }
 
 function make_revolver() {
 
-    var n;
+    var i;
     var revolver = Object.create(base_entity);
     var new_sub;
 
@@ -41,15 +39,15 @@ function make_revolver() {
     revolver.subentities = [];
     revolver.death_sound = null;        // We do our own sounds, so this means the main loop doesn't.
 
-    for (n = 0; n < 3; n += 1) {
+    for (i = 0; i < 3; i += 1) {
         new_sub = Object.create(base_sub);
-        new_sub.angle = 2.094 * n;
+        new_sub.angle = 2.094 * i;
         new_sub.hp = 60;
         revolver.subentities.push(new_sub);
     }
 
     Object.defineProperty(revolver, "hp", {                                 // hp getter.
-        get: function() {
+        get: function () {
             var n;
             var total_health = 0;
             for (n = 0; n < this.subentities.length; n += 1) {
@@ -84,8 +82,8 @@ function make_revolver() {
 
         if (this.hp !== hp_before) {                                        // We took damage.
             if (sim.iteration - last_sound_iteration > 3) {
-                 last_sound_iteration = sim.iteration;
-                 mixer.play("click");
+                last_sound_iteration = sim.iteration;
+                mixer.play("click");
             }
         }
     };
@@ -102,7 +100,7 @@ function make_revolver() {
             }
         }
         return false;
-    }
+    };
 
     revolver.move = function () {
         var n;
@@ -130,7 +128,7 @@ function make_revolver() {
             sub.y = Math.sin(sub.angle) * 150 + this.y;     // x and y values.
             sub.angle += 0.025;
         }
-    }
+    };
 
     revolver.x = canvas.width + 200;
     revolver.y = canvas.height / 2;

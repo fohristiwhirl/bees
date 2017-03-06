@@ -20,7 +20,7 @@ function setup_sim() {
     sim.next_level = function () {
         this.level += 1;
         this.iteration = 0;
-    }
+    };
 
     sim.update = function () {
 

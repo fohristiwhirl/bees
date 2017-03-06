@@ -24,4 +24,4 @@ function enemy_gen() {
     }
 
     return ret;
-};
+}
