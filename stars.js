@@ -3,25 +3,47 @@
 function make_stars() {
 
     var stars = [];
+    
+    var lookup = [];        // Convert a magnitude 0-255 into a colour #000000 - #ffffff
+
+    var i;
+    var mag_string;
+
+    for (i = 0; i <= 255; i += 1) {
+
+        mag_string = i.toString(16);
+        if (mag_string.length === 1) {
+            mag_string = "0" + mag_string;
+        }
+
+        lookup[i] = "#" + mag_string + mag_string + mag_string;
+    }
 
     stars.draw = function () {
         var n;
         var mag;
-        var mag_string;
+        var x;
+        var y;
+
         var len = this.length;
 
+        var centre_x = canvas.width / 2;
+        var centre_y = canvas.height / 2;
+
         for (n = 0; n < len; n += 1) {
-            mag = Math.abs(this[n].x - (canvas.width / 2)) + Math.abs(this[n].y - (canvas.height / 2));
+
+            x = this[n].x;
+            y = this[n].y;
+
+            mag = Math.abs(x - centre_x) + Math.abs(y - centre_y);
             mag *= this[n].brightness;
             mag = Math.floor(mag);
-            mag = Math.min(255, mag);
-
-            mag_string = mag.toString(16);
-            if (mag_string.length === 1) {
-                mag_string = "0" + mag_string;
+            if (mag > 255) {
+                mag = 255;
             }
-            virtue.fillStyle = "#" + mag_string + mag_string + mag_string;
-            virtue.fillRect(Math.floor(this[n].x), Math.floor(this[n].y), 1, 1);
+
+            virtue.fillStyle = lookup[mag];
+            virtue.fillRect(Math.floor(x), Math.floor(y), 1, 1);
         }
     };
 
