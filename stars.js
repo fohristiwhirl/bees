@@ -3,7 +3,7 @@
 function make_stars() {
 
     var stars = [];
-    
+
     var lookup = [];        // Convert a magnitude 0-255 into a colour #000000 - #ffffff
 
     var i;
@@ -42,14 +42,18 @@ function make_stars() {
                 mag = 255;
             }
 
+            // We save a little on computation by drawing each star twice.
+            // But I think the fillRect is the real performance-killer.
+
             virtue.fillStyle = lookup[mag];
             virtue.fillRect(Math.floor(x), Math.floor(y), 1, 1);
+            virtue.fillRect(Math.floor(canvas.width - x), Math.floor(canvas.height - y), 1, 1);
         }
     };
 
     stars.move = function () {
 
-        if (this.length < 350) {
+        if (this.length < 175) {
             this.push({
                 x: canvas.width / 2,
                 y: canvas.height / 2,
