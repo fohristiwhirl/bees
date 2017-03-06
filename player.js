@@ -21,7 +21,6 @@ base_cracked_left.sprites = [newimage("res/cracked_left.png")];
 var base_cracked_right = Object.create(base_cracked);
 base_cracked_right.sprites = [newimage("res/cracked_right.png")];
 
-
 // ---------------------------------------------------------------------------------------------
 // PLAYER CONSTRUCTOR
 
@@ -107,9 +106,6 @@ function make_player() {
     };
 
     player.damage = function () {
-
-        var dx;
-        var dy;
         var n;
         var arr = sim.entities;
         var len = sim.entities.length;
@@ -123,14 +119,11 @@ function make_player() {
         for (n = 0; n < len; n += 1) {
             item = arr[n];
             if (item.harmless === false) {
-                dx = Math.abs(item.x - this.x);
-                dy = Math.abs(item.y - this.y);
-
-                if (dx < this.sprites[0].width / 2 && dy < this.sprites[0].height / 2) {
+                if (item.collides_with_player()) {
                     this.alive = false;
                     this.lives -= 1;
                     this.crack();
-                    item.hp = 0;
+                    mixer.play("enemy_death");      // FIXME: better sound.
                     break;
                 }
             }

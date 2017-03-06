@@ -12,7 +12,7 @@ function make_mixer() {
         new_mixer.audiochannels.push({channel: new Audio(), finished: -1});
     }
 
-    new_mixer.play_sound = function (s) {
+    new_mixer.play = function (s) {
         var a;
         var thistime = Date.now();
 

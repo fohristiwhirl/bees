@@ -2,6 +2,7 @@
 
 function setup_sim() {
 
+    sim.level = 1;
     sim.iteration = 0;
     sim.score = 0;
 
@@ -16,6 +17,11 @@ function setup_sim() {
     // ---------------------------------------------------------------------------------------------
     // GAME LOGIC
 
+    sim.next_level = function () {
+        this.level += 1;
+        this.iteration = 0;
+    }
+
     sim.update = function () {
 
         var arr;
@@ -28,7 +34,7 @@ function setup_sim() {
 
         // Add new enemies...
 
-        this.entities.push.apply(this.entities, enemy_gen(this.iteration));    // Array concat in place.
+        this.entities.push.apply(this.entities, enemy_gen());    // Array concat in place.
 
         // Move and damage entities...
 
@@ -45,7 +51,7 @@ function setup_sim() {
                 arr.splice(n, 1);           // Deletes from array in place; the reference arr thus works.
                 if (oob === false) {
                     if (item.death_sound !== null && item.death_sound !== undefined) {
-                        mixer.play_sound(item.death_sound);
+                        mixer.play(item.death_sound);
                     }
                     this.score += item.score;
                 }

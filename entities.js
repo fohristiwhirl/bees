@@ -38,13 +38,6 @@ base_entity.out_of_bounds = function () {
     return false;
 };
 
-base_entity.in_bounds = function () {
-    if (this.x > 0 && this.x < canvas.width && this.y > 0 && this.y < canvas.height) {
-        return true;
-    }
-    return false;
-};
-
 base_entity.damage = function () {
     var n;
     var arr = sim.bees;
@@ -53,6 +46,8 @@ base_entity.damage = function () {
     var dx;
     var dy;
 
+    var damage_taken = 0;
+
     for (n = 0; n < len; n += 1) {
         bee = arr[n];
         dx = Math.abs(bee.x - this.x);
@@ -60,9 +55,12 @@ base_entity.damage = function () {
         if (dx < this.sprites[0].width / 2 + MARGIN_OF_ERROR) {
             if (dy < this.sprites[0].height / 2 + MARGIN_OF_ERROR) {
                 this.hp -= 1;
+                damage_taken += 1;
             }
         }
     }
+
+    return damage_taken;
 };
 
 base_entity.unit_vector_to_player = function () {
@@ -76,6 +74,15 @@ base_entity.unit_vector_to_player = function () {
     var distance = Math.sqrt(dx * dx + dy * dy);
     return [dx / distance, dy / distance];
 };
+
+base_entity.collides_with_player = function () {
+    var dx = Math.abs(this.x - sim.player.x);
+    var dy = Math.abs(this.y - sim.player.y);
+    if (dx < sim.player.sprites[0].width / 2 && dy < sim.player.sprites[0].height / 2) {
+        return true;
+    }
+    return false;
+}
 
 // ---------------------------------------------------------------------------------------------
 // STUPID
@@ -105,6 +112,15 @@ base_shooter.score = 100;
 
 base_shooter.age = 0;
 
+base_shooter.can_shoot = function () {
+    if (this.age % 50 === 49 && sim.player.alive) {
+        if (this.x > 0 && this.x < canvas.width && this.y > 0 && this.y < canvas.height) {
+            return true;
+        }
+    }
+    return false;
+};
+
 base_shooter.move = function () {
 
     this.age += 1;
@@ -112,7 +128,7 @@ base_shooter.move = function () {
     var new_shot;
     var vector;
 
-    if (this.age % 50 === 49 && sim.player.alive && this.in_bounds()) {
+    if (this.can_shoot()) {
 
         new_shot = Object.create(base_shot);
         new_shot.x = this.x;
