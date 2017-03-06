@@ -1,31 +1,5 @@
 "use strict";
 
-function draw_boss_hitpoints(fraction) {
-    var x1;
-    var y1;
-    var w;
-    var h;
-
-    // Outline...
-
-    x1 = canvas.width / 4;
-    y1 = 10;
-    w = canvas.width / 2;
-    h = 15;
-
-    virtue.lineWidth = 3;
-
-    virtue.strokeStyle = "#ff0000";
-    virtue.beginPath();
-    virtue.rect(x1, y1, w, h);
-    virtue.stroke();
-
-    // Filled rect...
-
-    virtue.fillStyle = "#ff0000";
-    virtue.fillRect(x1, y1, w * fraction, h);
-}
-
 // ---------------------------------------------------------------------------------------------
 // REVOLVER
 
@@ -65,9 +39,23 @@ function make_revolver() {
 
     revolver.draw = function () {
         var n;
+
+        for (n = 0; n < this.subentities.length; n += 1) {
+            if (n > 0) {
+                draw_lightning(this.subentities[n].x, this.subentities[n].y, this.subentities[n - 1].x, this.subentities[n - 1].y);
+            }
+        }
+
+        if (this.subentities.length > 2) {
+            draw_lightning(
+                this.subentities[0].x, this.subentities[0].y, this.subentities[this.subentities.length - 1].x, this.subentities[this.subentities.length - 1].y
+            );
+        }
+
         for (n = 0; n < this.subentities.length; n += 1) {
             this.subentities[n].draw();
         }
+
         draw_boss_hitpoints(this.hp / initial_health);
     };
 
