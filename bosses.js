@@ -1,3 +1,5 @@
+"use strict";
+
 function draw_boss_hitpoints(fraction) {
     var x1;
     var y1;

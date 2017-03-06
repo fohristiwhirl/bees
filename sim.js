@@ -90,10 +90,7 @@ function setup_sim() {
 
         var arr;
         var len;
-        var item;
         var n;
-        var sprite_index;
-        var sprite;
         var new_width;
         var new_height;
 
@@ -116,21 +113,16 @@ function setup_sim() {
             }
         }
 
+        // Clear canvas...
+
         virtue.clearRect(0, 0, canvas.width, canvas.height);
 
         // Draw bees...
 
-        virtue.lineWidth = 3;
-
         arr = this.bees;
         len = this.bees.length;
         for (n = 0; n < len; n += 1) {
-            item = arr[n];
-            virtue.strokeStyle = item.colour;
-            virtue.beginPath();
-            virtue.moveTo(item.oldx, item.oldy);
-            virtue.lineTo(item.x, item.y);
-            virtue.stroke();
+            arr[n].draw();
         }
 
         // Draw entities...
@@ -144,9 +136,7 @@ function setup_sim() {
         // Draw player...
 
         if (this.player.alive) {
-            sprite_index = Math.floor(this.iteration / this.player.framerate) % this.player.sprites.length;
-            sprite = this.player.sprites[sprite_index];
-            virtue.drawImage(sprite, this.player.x - sprite.width / 2, this.player.y - sprite.height / 2);
+            this.player.draw();
         }
 
         // Carry on...
