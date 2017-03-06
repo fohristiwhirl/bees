@@ -31,6 +31,7 @@ base_bee.move = function () {
 
     var dx;
     var dy;
+
     if (this.target !== sim.player) {
         dx = Math.abs(this.target.x - this.x);
         dy = Math.abs(this.target.y - this.y);
@@ -67,30 +68,27 @@ base_bee.move = function () {
 
     // Avoid scary entities...
 
-    var n;
-    var arr = sim.entities;
-    var len = sim.entities.length;
     var enemy;
     var distance;
     var distance_squared;
     var adjusted_force;
 
+    var n;
+    var arr = sim.entities;
+    var len = sim.entities.length;
+
     for (n = 0; n < len; n += 1) {
-
         enemy = arr[n];
-
-        if (enemy.scary === false) {
-            continue;
-        }
-
-        dx = (enemy.x - this.x);
-        dy = (enemy.y - this.y);
-        distance_squared = dx * dx + dy * dy;
-        distance = Math.sqrt(distance_squared);
-        if (distance > 0.01) {
-            adjusted_force = this.avoidance / (distance_squared * distance);
-            this.speedx -= dx * adjusted_force * Math.random();
-            this.speedy -= dy * adjusted_force * Math.random();
+        if (enemy.scary) {
+            dx = (enemy.x - this.x);
+            dy = (enemy.y - this.y);
+            distance_squared = dx * dx + dy * dy;
+            distance = Math.sqrt(distance_squared);
+            if (distance > 0.01) {
+                adjusted_force = this.avoidance / (distance_squared * distance);
+                this.speedx -= dx * adjusted_force * Math.random();
+                this.speedy -= dy * adjusted_force * Math.random();
+            }
         }
     }
 

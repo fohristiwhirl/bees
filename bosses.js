@@ -26,6 +26,9 @@ function draw_boss_hitpoints(fraction) {
     virtue.fillRect(x1, y1, w * fraction, h);
 }
 
+// ---------------------------------------------------------------------------------------------
+// REVOLVER
+
 function make_revolver() {
 
     var i;
