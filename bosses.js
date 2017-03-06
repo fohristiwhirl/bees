@@ -37,58 +37,57 @@ function make_revolver() {
     var base_sub = Object.create(base_shooter);
     base_sub.sprites = [newimage("res/skull.png")];
 
-    revolver.hp = 0;
     revolver.score = 1000;
     revolver.subentities = [];
-    revolver.death_sound = null;    // We do our own sounds, so this means the main loop doesn't.
+    revolver.death_sound = null;        // We do our own sounds, so this means the main loop doesn't.
 
     for (n = 0; n < 3; n += 1) {
         new_sub = Object.create(base_sub);
         new_sub.angle = 2.094 * n;
         new_sub.hp = 60;
-
-        revolver.hp += new_sub.hp;
-
         revolver.subentities.push(new_sub);
     }
 
+    Object.defineProperty(revolver, "hp", {                                 // hp getter.
+        get: function() {
+            var n;
+            var total_health = 0;
+            for (n = 0; n < this.subentities.length; n += 1) {
+                total_health += Math.max(0, this.subentities[n].hp);        // Count negatives as zero.
+            }
+            return total_health;
+        }
+    });
+
     var initial_health = revolver.hp;
     var last_sound_iteration = sim.iteration;
-
-    revolver.get_total_health = function () {
-        var n;
-        var total_health = 0;
-        for (n = 0; n < this.subentities.length; n += 1) {
-            if (this.subentities[n].hp > 0) {
-                total_health += this.subentities[n].hp;
-            }
-        }
-        return total_health;
-    }
 
     revolver.draw = function () {
         var n;
         for (n = 0; n < this.subentities.length; n += 1) {
             this.subentities[n].draw();
         }
-        draw_boss_hitpoints(this.get_total_health() / initial_health);
+        draw_boss_hitpoints(this.hp / initial_health);
     };
 
     revolver.damage = function () {
         var n;
-        for (n = this.subentities.length - 1; n >= 0; n -= 1) {     // Reversed so we can pop.
-            if (this.subentities[n].damage()) {                     // The call applies damage to the subentities, returning damage taken.
-                if (sim.iteration - last_sound_iteration > 5) {
-                     last_sound_iteration = sim.iteration;
-                     mixer.play("click");
-                }
-            }
+        var hp_before = this.hp;
+
+        for (n = this.subentities.length - 1; n >= 0; n -= 1) {             // Reversed so we can pop.
+            this.subentities[n].damage();
             if (this.subentities[n].hp <= 0) {
                 this.subentities.splice(n, 1);
                 mixer.play("enemy_death");
             }
         }
-        revolver.hp = this.get_total_health();
+
+        if (this.hp !== hp_before) {                                        // We took damage.
+            if (sim.iteration - last_sound_iteration > 3) {
+                 last_sound_iteration = sim.iteration;
+                 mixer.play("click");
+            }
+        }
     };
 
     revolver.out_of_bounds = function () {

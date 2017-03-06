@@ -46,8 +46,6 @@ base_entity.damage = function () {
     var dx;
     var dy;
 
-    var damage_taken = 0;
-
     for (n = 0; n < len; n += 1) {
         bee = arr[n];
         dx = Math.abs(bee.x - this.x);
@@ -55,12 +53,9 @@ base_entity.damage = function () {
         if (dx < this.sprites[0].width / 2 + MARGIN_OF_ERROR) {
             if (dy < this.sprites[0].height / 2 + MARGIN_OF_ERROR) {
                 this.hp -= 1;
-                damage_taken += 1;
             }
         }
     }
-
-    return damage_taken;
 };
 
 base_entity.unit_vector_to_player = function () {
