@@ -67,8 +67,8 @@ function draw_lightning(x1, y1, x2, y2) {
             nextx = x2;
             nexty = y2;
         } else {
-            nextx = x + (vecx * distance / (10 - n)) + (Math.random() * 10) - 5;
-            nexty = y + (vecy * distance / (10 - n)) + (Math.random() * 10) - 5;
+            nextx = x + (vecx * distance / (10 - n)) + (Math.random() * 14) - 7;
+            nexty = y + (vecy * distance / (10 - n)) + (Math.random() * 14) - 7;
         }
 
         virtue.beginPath();

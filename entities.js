@@ -59,15 +59,7 @@ base_entity.damage = function () {
 };
 
 base_entity.unit_vector_to_player = function () {
-    var dx = sim.player.x - this.x;
-    var dy = sim.player.y - this.y;
-
-    if (dx < 0.01 && dx > -0.01 && dy < 0.01 && dy > -0.01) {
-        return [0, 0];
-    }
-
-    var distance = Math.sqrt(dx * dx + dy * dy);
-    return [dx / distance, dy / distance];
+    return unit_vector(this.x, this.y, sim.player.x, sim.player.y);
 };
 
 base_entity.collides_with_player = function () {

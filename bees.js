@@ -107,15 +107,7 @@ base_bee.move = function () {
 };
 
 base_bee.unit_vector_to_target = function () {
-    var dx = this.target.x - this.x;
-    var dy = this.target.y - this.y;
-
-    if (dx < 0.01 && dx > -0.01 && dy < 0.01 && dy > -0.01) {
-        return [0, 0];
-    }
-
-    var distance = Math.sqrt(dx * dx + dy * dy);
-    return [dx / distance, dy / distance];
+    return unit_vector(this.x, this.y, this.target.x, this.target.y);
 };
 
 base_bee.draw = function () {
