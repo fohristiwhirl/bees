@@ -94,8 +94,6 @@ function make_revolver() {
     };
 
     revolver.collides_with_player = function () {
-        var dx;
-        var dy;
         var n;
         for (n = 0; n < this.subentities.length; n += 1) {
             if (this.subentities[n].collides_with_player()) {
