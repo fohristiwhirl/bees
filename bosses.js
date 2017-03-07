@@ -176,7 +176,7 @@ function make_shooter_shooter() {
     };
 
     shooter_shooter.act = function () {
-        if (Math.floor(sim.iteration / 200) % 2 == 1) {
+        if (Math.floor(sim.iteration / 200) % 2 == 0) {
             this.scary = true;
         } else {
             this.scary = false;
