@@ -132,6 +132,35 @@ base_shooter.move = function () {
 };
 
 // ---------------------------------------------------------------------------------------------
+// CHASER
+
+var base_chaser = Object.create(base_entity);
+base_chaser.sprites = [newimage("res/chaser.png")];
+
+base_chaser.score = 100;
+
+base_chaser.finished = false;
+
+base_chaser.move = function () {
+    if (sim.player.alive && this.finished === false) {
+        var vector = this.unit_vector_to_player();
+        this.speedx = vector[0] * 8;
+        this.speedy = vector[1] * 8;
+    } else {
+        this.finished = true;
+    }
+    this.x += this.speedx;
+    this.y += this.speedy;
+}
+
+base_chaser.draw = function () {
+    if (sim.player.alive && this.finished === false) {
+        draw_line(this.x, this.y, sim.player.x, sim.player.y, "#ffff00");
+    }
+    base_entity.draw.apply(this);
+}
+
+// ---------------------------------------------------------------------------------------------
 // CONSTRUCTORS
 
 function new_stupid() {
@@ -150,5 +179,17 @@ function new_shooter() {
     e.x = canvas.width + 32;
     e.y = Math.random() * canvas.height;
     e.speedx = -3;
+    return e;
+}
+
+function new_chaser() {
+    var e;
+    e = Object.create(base_chaser);
+    if (sim.player.x > canvas.width / 2) {
+        e.x = -32;
+    } else {
+        e.x = canvas.width + 32;
+    }
+    e.y = Math.random() * canvas.height;
     return e;
 }

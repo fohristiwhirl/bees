@@ -11,7 +11,7 @@ function randint(n) {
 }
 
 var MARGIN_OF_ERROR = 2;
-var PLAYER_MAX_SPEED = 7.5;
+var PLAYER_MAX_SPEED = 8;
 var BEECOUNT = 35;
 
 var sim = {};

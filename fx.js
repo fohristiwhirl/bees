@@ -80,3 +80,11 @@ function draw_lightning(x1, y1, x2, y2) {
         y = nexty;
     }
 }
+
+function draw_line(x1, y1, x2, y2, colour) {
+    virtue.strokeStyle = colour;
+    virtue.beginPath();
+    virtue.moveTo(x1, y1);
+    virtue.lineTo(x2, y2);
+    virtue.stroke();
+}
