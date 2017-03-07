@@ -76,7 +76,6 @@ base_entity.collides_with_player = function () {
 
 var base_stupid = Object.create(base_entity);
 base_stupid.sprites = [newimage("res/stupid.png")];
-
 base_stupid.score = 10;
 
 // ---------------------------------------------------------------------------------------------
@@ -94,7 +93,6 @@ base_shot.damage = function () {
 
 var base_shooter = Object.create(base_entity);
 base_shooter.sprites = [newimage("res/shooter.png")];
-
 base_shooter.score = 100;
 
 base_shooter.age = 0;
@@ -136,12 +134,12 @@ base_shooter.move = function () {
 
 var base_chaser = Object.create(base_entity);
 base_chaser.sprites = [newimage("res/chaser.png")];
-
 base_chaser.score = 100;
 
 base_chaser.finished = false;
 
 base_chaser.move = function () {
+
     if (sim.player.alive && this.finished === false) {
         var vector = this.unit_vector_to_player();
         this.speedx = vector[0] * 8;
@@ -149,6 +147,17 @@ base_chaser.move = function () {
     } else {
         this.finished = true;
     }
+
+    // Make sure that finished chasers eventually go out of bounds to get removed...
+
+    if (this.finished && Math.abs(this.speedx) < 1 && Math.abs(this.speedy) < 1) {
+        if (this.x > canvas.width / 2) {
+            this.speedx = 1;
+        } else {
+            this.speedx = -1;
+        }
+    }
+
     this.x += this.speedx;
     this.y += this.speedy;
 }
