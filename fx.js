@@ -40,6 +40,7 @@ function draw_lightning(x1, y1, x2, y2) {
     var x = x1;
     var y = y1;
 
+    virtue.lineWidth = 3;
     virtue.strokeStyle = "#009999";
 
     for (n = 0; n < 10; n += 1) {
@@ -70,6 +71,7 @@ function draw_lightning(x1, y1, x2, y2) {
 }
 
 function draw_line(x1, y1, x2, y2, colour) {
+    virtue.lineWidth = 3;
     virtue.strokeStyle = colour;
     virtue.beginPath();
     virtue.moveTo(x1, y1);

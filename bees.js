@@ -111,12 +111,7 @@ base_bee.unit_vector_to_target = function () {
 };
 
 base_bee.draw = function () {
-    virtue.strokeStyle = this.colour;
-    virtue.lineWidth = 3;
-    virtue.beginPath();
-    virtue.moveTo(this.oldx, this.oldy);
-    virtue.lineTo(this.x, this.y);
-    virtue.stroke();
+    draw_line(this.oldx, this.oldy, this.x, this.y, this.colour);
 };
 
 // ---------------------------------------------------------------------------------------------
