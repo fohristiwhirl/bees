@@ -13,7 +13,7 @@ var base_bee = {
     max_speed: 9,
     colour: "#ffffff",
     target: null,
-    avoidance: 3500
+    avoidance: 5000
 };
 
 base_bee.move = function () {
@@ -33,8 +33,8 @@ base_bee.move = function () {
     var dy;
 
     if (this.target !== sim.player) {
-        dx = Math.abs(this.target.x - this.x);
-        dy = Math.abs(this.target.y - this.y);
+        dx = Math.abs(this.target.x - this.x) * 0.75;       // Reduce dx and dy to strengthen the effect.
+        dy = Math.abs(this.target.y - this.y) * 0.75;
         if (dx < 100 && dy < 100) {
             if (this.target !== sim.player) {
                 this.target = sim.player;

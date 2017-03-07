@@ -49,6 +49,7 @@ function setup_sim() {
         for (n = len - 1; n >= 0; n -= 1) {
             item = arr[n];
             item.move();
+            item.act();
             item.damage();
 
             oob = item.out_of_bounds();

@@ -54,6 +54,22 @@ function level_three() {
     return ret;
 }
 
+function level_four() {
+    var i = sim.iteration;
+    var ret = [];
+
+    if (i === 300) {
+        ret.push(make_shooter_shooter());
+        mixer.play("warning");
+    }
+
+    if (i > 500 && sim.entities.length === 0) {
+        sim.next_level();
+    }
+
+    return ret;
+}
+
 function enemy_gen() {
 
     // Each level_x function is responsible for calling sim.next_level() when it's done.
@@ -67,6 +83,9 @@ function enemy_gen() {
         break;
     case 3:
         return level_three();
+        break;
+    case 4:
+        return level_four();
         break;
     default:
         return [];

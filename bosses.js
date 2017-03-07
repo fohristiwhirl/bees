@@ -11,6 +11,7 @@ function make_revolver() {
 
     var base_sub = Object.create(base_shooter);
     base_sub.sprites = newimagearray("res/skull.png");
+    base_sub.thing_we_shoot = base_shot_blue;
 
     revolver.score = 1000;
     revolver.subentities = [];
@@ -94,6 +95,8 @@ function make_revolver() {
         var n;
         var sub;
 
+        // Move the hidden core...
+
         if (this.x < 100) {
             this.speedx = Math.abs(this.speedx);
         }
@@ -109,14 +112,24 @@ function make_revolver() {
         this.x += this.speedx;
         this.y += this.speedy;
 
+        // Place the subentities...
+
         for (n = 0; n < this.subentities.length; n += 1) {
             sub = this.subentities[n];
-            sub.move();                                     // Uses the base_shooter's move() method...
-            sub.x = Math.cos(sub.angle) * 150 + this.x;     // But now overriding the resulting
-            sub.y = Math.sin(sub.angle) * 150 + this.y;     // x and y values.
+            sub.x = Math.cos(sub.angle) * 150 + this.x;
+            sub.y = Math.sin(sub.angle) * 150 + this.y;
             sub.angle += 0.025;
         }
     };
+
+    revolver.act = function () {
+        var n;
+        var sub;
+
+        for (n = 0; n < this.subentities.length; n += 1) {
+            this.subentities[n].act();
+        }
+    }
 
     revolver.x = canvas.width + 200;
     revolver.y = canvas.height / 2;
@@ -124,4 +137,79 @@ function make_revolver() {
     revolver.speedy = -1;
 
     return revolver;
+}
+
+// ---------------------------------------------------------------------------------------------
+// SHOOTER SHOOTER
+
+function make_shooter_shooter() {
+
+    var shooter_shooter = Object.create(base_shooter);
+
+    shooter_shooter.thing_we_shoot = base_shooter;
+    shooter_shooter.shotspeed = 4;
+    shooter_shooter.hp = 200;
+
+    shooter_shooter.x = canvas.width + 32;
+    shooter_shooter.y = Math.random() * canvas.height;
+    shooter_shooter.speedx = -3;
+    shooter_shooter.speedy = -1;
+
+    var last_sound_iteration = 0;
+    var initial_health = shooter_shooter.hp;
+
+    shooter_shooter.move = function () {
+        if (this.x < 100) {
+            this.speedx = Math.abs(this.speedx);
+        }
+        if (this.x > canvas.width - 100) {
+            this.speedx = Math.abs(this.speedx) * -1;
+        }
+        if (this.y < 100) {
+            this.speedy = Math.abs(this.speedy);
+        }
+        if (this.y > canvas.height - 100) {
+            this.speedy = Math.abs(this.speedy) * -1;
+        }
+        this.x += this.speedx;
+        this.y += this.speedy;
+    };
+
+    shooter_shooter.act = function () {
+        if (Math.floor(sim.iteration / 200) % 2 == 1) {
+            this.scary = true;
+        } else {
+            this.scary = false;
+            base_shooter.act.apply(this);
+        }
+    };
+
+    shooter_shooter.draw = function () {
+        if (this.scary) {
+            draw_circle(this.x, this.y, 45, "#ccffcc");
+        }
+        base_entity.draw.apply(this);
+
+        draw_boss_hitpoints(this.hp / initial_health);
+    };
+
+    shooter_shooter.damage = function () {
+        var n;
+        var hp_before = this.hp;
+
+        if (this.scary) {               // Take no damage when shield up.
+            return;
+        }
+
+        base_entity.damage.apply(this);
+
+        if (this.hp !== hp_before) {                                        // We took damage.
+            if (sim.iteration_total - last_sound_iteration > 3) {
+                last_sound_iteration = sim.iteration_total;
+                mixer.play("click");
+            }
+        }
+    };
+
+    return shooter_shooter;
 }

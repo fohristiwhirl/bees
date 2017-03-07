@@ -31,6 +31,10 @@ base_entity.move = function () {
     this.y += this.speedy;
 };
 
+base_entity.act = function () {
+    return;
+}
+
 base_entity.out_of_bounds = function () {
     if (this.x < -200 || this.x > canvas.width + 200 || this.y < -200 || this.y > canvas.height + 200) {
         return true;
@@ -89,16 +93,25 @@ base_shot.damage = function () {
 };
 
 // ---------------------------------------------------------------------------------------------
+// SHOT (BLUE VERSION)
+
+var base_shot_blue = Object.create(base_shot);
+base_shot_blue.sprites = newimagearray("res/shot_blue.png");
+
+// ---------------------------------------------------------------------------------------------
 // SHOOTER
 
 var base_shooter = Object.create(base_entity);
 base_shooter.sprites = newimagearray("res/shooter.png");
 base_shooter.score = 100;
 
+base_shooter.thing_we_shoot = base_shot;
+base_shooter.shotspeed = 5;
+base_shooter.shotrate = 50;
 base_shooter.age = 0;
 
 base_shooter.can_shoot = function () {
-    if (this.age % 50 === 49 && sim.player.alive) {
+    if (this.age % this.shotrate === this.shotrate - 1 && sim.player.alive) {
         if (this.x > 0 && this.x < canvas.width && this.y > 0 && this.y < canvas.height) {
             return true;
         }
@@ -106,8 +119,7 @@ base_shooter.can_shoot = function () {
     return false;
 };
 
-base_shooter.move = function () {
-
+base_shooter.act = function () {
     this.age += 1;
 
     var new_shot;
@@ -115,19 +127,17 @@ base_shooter.move = function () {
 
     if (this.can_shoot()) {
 
-        new_shot = Object.create(base_shot);
+        new_shot = Object.create(this.thing_we_shoot);
         new_shot.x = this.x;
         new_shot.y = this.y;
 
         vector = this.unit_vector_to_player();
-        new_shot.speedx = vector[0] * 5;
-        new_shot.speedy = vector[1] * 5;
+        new_shot.speedx = vector[0] * this.shotspeed;
+        new_shot.speedy = vector[1] * this.shotspeed;
 
         sim.entities.push(new_shot);
     }
-
-    base_entity.move.apply(this);        // For normal movement.
-};
+}
 
 // ---------------------------------------------------------------------------------------------
 // CHASER
