@@ -28,6 +28,8 @@ function unit_vector(x1, y1, x2, y2) {
     return [dx / distance, dy / distance];
 }
 
+var TWO_PI = 2 * Math.PI;
+
 var MARGIN_OF_ERROR = 2;
 var PLAYER_MAX_SPEED = 8;
 var BEECOUNT = 35;

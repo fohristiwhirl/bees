@@ -78,3 +78,11 @@ function draw_line(x1, y1, x2, y2, colour) {
     virtue.lineTo(x2, y2);
     virtue.stroke();
 }
+
+function draw_circle(x, y, radius, colour) {
+    virtue.lineWidth = 5;
+    virtue.strokeStyle = colour;
+    virtue.beginPath();
+    virtue.arc(x, y, radius, 0, TWO_PI);
+    virtue.stroke();
+}

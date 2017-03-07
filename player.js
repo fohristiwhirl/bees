@@ -147,6 +147,11 @@ function make_player() {
     };
 
     player.draw = function () {
+
+        if (this.immune_timer > 0) {
+            draw_circle(this.x, this.y, this.immune_timer, "#ccffcc");
+        }
+
         var sprite_index = Math.floor(sim.iteration / this.framerate) % this.sprites.length;
         var sprite = this.sprites[sprite_index];
         virtue.drawImage(sprite, this.x - sprite.width / 2, this.y - sprite.height / 2);
