@@ -124,12 +124,10 @@ function make_revolver() {
 
     revolver.act = function () {
         var n;
-        var sub;
-
         for (n = 0; n < this.subentities.length; n += 1) {
             this.subentities[n].act();
         }
-    }
+    };
 
     revolver.x = canvas.width + 200;
     revolver.y = canvas.height / 2;
@@ -196,7 +194,6 @@ function make_shooter_shooter() {
     };
 
     shooter_shooter.damage = function () {
-        var n;
         var hp_before = this.hp;
 
         if (this.scary) {               // Take no damage when shield up.
@@ -211,6 +208,10 @@ function make_shooter_shooter() {
                 mixer.play("click");
             }
         }
+    };
+
+    shooter_shooter.out_of_bounds = function () {
+        return false;
     };
 
     return shooter_shooter;

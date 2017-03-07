@@ -33,7 +33,7 @@ base_entity.move = function () {
 
 base_entity.act = function () {
     return;
-}
+};
 
 base_entity.out_of_bounds = function () {
     if (this.x < -200 || this.x > canvas.width + 200 || this.y < -200 || this.y > canvas.height + 200) {
@@ -137,7 +137,7 @@ base_shooter.act = function () {
 
         sim.entities.push(new_shot);
     }
-}
+};
 
 // ---------------------------------------------------------------------------------------------
 // CHASER
@@ -170,14 +170,14 @@ base_chaser.move = function () {
 
     this.x += this.speedx;
     this.y += this.speedy;
-}
+};
 
 base_chaser.draw = function () {
     if (sim.player.alive && this.finished === false) {
         draw_line(this.x, this.y, sim.player.x, sim.player.y, "#ffff00");
     }
     base_entity.draw.apply(this);
-}
+};
 
 // ---------------------------------------------------------------------------------------------
 // CONSTRUCTORS
