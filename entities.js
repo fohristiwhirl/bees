@@ -173,8 +173,7 @@ base_chaser.draw = function () {
 // CONSTRUCTORS
 
 function new_stupid() {
-    var e;
-    e = Object.create(base_stupid);
+    var e = Object.create(base_stupid);
     e.x = canvas.width + 32;
     e.y = Math.random() * canvas.height;
     e.speedx = Math.random() * -3 - 1;
@@ -183,8 +182,7 @@ function new_stupid() {
 }
 
 function new_shooter() {
-    var e;
-    e = Object.create(base_shooter);
+    var e = Object.create(base_shooter);
     e.x = canvas.width + 32;
     e.y = Math.random() * canvas.height;
     e.speedx = -3;
@@ -192,8 +190,7 @@ function new_shooter() {
 }
 
 function new_chaser() {
-    var e;
-    e = Object.create(base_chaser);
+    var e = Object.create(base_chaser);
     if (sim.player.x > canvas.width / 2) {
         e.x = -32;
     } else {
