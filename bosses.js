@@ -145,7 +145,10 @@ function make_shooter_shooter() {
     var shooter_shooter = Object.create(base_shooter);
     shooter_shooter.sprites = newimagearray("res/shooter_shooter.png");
 
-    shooter_shooter.thing_we_shoot = pointless_shooter;
+    var base_pointless_shooter = Object.create(base_shooter);       // Like a normal shooter
+    base_pointless_shooter.score = 0;                               // but worth zero points.
+
+    shooter_shooter.thing_we_shoot = base_pointless_shooter;
     shooter_shooter.shotspeed = 4;
     shooter_shooter.shotrate = 40;
     shooter_shooter.hp = 500;

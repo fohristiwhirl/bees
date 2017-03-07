@@ -140,12 +140,6 @@ base_shooter.act = function () {
 };
 
 // ---------------------------------------------------------------------------------------------
-// SHOOTER (POINTLESS, FOR BOSS FIGHTS)
-
-var pointless_shooter = Object.create(base_shooter);
-pointless_shooter.score = 0;
-
-// ---------------------------------------------------------------------------------------------
 // CHASER
 
 var base_chaser = Object.create(base_entity);
