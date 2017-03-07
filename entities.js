@@ -111,7 +111,7 @@ base_shooter.shotrate = 50;
 base_shooter.age = 0;
 
 base_shooter.can_shoot = function () {
-    if (this.age % this.shotrate === this.shotrate - 1 && sim.player.alive) {
+    if (this.age % this.shotrate === Math.floor(this.shotrate / 2) && sim.player.alive) {
         if (this.x > 0 && this.x < canvas.width && this.y > 0 && this.y < canvas.height) {
             return true;
         }
