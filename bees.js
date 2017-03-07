@@ -33,8 +33,8 @@ base_bee.move = function () {
     var dy;
 
     if (this.target !== sim.player) {
-        dx = Math.abs(this.target.x - this.x) * 0.75;       // Reduce dx and dy to strengthen the effect.
-        dy = Math.abs(this.target.y - this.y) * 0.75;
+        dx = Math.abs(this.target.x - this.x);
+        dy = Math.abs(this.target.y - this.y);
         if (dx < 100 && dy < 100) {
             if (this.target !== sim.player) {
                 this.target = sim.player;
@@ -80,8 +80,8 @@ base_bee.move = function () {
     for (n = 0; n < len; n += 1) {
         enemy = arr[n];
         if (enemy.scary) {
-            dx = (enemy.x - this.x);
-            dy = (enemy.y - this.y);
+            dx = (enemy.x - this.x) * 0.75;     // Reduce "distance" to strengthen effect.
+            dy = (enemy.y - this.y) * 0.75;
             distance_squared = dx * dx + dy * dy;
             distance = Math.sqrt(distance_squared);
             if (distance > 0.01) {
