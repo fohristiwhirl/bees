@@ -30,8 +30,9 @@ function unit_vector(x1, y1, x2, y2) {
 
 var TWO_PI = 2 * Math.PI;
 
-var MARGIN_OF_ERROR = 2;
-var PLAYER_MAX_SPEED = 8;
 var BEECOUNT = 35;
+var MARGIN_OF_ERROR = 2;        // For collision of bees with enemies
+var PLAYER_MAX_SPEED = 8;
+var PLAYER_LIVES = 4;
 
 var sim = {};

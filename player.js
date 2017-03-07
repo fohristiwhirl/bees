@@ -30,7 +30,7 @@ function make_player() {
         max_speed: PLAYER_MAX_SPEED,
         sprites: newimagearray("res/ship1.png", "res/ship2.png"),
         framerate: 60,
-        lives: 3,
+        lives: PLAYER_LIVES,
         keyboard: {"w": false, "a": false, "s": false, "d": false, " ": false}
     };
 
@@ -149,7 +149,7 @@ function make_player() {
     player.draw = function () {
 
         if (this.immune_timer > 0) {
-            draw_circle(this.x, this.y, this.immune_timer, "#ccffcc");
+            draw_circle(this.x, this.y, this.immune_timer / 2 + 30, "#ccffcc");
         }
 
         var sprite_index = Math.floor(sim.iteration / this.framerate) % this.sprites.length;

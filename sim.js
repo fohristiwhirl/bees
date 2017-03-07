@@ -16,6 +16,9 @@ function setup_sim() {
     sim.player.reset();
     sim.bees.reset();
 
+    var life_sprite = new Image()
+    life_sprite.src = "res/ship_small.png";
+
     // ---------------------------------------------------------------------------------------------
     // GAME LOGIC
 
@@ -157,6 +160,14 @@ function setup_sim() {
 
         if (this.player.alive) {
             this.player.draw();
+        }
+
+        // Draw lives...
+
+        if (this.player.lives > 1) {
+            for (n = 1; n < this.player.lives; n += 1) {
+                virtue.drawImage(life_sprite, n * life_sprite.width - life_sprite.width / 2, life_sprite.height / 2);
+            }
         }
 
         // Carry on...
