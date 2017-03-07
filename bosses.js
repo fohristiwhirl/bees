@@ -145,14 +145,14 @@ function make_shooter_shooter() {
     var shooter_shooter = Object.create(base_shooter);
     shooter_shooter.sprites = newimagearray("res/shooter_shooter.png");
 
-    shooter_shooter.thing_we_shoot = base_shooter;
+    shooter_shooter.thing_we_shoot = pointless_shooter;
     shooter_shooter.shotspeed = 4;
     shooter_shooter.shotrate = 40;
     shooter_shooter.hp = 500;
 
     shooter_shooter.x = canvas.width + 32;
     shooter_shooter.y = Math.random() * canvas.height;
-    shooter_shooter.speedx = -3;
+    shooter_shooter.speedx = -2;
     shooter_shooter.speedy = -1;
 
     var last_sound_iteration = 0;
@@ -180,7 +180,7 @@ function make_shooter_shooter() {
             this.scary = true;
         } else {
             this.scary = false;
-            base_shooter.act.apply(this);
+            base_shooter.act.apply(this);   // Does the actual shooting.
         }
     };
 
@@ -196,7 +196,7 @@ function make_shooter_shooter() {
     shooter_shooter.damage = function () {
         var hp_before = this.hp;
 
-        if (this.scary) {               // Take no damage when shield up.
+        if (this.scary) {                   // Take no damage when shield up.
             return;
         }
 
