@@ -38,7 +38,7 @@ function level_three() {
     var i = sim.iteration;
     var ret = [];
 
-    if (i > 2500) {
+    if (i > 2000) {
         if (sim.entities.length === 0) {
             sim.next_level();
         }
