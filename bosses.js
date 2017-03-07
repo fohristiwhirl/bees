@@ -10,7 +10,7 @@ function make_revolver() {
     var new_sub;
 
     var base_sub = Object.create(base_shooter);
-    base_sub.sprites = [newimage("res/skull.png")];
+    base_sub.sprites = newimagearray("res/skull.png");
 
     revolver.score = 1000;
     revolver.subentities = [];

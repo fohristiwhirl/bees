@@ -16,10 +16,10 @@ base_cracked.damage = function () {
 };
 
 var base_cracked_left = Object.create(base_cracked);
-base_cracked_left.sprites = [newimage("res/cracked_left.png")];
+base_cracked_left.sprites = newimagearray("res/cracked_left.png");
 
 var base_cracked_right = Object.create(base_cracked);
-base_cracked_right.sprites = [newimage("res/cracked_right.png")];
+base_cracked_right.sprites = newimagearray("res/cracked_right.png");
 
 // ---------------------------------------------------------------------------------------------
 // PLAYER CONSTRUCTOR
@@ -28,7 +28,7 @@ function make_player() {
 
     var player = {
         max_speed: PLAYER_MAX_SPEED,
-        sprites: [newimage("res/ship1.png"), newimage("res/ship2.png")],
+        sprites: newimagearray("res/ship1.png", "res/ship2.png"),
         framerate: 60,
         lives: 3,
         keyboard: {"w": false, "a": false, "s": false, "d": false, " ": false}

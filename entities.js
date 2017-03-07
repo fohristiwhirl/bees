@@ -75,14 +75,14 @@ base_entity.collides_with_player = function () {
 // STUPID
 
 var base_stupid = Object.create(base_entity);
-base_stupid.sprites = [newimage("res/stupid.png")];
+base_stupid.sprites = newimagearray("res/stupid.png");
 base_stupid.score = 10;
 
 // ---------------------------------------------------------------------------------------------
 // SHOT
 
 var base_shot = Object.create(base_entity);
-base_shot.sprites = [newimage("res/shot.png")];
+base_shot.sprites = newimagearray("res/shot.png");
 
 base_shot.damage = function () {
     return;
@@ -92,7 +92,7 @@ base_shot.damage = function () {
 // SHOOTER
 
 var base_shooter = Object.create(base_entity);
-base_shooter.sprites = [newimage("res/shooter.png")];
+base_shooter.sprites = newimagearray("res/shooter.png");
 base_shooter.score = 100;
 
 base_shooter.age = 0;
@@ -133,7 +133,7 @@ base_shooter.move = function () {
 // CHASER
 
 var base_chaser = Object.create(base_entity);
-base_chaser.sprites = [newimage("res/chaser.png")];
+base_chaser.sprites = newimagearray("res/chaser.png");
 base_chaser.score = 100;
 
 base_chaser.finished = false;

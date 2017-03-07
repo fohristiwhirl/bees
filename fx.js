@@ -26,18 +26,6 @@ function draw_boss_hitpoints(fraction) {
     virtue.fillRect(x1, y1, w * fraction, h);
 }
 
-function unit_vector(x1, y1, x2, y2) {
-    var dx = x2 - x1;
-    var dy = y2 - y1;
-
-    if (dx < 0.01 && dx > -0.01 && dy < 0.01 && dy > -0.01) {
-        return [0, 0];
-    }
-
-    var distance = Math.sqrt(dx * dx + dy * dy);
-    return [dx / distance, dy / distance];
-}
-
 function draw_lightning(x1, y1, x2, y2) {
     var n;
     var vector;
