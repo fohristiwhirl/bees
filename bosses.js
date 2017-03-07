@@ -148,6 +148,7 @@ function make_shooter_shooter() {
 
     shooter_shooter.thing_we_shoot = base_shooter;
     shooter_shooter.shotspeed = 4;
+    shooter_shooter.shotrate = 40;
     shooter_shooter.hp = 500;
 
     shooter_shooter.x = canvas.width + 32;
