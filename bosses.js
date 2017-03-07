@@ -145,6 +145,7 @@ function make_revolver() {
 function make_shooter_shooter() {
 
     var shooter_shooter = Object.create(base_shooter);
+    shooter_shooter.sprites = newimagearray("res/shooter_shooter.png");
 
     shooter_shooter.thing_we_shoot = base_shooter;
     shooter_shooter.shotspeed = 4;
