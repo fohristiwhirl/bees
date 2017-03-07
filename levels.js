@@ -1,52 +1,75 @@
 "use strict";
 
-function enemy_gen() {
-    var ret = [];
+function level_one() {
     var i = sim.iteration;
+    var ret = [];
 
-    // LEVEL 1
-
-    if (sim.level === 1) {
-
-        if (i % 100 === 99) {
-            ret.push(new_stupid());
-        }
-        if (i % 450 === 449) {
-            ret.push(new_shooter());
-        }
-        if (i === 1500) {
-            sim.next_level();
-        }
+    if (i % 100 === 99) {
+        ret.push(new_stupid());
+    }
+    if (i % 450 === 449) {
+        ret.push(new_shooter());
     }
 
-    // LEVEL 2
-
-    if (sim.level === 2) {
-
-        if (i === 300) {
-            ret.push(make_revolver());
-            mixer.play("warning");
-        }
-
-        if (i > 500 && sim.entities.length === 0) {
-            sim.next_level();
-        }
+    if (i === 1500) {
+        sim.next_level();
     }
 
-    // LEVEL 3
+    return ret;
+}
 
-    if (sim.level === 3) {
+function level_two() {
+    var i = sim.iteration;
+    var ret = [];
 
+    if (i === 300) {
+        ret.push(make_revolver());
+        mixer.play("warning");
+    }
+
+    if (i > 500 && sim.entities.length === 0) {
+        sim.next_level();
+    }
+
+    return ret;
+}
+
+function level_three() {
+    var i = sim.iteration;
+    var ret = [];
+
+    if (i > 2500) {
+        if (sim.entities.length === 0) {
+            sim.next_level();
+        }
+    } else {
         if (i % 100 === 99) {
             ret.push(new_chaser());
         }
         if (i % 350 === 349) {
             ret.push(new_shooter());
         }
-        if (i === 2500) {
-            sim.next_level();
-        }
     }
 
     return ret;
+}
+
+function enemy_gen() {
+
+    // Each level_x function is responsible for calling sim.next_level() when it's done.
+
+    switch (sim.level) {
+    case 1:
+        return level_one();
+        break;
+    case 2:
+        return level_two();
+        break;
+    case 3:
+        return level_three();
+        break;
+    default:
+        return [];
+        break;
+    }
 }
