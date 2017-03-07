@@ -40,12 +40,9 @@ function make_revolver() {
     revolver.draw = function () {
         var n;
 
-        for (n = 0; n < this.subentities.length; n += 1) {
-            if (n > 0) {
-                draw_lightning(this.subentities[n].x, this.subentities[n].y, this.subentities[n - 1].x, this.subentities[n - 1].y);
-            }
+        for (n = 1; n < this.subentities.length; n += 1) {                  // Draw lightning if len >= 2
+            draw_lightning(this.subentities[n].x, this.subentities[n].y, this.subentities[n - 1].x, this.subentities[n - 1].y);
         }
-
         if (this.subentities.length > 2) {
             draw_lightning(
                 this.subentities[0].x, this.subentities[0].y, this.subentities[this.subentities.length - 1].x, this.subentities[this.subentities.length - 1].y
