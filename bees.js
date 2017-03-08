@@ -82,8 +82,8 @@ base_bee.move = function () {
     for (n = 0; n < len; n += 1) {
         enemy = arr[n];
         if (enemy.scary) {
-            dx = (enemy.x - this.x) * 0.75;     // Reduce "distance" to strengthen effect.
-            dy = (enemy.y - this.y) * 0.75;
+            dx = (enemy.x - this.x);
+            dy = (enemy.y - this.y);
             distance_squared = dx * dx + dy * dy;
             distance = Math.sqrt(distance_squared);
             if (distance > 0.01) {

@@ -58,12 +58,12 @@ function level_four() {
     var i = sim.iteration;
     var ret = [];
 
-    if (i === 300) {
+    if (i === 100) {
         ret.push(make_shooter_shooter());
         mixer.play("warning");
     }
 
-    if (i > 500 && sim.entities.length === 0) {
+    if (i > 300 && sim.entities.length === 0) {
         sim.next_level();
     }
 
