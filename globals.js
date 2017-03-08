@@ -12,10 +12,6 @@ function newimagearray() {      // Accepts variable number of arguments.
     return ret;
 }
 
-function randint(n) {
-    return Math.floor(Math.random() * n);
-}
-
 function unit_vector(x1, y1, x2, y2) {
     var dx = x2 - x1;
     var dy = y2 - y1;
