@@ -140,7 +140,14 @@ function setup_sim() {
         arr = this.entities;
         len = this.entities.length;
         for (n = 0; n < len; n += 1) {
-            arr[n].draw();
+            if (arr[n].low_priority) {
+                arr[n].draw();                          // Low priority entities first (so they're below).
+            }
+        }
+        for (n = 0; n < len; n += 1) {
+            if (arr[n].low_priority === false || arr[n].low_priority === undefined) {
+                arr[n].draw();                          // High priority entities last (so they've above).
+            }
         }
 
         // Draw player...

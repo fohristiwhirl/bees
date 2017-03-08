@@ -14,6 +14,7 @@ var base_entity = {
     scary: false,
     harmless: false,
     death_sound: "enemy_death",
+    low_priority: false,
     score: 0
 };
 
@@ -94,6 +95,7 @@ base_stupid.score = 10;
 
 var base_shot = Object.create(base_entity);
 base_shot.sprites = newimagearray("res/shot.png");
+base_shot.low_priority = true;
 
 base_shot.damage = function () {
     return;
@@ -243,6 +245,8 @@ base_boulder.move = function () {
 
 var base_apple = Object.create(base_entity);
 base_apple.sprites = newimagearray("res/apple.png");
+base_apple.low_priority = true;
+
 base_apple.harmless = true;
 
 base_apple.lifespan = 500;
