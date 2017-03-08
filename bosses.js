@@ -233,11 +233,10 @@ function make_snake() {
     snake.sprites = newimagearray("res/ship2.png", "res/ship1.png");
 
     snake.is_snake = true;
-
+    snake.score = 1000;
     snake.scary = true;
     snake.hp = 1500;
     snake.max_health = 3000;
-
     snake.target = null;
     snake.accel_mod = 2;
     snake.max_speed = 8;
