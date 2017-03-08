@@ -303,7 +303,7 @@ function make_snake() {
         // Set target to null if it has no hp...
 
         if (this.target !== null) {
-            if (this.target.hp === 0) {
+            if (this.target.hp <= 0) {
                 this.target = null;
             }
         }
