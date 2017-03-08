@@ -9,18 +9,15 @@ function make_revolver() {
     var revolver = Object.create(base_entity);
     var new_sub;
 
-    var base_sub = Object.create(base_shooter);
-    base_sub.sprites = newimagearray("res/skull.png");
-    base_sub.thing_we_shoot = base_shot_blue;
-
     revolver.score = 1000;
     revolver.subentities = [];
     revolver.death_sound = null;        // We do our own sounds, so this means the main loop doesn't.
 
     for (i = 0; i < 3; i += 1) {
-        new_sub = Object.create(base_sub);
+        new_sub = Object.create(base_skull);
+        new_sub.thing_we_shoot = base_shot_blue;
+        new_sub.hp = 60
         new_sub.angle = 2.094 * i;
-        new_sub.hp = 60;
         revolver.subentities.push(new_sub);
     }
 
@@ -152,11 +149,7 @@ function make_revolver() {
 
 function make_shooter_shooter() {
 
-    var shooter_shooter = Object.create(base_shooter);
-    shooter_shooter.sprites = newimagearray("res/shooter_shooter.png");
-
-    var base_pointless_shooter = Object.create(base_shooter);       // Like a normal shooter
-    base_pointless_shooter.score = 0;                               // but worth zero points.
+    var shooter_shooter = Object.create(base_shooter_yellow);
 
     shooter_shooter.thing_we_shoot = base_pointless_shooter;
     shooter_shooter.shotspeed = 4;

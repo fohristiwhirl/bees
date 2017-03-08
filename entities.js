@@ -140,6 +140,24 @@ base_shooter.act = function () {
 };
 
 // ---------------------------------------------------------------------------------------------
+// SHOOTER (POINTLESS VERSION)
+
+var base_pointless_shooter = Object.create(base_shooter);
+base_pointless_shooter.score = 0;
+
+// ---------------------------------------------------------------------------------------------
+// SHOOTER (SKULL VERSION)
+
+var base_skull = Object.create(base_shooter);
+base_skull.sprites = newimagearray("res/skull.png");
+
+// ---------------------------------------------------------------------------------------------
+// SHOOTER (YELLOW VERSION)
+
+var base_shooter_yellow = Object.create(base_shooter);
+base_shooter_yellow.sprites = newimagearray("res/shooter_shooter.png");
+
+// ---------------------------------------------------------------------------------------------
 // CHASER
 
 var base_chaser = Object.create(base_entity);
