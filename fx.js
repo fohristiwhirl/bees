@@ -26,7 +26,7 @@ function draw_boss_hitpoints(fraction) {
     virtue.fillRect(x1, y1, w * fraction, h);
 }
 
-function draw_lightning(x1, y1, x2, y2) {
+function draw_lightning(x1, y1, x2, y2, colour) {
     var n;
     var vector;
     var dx;
@@ -41,7 +41,7 @@ function draw_lightning(x1, y1, x2, y2) {
     var y = y1;
 
     virtue.lineWidth = 3;
-    virtue.strokeStyle = "#009999";
+    virtue.strokeStyle = colour;
 
     for (n = 0; n < 10; n += 1) {
         vector = unit_vector(x, y, x2, y2);
