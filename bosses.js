@@ -337,7 +337,7 @@ function make_snake() {
 
         if (sim.iteration_total % 75 === 74) {
 
-            new_shot = Object.create(base_shot_blue);
+            new_shot = Object.create(base_shot);
             new_shot.x = this.x;
             new_shot.y = this.y;
 
