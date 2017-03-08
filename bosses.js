@@ -225,4 +225,132 @@ function make_shooter_shooter() {
 }
 
 // ---------------------------------------------------------------------------------------------
-//
+// SNAKE
+
+function make_snake() {
+
+    var snake = Object.create(base_entity);
+    snake.sprites = newimagearray("res/ship1.png", "res/ship2.png"),
+
+    snake.scary = true;
+    snake.hp = 1500;
+    snake.max_health = 3000;
+
+    snake.target = null;
+    snake.accel_mod = 2;
+    snake.max_speed = 8;
+
+    snake.damage = function () {
+        if (this.hp > 1) {
+            this.scary = true;
+            this.hp -= 1;
+        } else {
+            this.scary = false;
+            base_entity.damage.apply(this);     // When at 1 hp, the shield is down and we can take damage.
+        }
+    };
+
+    snake.out_of_bounds = function () {
+        return false;
+    };
+
+    snake.draw = function () {
+        if (this.hp > 1) {
+            draw_circle(this.x, this.y, 45, "#ccffcc");
+        }
+        base_entity.draw.apply(this);
+        draw_boss_hitpoints(this.hp / this.max_health);
+    };
+
+    snake.move = function () {
+        var vector;
+        var vecx;
+        var vecy;
+
+        // Chase target...
+
+        if (this.target !== null) {
+            vector = unit_vector(this.x, this.y, this.target.x, this.target.y);
+            vecx = vector[0];
+            vecy = vector[1];
+            this.speedx += vecx * Math.random() * 2 * this.accel_mod / 2;
+            this.speedy += vecy * Math.random() * 2 * this.accel_mod / 2;
+        }
+
+        // Throttle speed...
+
+        var speed = Math.sqrt(this.speedx * this.speedx + this.speedy * this.speedy);
+        if (speed > this.max_speed) {
+            this.speedx *= this.max_speed / speed;
+            this.speedy *= this.max_speed / speed;
+        }
+
+        // Update...
+
+        this.x += this.speedx;
+        this.y += this.speedy;
+    };
+
+    snake.act = function () {
+        var distance;
+        var n;
+        var len;
+        var arr;
+        var new_shot;
+        var vector;
+
+        // Set target to null if it has no hp...
+
+        if (this.target !== null) {
+            if (this.target.hp === 0) {
+                this.target = null;
+            }
+        }
+
+        // Find new target if needed...
+
+        if (this.target === null) {
+            arr = sim.entities;
+            len = sim.entities.length;
+            for (n = 0; n < len; n += 1) {
+                if (arr[n].is_apple) {          // Will be undefined on most entities
+                    this.target = arr[n];
+                    break;
+                }
+            }
+        }
+
+        // If we collide with target, kill it and gain health...
+
+        if (this.target !== null) {
+            distance = get_distance(this.x, this.y, this.target.x, this.target.y);
+            if (distance < 32) {
+                this.target.hp = 0;
+                this.hp += 100;
+                this.hp = Math.min(this.hp, this.max_health);
+            }
+        }
+
+        // Shoot sometimes...
+
+        if (sim.iteration_total % 75 === 74) {
+
+            new_shot = Object.create(base_shot_blue);
+            new_shot.x = this.x;
+            new_shot.y = this.y;
+
+            vector = this.unit_vector_to_player();
+            new_shot.speedx = vector[0] * 10;
+            new_shot.speedy = vector[1] * 10;
+
+            sim.entities.push(new_shot);
+        }
+    };
+
+    snake.x = canvas.width + 32;
+    snake.y = Math.random() * canvas.height;
+    snake.speedx = -2;
+    snake.speedy = -1;
+
+    return snake;
+}

@@ -87,6 +87,22 @@ function level_five() {
     return ret;
 }
 
+function level_six() {
+    var i = sim.iteration;
+    var ret = [];
+
+    if (i % 100 === 99) {
+        ret.push(new_apple());
+    }
+    if (i === 300) {
+        ret.push(make_snake());
+    }
+
+    return ret;
+}
+
+                                // FIXME: end level 6
+
 function enemy_gen() {
 
     // Each level_x function is responsible for calling sim.next_level() when it's done.
@@ -102,6 +118,8 @@ function enemy_gen() {
         return level_four();
     case 5:
         return level_five();
+    case 6:
+        return level_six();
     default:
         return [];
     }

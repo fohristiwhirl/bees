@@ -240,6 +240,35 @@ base_boulder.move = function () {
 };
 
 // ---------------------------------------------------------------------------------------------
+// APPLE
+
+var base_apple = Object.create(base_entity);
+base_apple.sprites = newimagearray("res/apple.png");
+base_apple.harmless = true;
+
+base_apple.lifespan = 500;
+base_apple.age = 0;
+
+base_apple.is_apple = true;
+
+base_apple.move = base_boulder.move;
+
+base_apple.damage = function () {
+
+    // Damage from bees...
+
+    base_entity.damage.apply(this);
+
+    // Or from player...
+
+    if (this.hp > 0) {
+        if (this.collides_with_player()) {
+            this.hp = 0;
+        }
+    }
+};
+
+// ---------------------------------------------------------------------------------------------
 // CONSTRUCTORS (FIXME: most should take some parameters)
 
 function new_stupid() {
@@ -270,37 +299,49 @@ function new_chaser() {
     return e;
 }
 
-function new_boulder() {
+function set_for_border_spawn(e, o_min, o_max, t_max) {
 
-    var e = Object.create(base_boulder);
     var r = Math.floor(Math.random() * 4);
+
+    var speed_one = o_min + Math.random() * (o_max - o_min);        // Always positive, in range (o_min, o_max)
+    var speed_two = Math.random() * t_max * 2 - t_max;              // Positive or negative, in range (-t_max, t_max)
 
     switch (r) {
     case 0:                                     // Left
         e.x = -32;
         e.y = Math.random() * canvas.height;
-        e.speedx = Math.random() * 6 + 4;
-        e.speedy = Math.random() * 4 - 2;
+        e.speedx = speed_one
+        e.speedy = speed_two
         break;
     case 1:                                     // Right
         e.x = canvas.width + 32;
         e.y = Math.random() * canvas.height;
-        e.speedx = Math.random() * -6 - 4;
-        e.speedy = Math.random() * 4 - 2;
+        e.speedx = -speed_one
+        e.speedy = speed_two
         break;
     case 2:                                     // Top
         e.x = Math.random() * canvas.width;
         e.y = -32;
-        e.speedx = Math.random() * 4 - 2;
-        e.speedy = Math.random() * 6 + 4;
+        e.speedx = speed_two
+        e.speedy = speed_one
         break;
     case 3:                                     // Bottom
         e.x = Math.random() * canvas.width;
         e.y = canvas.height + 32;
-        e.speedx = Math.random() * 4 - 2;
-        e.speedy = Math.random() - 6 - 4;
+        e.speedx = speed_two
+        e.speedy = -speed_one
         break;
     }
+}
 
+function new_boulder() {
+    var e = Object.create(base_boulder);
+    set_for_border_spawn(e, 4, 8, 2);
+    return e;
+}
+
+function new_apple() {
+    var e = Object.create(base_apple);
+    set_for_border_spawn(e, 4, 4, 2);
     return e;
 }

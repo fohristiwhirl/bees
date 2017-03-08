@@ -24,10 +24,14 @@ base_bee.move = function (scary_points) {
 
     // Chase target...
 
+    var vector;
+    var vecx;
+    var vecy;
+
     if (sim.player.alive) {
-        var vector = this.unit_vector_to_player();
-        var vecx = vector[0];
-        var vecy = vector[1];
+        vector = this.unit_vector_to_player();
+        vecx = vector[0];
+        vecy = vector[1];
         if (vecx === 0 && vecy === 0) {
             this.speedx += Math.random() * this.accel_mod;
             this.speedy += Math.random() * this.accel_mod;
