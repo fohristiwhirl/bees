@@ -75,6 +75,13 @@ base_entity.collides_with_player = function () {
     return false;
 };
 
+base_entity.list_scary_points = function () {       // List all points that should scare the bees.
+    if (this.scary) {
+        return [[this.x, this.y]];
+    }
+    return [];
+};
+
 // ---------------------------------------------------------------------------------------------
 // STUPID
 
@@ -192,13 +199,48 @@ base_chaser.move = function () {
 
 base_chaser.draw = function () {
     if (sim.player.alive && this.finished === false) {
-        draw_line(this.x, this.y, sim.player.x, sim.player.y, "#ffff00");
+        draw_line(this.x, this.y, sim.player.x, sim.player.y, "#ff0000");
     }
     base_entity.draw.apply(this);
 };
 
 // ---------------------------------------------------------------------------------------------
-// CONSTRUCTORS
+// BOULDER
+
+var base_boulder = Object.create(base_shot);
+base_boulder.sprites = newimagearray("res/diamond.png");
+base_boulder.scary = true;
+
+base_boulder.lifespan = 500;
+base_boulder.age = 0;
+
+base_boulder.draw = function () {
+    draw_circle(this.x, this.y, 35, "#ccffcc");
+    base_entity.draw.apply(this);
+};
+
+base_boulder.move = function () {
+    this.age += 1;
+    if (this.age < this.lifespan) {      // Only the young can bounce.
+        if (this.x < this.sprites[0].width / 2) {
+            this.speedx = Math.abs(this.speedx);
+        }
+        if (this.x > canvas.width - this.sprites[0].width / 2) {
+            this.speedx = Math.abs(this.speedx) * -1;
+        }
+        if (this.y < this.sprites[0].height / 2) {
+            this.speedy = Math.abs(this.speedy);
+        }
+        if (this.y > canvas.height - this.sprites[0].height / 2) {
+            this.speedy = Math.abs(this.speedy) * -1;
+        }
+    }
+    this.x += this.speedx;
+    this.y += this.speedy;
+};
+
+// ---------------------------------------------------------------------------------------------
+// CONSTRUCTORS (FIXME: most should take some parameters)
 
 function new_stupid() {
     var e = Object.create(base_stupid);
@@ -225,5 +267,40 @@ function new_chaser() {
         e.x = canvas.width + 32;
     }
     e.y = Math.random() * canvas.height;
+    return e;
+}
+
+function new_boulder() {
+
+    var e = Object.create(base_boulder);
+    var r = Math.floor(Math.random() * 4);
+
+    switch (r) {
+    case 0:                                     // Left
+        e.x = -32;
+        e.y = Math.random() * canvas.height;
+        e.speedx = Math.random() * 6 + 4;
+        e.speedy = Math.random() * 4 - 2;
+        break;
+    case 1:                                     // Right
+        e.x = canvas.width + 32;
+        e.y = Math.random() * canvas.height;
+        e.speedx = Math.random() * -6 - 4;
+        e.speedy = Math.random() * 4 - 2;
+        break;
+    case 2:                                     // Top
+        e.x = Math.random() * canvas.width;
+        e.y = -32;
+        e.speedx = Math.random() * 4 - 2;
+        e.speedy = Math.random() * 6 + 4;
+        break;
+    case 3:                                     // Bottom
+        e.x = Math.random() * canvas.width;
+        e.y = canvas.height + 32;
+        e.speedx = Math.random() * 4 - 2;
+        e.speedy = Math.random() - 6 - 4;
+        break;
+    }
+
     return e;
 }

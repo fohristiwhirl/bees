@@ -71,11 +71,7 @@ function setup_sim() {
 
         // Move bees...
 
-        arr = this.bees;
-        len = this.bees.length;
-        for (n = 0; n < len; n += 1) {
-            arr[n].move();
-        }
+        this.bees.move();
 
         // Update player...
 

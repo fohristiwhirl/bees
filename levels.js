@@ -70,6 +70,23 @@ function level_four() {
     return ret;
 }
 
+function level_five() {
+    var i = sim.iteration;
+    var ret = [];
+
+    if (i > 2000) {
+        if (sim.entities.length === 0) {
+            sim.next_level();
+        }
+    } else {
+        if (i % 40 === 39) {
+            ret.push(new_boulder());
+        }
+    }
+
+    return ret;
+}
+
 function enemy_gen() {
 
     // Each level_x function is responsible for calling sim.next_level() when it's done.
@@ -83,6 +100,8 @@ function enemy_gen() {
         return level_three();
     case 4:
         return level_four();
+    case 5:
+        return level_five();
     default:
         return [];
     }

@@ -12,46 +12,22 @@ var base_bee = {
     accel_mod: 0.57,
     max_speed: 9,
     colour: "#ffffff",
-    target: null,
     avoidance: 5000
 };
 
-base_bee.move = function () {
+base_bee.move = function (scary_points) {
 
     this.oldx = this.lastx;
     this.oldy = this.lasty;
     this.lastx = this.x;
     this.lasty = this.y;
 
-    // Switch target...
-
-    if (this.target === null || this.target === undefined) {
-        this.target = sim.player;
-    }
-
-    var dx;
-    var dy;
-
-    // Currently unused code...
-
-    if (this.target !== sim.player) {
-        dx = Math.abs(this.target.x - this.x);
-        dy = Math.abs(this.target.y - this.y);
-        if (dx < 100 && dy < 100) {
-            if (this.target !== sim.player) {
-                this.target = sim.player;
-            }
-        }
-    }
-
     // Chase target...
 
-    if (sim.player.alive || this.target !== sim.player) {
-
-        var vector = this.unit_vector_to_target();
+    if (sim.player.alive) {
+        var vector = this.unit_vector_to_player();
         var vecx = vector[0];
         var vecy = vector[1];
-
         if (vecx === 0 && vecy === 0) {
             this.speedx += Math.random() * this.accel_mod;
             this.speedy += Math.random() * this.accel_mod;
@@ -59,38 +35,33 @@ base_bee.move = function () {
             this.speedx += vecx * Math.random() * 2 * this.accel_mod / 2;
             this.speedy += vecy * Math.random() * 2 * this.accel_mod / 2;
         }
-
     } else {
-
-        // We want to go to the player but the player is dead...
-
         this.speedx *= 2;
         this.speedy *= 2;
     }
 
     // Avoid scary entities...
 
-    var enemy;
+    var coord;
     var distance;
     var distance_squared;
     var adjusted_force;
+    var dx;
+    var dy;
 
     var n;
-    var arr = sim.entities;
-    var len = sim.entities.length;
+    var len = scary_points.length;
 
     for (n = 0; n < len; n += 1) {
-        enemy = arr[n];
-        if (enemy.scary) {
-            dx = (enemy.x - this.x);
-            dy = (enemy.y - this.y);
-            distance_squared = dx * dx + dy * dy;
-            distance = Math.sqrt(distance_squared);
-            if (distance > 0.01) {
-                adjusted_force = this.avoidance / (distance_squared * distance);
-                this.speedx -= dx * adjusted_force * Math.random();
-                this.speedy -= dy * adjusted_force * Math.random();
-            }
+        coord = scary_points[n];
+        dx = (coord[0] - this.x);
+        dy = (coord[1] - this.y);
+        distance_squared = dx * dx + dy * dy;
+        distance = Math.sqrt(distance_squared);
+        if (distance > 0.01) {
+            adjusted_force = this.avoidance / (distance_squared * distance);
+            this.speedx -= dx * adjusted_force * Math.random();
+            this.speedy -= dy * adjusted_force * Math.random();
         }
     }
 
@@ -108,8 +79,8 @@ base_bee.move = function () {
     this.y += this.speedy;
 };
 
-base_bee.unit_vector_to_target = function () {
-    return unit_vector(this.x, this.y, this.target.x, this.target.y);
+base_bee.unit_vector_to_player = function () {
+    return unit_vector(this.x, this.y, sim.player.x, sim.player.y);
 };
 
 base_bee.draw = function () {
@@ -155,6 +126,22 @@ function make_bees() {
                 item.speedx = Math.random() * 10 - 5;
                 item.speedy = Math.random() * 10 - 5;
             }
+        }
+    };
+
+    bees.move = function () {
+        var n;
+        var len;
+        var scary_points = [];
+
+        len = sim.entities.length;
+        for (n = 0; n < len; n += 1) {
+            scary_points.push.apply(scary_points, sim.entities[n].list_scary_points());    // Array concat in place.
+        }
+
+        len = this.length;
+        for (n = 0; n < len; n += 1) {
+            this[n].move(scary_points);
         }
     };
 
