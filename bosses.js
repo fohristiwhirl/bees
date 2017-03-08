@@ -152,6 +152,7 @@ function make_shooter_shooter() {
     shooter_shooter.shotspeed = 4;
     shooter_shooter.shotrate = 40;
     shooter_shooter.hp = 500;
+    shooter_shooter.score = 1000;
 
     shooter_shooter.x = canvas.width + 32;
     shooter_shooter.y = Math.random() * canvas.height;

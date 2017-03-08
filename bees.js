@@ -32,6 +32,8 @@ base_bee.move = function () {
     var dx;
     var dy;
 
+    // Currently unused code...
+
     if (this.target !== sim.player) {
         dx = Math.abs(this.target.x - this.x);
         dy = Math.abs(this.target.y - this.y);
