@@ -342,7 +342,8 @@ function make_snake() {
             new_shot.x = this.x;
             new_shot.y = this.y;
 
-            vector = this.unit_vector_to_player();
+            // Some randomness on the shot...
+            vector = unit_vector(this.x, this.y, sim.player.x + Math.random() * 400 - 200, sim.player.y + Math.random() * 400 - 200);
             new_shot.speedx = vector[0] * 10;
             new_shot.speedy = vector[1] * 10;
 
