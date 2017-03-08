@@ -61,6 +61,10 @@ base_entity.damage = function () {
             }
         }
     }
+
+    if (this.hp < 0) {
+        this.hp = 0;
+    }
 };
 
 base_entity.unit_vector_to_player = function () {
