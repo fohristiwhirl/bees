@@ -65,12 +65,9 @@ function setup_sim() {
             }
         }
 
-        // Move stars...
+        // Move stars and bees...
 
         this.stars.move();
-
-        // Move bees...
-
         this.bees.move();
 
         // Update player...
@@ -133,17 +130,10 @@ function setup_sim() {
 
         virtue.clearRect(0, 0, canvas.width, canvas.height);
 
-        // Draw stars...
+        // Draw stars and bees...
 
         this.stars.draw();
-
-        // Draw bees...
-
-        arr = this.bees;
-        len = this.bees.length;
-        for (n = 0; n < len; n += 1) {
-            arr[n].draw();
-        }
+        this.bees.draw();
 
         // Draw entities...
 

@@ -83,10 +83,6 @@ base_bee.unit_vector_to_player = function () {
     return unit_vector(this.x, this.y, sim.player.x, sim.player.y);
 };
 
-base_bee.draw = function () {
-    draw_line(this.oldx, this.oldy, this.x, this.y, this.colour);
-};
-
 // ---------------------------------------------------------------------------------------------
 // BEE ARRAY CONSTRUCTOR
 
@@ -142,6 +138,15 @@ function make_bees() {
         len = this.length;
         for (n = 0; n < len; n += 1) {
             this[n].move(scary_points);
+        }
+    };
+
+    bees.draw = function () {
+        var n;
+        var len = this.length;;
+
+        for (n = 0; n < len; n += 1) {
+            draw_line(this[n].oldx, this[n].oldy, this[n].x, this[n].y, this[n].colour);
         }
     };
 
