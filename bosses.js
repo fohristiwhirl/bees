@@ -315,7 +315,7 @@ function make_snake() {
             len = sim.entities.length;
             for (n = 0; n < len; n += 1) {
                 if (arr[n].is_apple) {          // Will be undefined on most entities
-                    if (this.target.hp > 0) {
+                    if (arr[n].hp > 0) {
                         this.target = arr[n];
                         break;
                     }
