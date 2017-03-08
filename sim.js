@@ -117,7 +117,7 @@ function setup_sim() {
         // Update title with score sometimes...
 
         if (this.iteration % 10 === 7) {
-            document.title = "L: " + this.level + "  S: " + this.score.toString() + "  E: " + this.entities.length + "";
+            document.title = "L: " + this.level.toString() + "  S: " + this.score.toString() + "  E: " + this.entities.length + "";
         }
 
         // Adjust canvas size if needed...
