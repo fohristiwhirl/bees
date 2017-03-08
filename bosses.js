@@ -32,8 +32,8 @@ function make_revolver() {
         }
     });
 
-    var initial_health = revolver.hp;
-    var last_sound_iteration = 0;
+    revolver.initial_health = revolver.hp;
+    revolver.last_sound_iteration = 0;
 
     revolver.draw = function () {
         var n;
@@ -61,7 +61,7 @@ function make_revolver() {
             this.subentities[n].draw();
         }
 
-        draw_boss_hitpoints(this.hp / initial_health);
+        draw_boss_hitpoints(this.hp / this.initial_health);
     };
 
     revolver.damage = function () {
@@ -77,8 +77,8 @@ function make_revolver() {
         }
 
         if (this.hp !== hp_before) {                                        // We took damage.
-            if (sim.iteration_total - last_sound_iteration > 3) {
-                last_sound_iteration = sim.iteration_total;
+            if (sim.iteration_total - this.last_sound_iteration > 3) {
+                this.last_sound_iteration = sim.iteration_total;
                 mixer.play("click");
             }
         }
@@ -162,8 +162,8 @@ function make_shooter_shooter() {
     shooter_shooter.speedx = -2;
     shooter_shooter.speedy = -1;
 
-    var last_sound_iteration = 0;
-    var initial_health = shooter_shooter.hp;
+    shooter_shooter.last_sound_iteration = 0;
+    shooter_shooter.initial_health = shooter_shooter.hp;
 
     shooter_shooter.move = function () {
         if (this.x < 100) {
@@ -197,7 +197,7 @@ function make_shooter_shooter() {
         }
         base_entity.draw.apply(this);
 
-        draw_boss_hitpoints(this.hp / initial_health);
+        draw_boss_hitpoints(this.hp / this.initial_health);
     };
 
     shooter_shooter.damage = function () {
@@ -210,8 +210,8 @@ function make_shooter_shooter() {
         base_entity.damage.apply(this);
 
         if (this.hp !== hp_before) {                                        // We took damage.
-            if (sim.iteration_total - last_sound_iteration > 3) {
-                last_sound_iteration = sim.iteration_total;
+            if (sim.iteration_total - this.last_sound_iteration > 3) {
+                this.last_sound_iteration = sim.iteration_total;
                 mixer.play("click");
             }
         }
@@ -223,3 +223,6 @@ function make_shooter_shooter() {
 
     return shooter_shooter;
 }
+
+// ---------------------------------------------------------------------------------------------
+//
