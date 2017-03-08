@@ -9,7 +9,7 @@ var base_entity = {
     speedx: 0,
     speedy: 0,
     hp: 1,
-    sprites: [],
+    sprites: newimagearray("res/diamond.png"),
     framerate: 60,
     scary: false,
     harmless: false,
@@ -72,9 +72,8 @@ base_entity.unit_vector_to_player = function () {
 };
 
 base_entity.collides_with_player = function () {
-    var dx = Math.abs(this.x - sim.player.x);
-    var dy = Math.abs(this.y - sim.player.y);
-    if (dx < sim.player.sprites[0].width / 2 && dy < sim.player.sprites[0].height / 2) {
+    var distance = get_distance(this.x, this.y, sim.player.x, sim.player.y);
+    if (distance < sim.player.sprites[0].width / 2 + this.sprites[0].width / 2 - MARGIN_OF_ERROR) {
         return true;
     }
     return false;
