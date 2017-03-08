@@ -4,7 +4,7 @@ function newimagearray() {      // Accepts variable number of arguments.
     var ret = [];
     var img;
     var i;
-    for (i = 0; i < arguments.length; i++) {
+    for (i = 0; i < arguments.length; i += 1) {
         img = new Image();
         img.src = arguments[i];
         ret.push(img);

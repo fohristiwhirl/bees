@@ -16,7 +16,7 @@ function setup_sim() {
     sim.player.reset();
     sim.bees.reset();
 
-    var life_sprite = new Image()
+    var life_sprite = new Image();
     life_sprite.src = "res/ship_small.png";
 
     // ---------------------------------------------------------------------------------------------

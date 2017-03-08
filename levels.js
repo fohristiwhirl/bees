@@ -77,18 +77,13 @@ function enemy_gen() {
     switch (sim.level) {
     case 1:
         return level_one();
-        break;
     case 2:
         return level_two();
-        break;
     case 3:
         return level_three();
-        break;
     case 4:
         return level_four();
-        break;
     default:
         return [];
-        break;
     }
 }

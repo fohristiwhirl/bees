@@ -31,7 +31,7 @@ function make_player() {
         sprites: newimagearray("res/ship1.png", "res/ship2.png"),
         framerate: 60,
         lives: PLAYER_LIVES,
-        keyboard: {"w": false, "a": false, "s": false, "d": false, " ": false}
+        keyboard: {"w": false, "a": false, "s": false, "d": false}
     };
 
     player.reset = function () {
