@@ -329,14 +329,14 @@ function make_snake() {
             distance = get_distance(this.x, this.y, this.target.x, this.target.y);
             if (distance < 32) {
                 this.target.hp = 0;
-                this.hp += 100;
+                this.hp += 120;
                 this.hp = Math.min(this.hp, this.max_health);
             }
         }
 
         // Shoot sometimes...
 
-        if (sim.iteration_total % 75 === 74) {
+        if (sim.iteration_total % 45 === 44) {
 
             new_shot = Object.create(base_shot);
             new_shot.x = this.x;
