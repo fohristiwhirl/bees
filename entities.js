@@ -317,26 +317,26 @@ function set_for_border_spawn(e, o_min, o_max, t_max) {
     case 0:                                     // Left
         e.x = -32;
         e.y = Math.random() * canvas.height;
-        e.speedx = speed_one
-        e.speedy = speed_two
+        e.speedx = speed_one;
+        e.speedy = speed_two;
         break;
     case 1:                                     // Right
         e.x = canvas.width + 32;
         e.y = Math.random() * canvas.height;
-        e.speedx = -speed_one
-        e.speedy = speed_two
+        e.speedx = -speed_one;
+        e.speedy = speed_two;
         break;
     case 2:                                     // Top
         e.x = Math.random() * canvas.width;
         e.y = -32;
-        e.speedx = speed_two
-        e.speedy = speed_one
+        e.speedx = speed_two;
+        e.speedy = speed_one;
         break;
     case 3:                                     // Bottom
         e.x = Math.random() * canvas.width;
         e.y = canvas.height + 32;
-        e.speedx = speed_two
-        e.speedy = -speed_one
+        e.speedx = speed_two;
+        e.speedy = -speed_one;
         break;
     }
 }

@@ -16,7 +16,7 @@ function make_revolver() {
     for (i = 0; i < 3; i += 1) {
         new_sub = Object.create(base_skull);
         new_sub.thing_we_shoot = base_shot_blue;
-        new_sub.hp = 60
+        new_sub.hp = 60;
         new_sub.angle = 2.094 * i;
         revolver.subentities.push(new_sub);
     }
