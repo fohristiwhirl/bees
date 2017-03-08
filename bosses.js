@@ -225,7 +225,7 @@ function make_shooter_shooter() {
 }
 
 // ---------------------------------------------------------------------------------------------
-// SNAKE
+// SNAKE (so-called for historical reasons; sprite is actually the player sprite)
 
 function make_snake() {
 
