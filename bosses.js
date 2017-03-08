@@ -230,7 +230,9 @@ function make_shooter_shooter() {
 function make_snake() {
 
     var snake = Object.create(base_entity);
-    snake.sprites = newimagearray("res/ship1.png", "res/ship2.png"),
+    snake.sprites = newimagearray("res/ship2.png", "res/ship1.png");
+
+    snake.is_snake = true;
 
     snake.scary = true;
     snake.hp = 1500;

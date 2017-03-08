@@ -208,14 +208,13 @@ base_chaser.draw = function () {
 // BOULDER
 
 var base_boulder = Object.create(base_shot);
-base_boulder.sprites = newimagearray("res/diamond.png");
+base_boulder.sprites = newimagearray("res/ship2.png", "res/ship1.png");
 base_boulder.scary = true;
 
 base_boulder.lifespan = 500;
 base_boulder.age = 0;
 
 base_boulder.draw = function () {
-    draw_circle(this.x, this.y, 35, "#ccffcc");
     base_entity.draw.apply(this);
 };
 
