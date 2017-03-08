@@ -162,7 +162,19 @@ base_pointless_shooter.score = 0;
 // SHOOTER (SKULL VERSION)
 
 var base_skull = Object.create(base_shooter);
-base_skull.sprites = newimagearray("res/skull.png");
+base_skull.sprites = newimagearray(
+    "res/skull1.png",
+    "res/skull2.png",
+    "res/skull3.png",
+    "res/skull4.png",
+    "res/skull5.png",
+    "res/skull6.png",
+    "res/skull5.png",
+    "res/skull4.png",
+    "res/skull3.png",
+    "res/skull2.png"
+);
+base_skull.framerate = 15;
 
 // ---------------------------------------------------------------------------------------------
 // SHOOTER (YELLOW VERSION)
