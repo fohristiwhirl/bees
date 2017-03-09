@@ -1,6 +1,8 @@
 "use strict";
 
-function level_one() {
+var levels = [];
+
+levels[1] = function () {
     var i = sim.iteration;
     var ret = [];
 
@@ -18,7 +20,7 @@ function level_one() {
     return ret;
 }
 
-function level_two() {
+levels[2] = function () {
     var i = sim.iteration;
     var ret = [];
 
@@ -34,7 +36,7 @@ function level_two() {
     return ret;
 }
 
-function level_three() {
+levels[3] = function () {
     var i = sim.iteration;
     var ret = [];
 
@@ -54,7 +56,7 @@ function level_three() {
     return ret;
 }
 
-function level_four() {
+levels[4] = function () {
     var i = sim.iteration;
     var ret = [];
 
@@ -70,7 +72,7 @@ function level_four() {
     return ret;
 }
 
-function level_five() {
+levels[5] = function () {
     var i = sim.iteration;
     var ret = [];
 
@@ -87,7 +89,7 @@ function level_five() {
     return ret;
 }
 
-function level_six() {
+levels[6] = function () {
     var i = sim.iteration;
     var ret = [];
 
@@ -107,23 +109,9 @@ function level_six() {
 }
 
 function enemy_gen() {
-
-    // Each level_x function is responsible for calling sim.next_level() when it's done.
-
-    switch (sim.level) {
-    case 1:
-        return level_one();
-    case 2:
-        return level_two();
-    case 3:
-        return level_three();
-    case 4:
-        return level_four();
-    case 5:
-        return level_five();
-    case 6:
-        return level_six();
-    default:
+    if (levels[sim.level] !== undefined) {
+        return levels[sim.level]();
+    } else {
         return [];
     }
 }
