@@ -32,7 +32,7 @@ function get_distance(x1, y1, x2, y2) {
 
 var TWO_PI = 2 * Math.PI;
 
-var BEECOUNT = 0;
+var BEECOUNT = 35;
 var MARGIN_OF_ERROR = 2;        // For collisions, interpreted in the player's favour
 var PLAYER_MAX_SPEED = 8;
 var PLAYER_LIVES = 4;
