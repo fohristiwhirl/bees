@@ -30,6 +30,8 @@ function setup_sim() {
                 break;
             }
         }
+
+        return boss_present;
     };
 
     sim.next_level = function () {
