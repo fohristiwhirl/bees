@@ -191,13 +191,14 @@ base_chaser.sprites = newimagearray("res/chaser.png");
 base_chaser.score = 100;
 
 base_chaser.finished = false;
+base_chaser.chase_speed = 7;
 
 base_chaser.move = function () {
 
     if (sim.player.alive && this.finished === false) {
         var vector = this.unit_vector_to_player();
-        this.speedx = vector[0] * 7.5;
-        this.speedy = vector[1] * 7.5;
+        this.speedx = vector[0] * this.chase_speed;
+        this.speedy = vector[1] * this.chase_speed;
     } else {
         this.finished = true;
     }
@@ -206,9 +207,9 @@ base_chaser.move = function () {
 
     if (this.finished && Math.abs(this.speedx) < 1 && Math.abs(this.speedy) < 1) {
         if (this.x > canvas.width / 2) {
-            this.speedx = 1;
+            this.speedx += 0.4;
         } else {
-            this.speedx = -1;
+            this.speedx -= -0.4;
         }
     }
 
