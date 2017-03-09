@@ -152,7 +152,7 @@ function make_player() {
             draw_circle(this.x, this.y, this.immune_timer / 2 + 30, "#ccffcc");
         }
 
-        var sprite_index = Math.floor(sim.iteration / this.framerate) % this.sprites.length;
+        var sprite_index = Math.floor(sim.iteration_total / this.framerate) % this.sprites.length;
         var sprite = this.sprites[sprite_index];
         virtue.drawImage(sprite, this.x - sprite.width / 2, this.y - sprite.height / 2);
     };

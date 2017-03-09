@@ -22,7 +22,7 @@ base_entity.draw = function () {
     var sprite_index;
     var sprite;
 
-    sprite_index = Math.floor(sim.iteration / this.framerate) % this.sprites.length;
+    sprite_index = Math.floor(sim.iteration_total / this.framerate) % this.sprites.length;
     sprite = this.sprites[sprite_index];
     virtue.drawImage(sprite, this.x - sprite.width / 2, this.y - sprite.height / 2);
 };
