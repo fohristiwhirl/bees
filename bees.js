@@ -147,7 +147,7 @@ function make_bees() {
 
     bees.draw = function () {
         var n;
-        var len = this.length;;
+        var len = this.length;
 
         for (n = 0; n < len; n += 1) {
             draw_line(this[n].oldx, this[n].oldy, this[n].x, this[n].y, this[n].colour);
