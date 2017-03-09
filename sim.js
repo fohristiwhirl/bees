@@ -20,7 +20,17 @@ function setup_sim() {
     life_sprite.src = "res/ship_small.png";
 
     // ---------------------------------------------------------------------------------------------
-    // GAME LOGIC
+
+    sim.boss_present = function () {
+        var boss_present = false;
+        var n;
+        for (n = 0; n < this.entities.length; n += 1) {
+            if (this.entities[n].is_boss) {
+                boss_present = true;
+                break;
+            }
+        }
+    };
 
     sim.next_level = function () {
         this.level += 1;

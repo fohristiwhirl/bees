@@ -99,18 +99,7 @@ function level_six() {
         mixer.play("warning");
     }
 
-    // Check if the boss is present...
-
-    var snake_present = false;
-    var n;
-    for (n = 0; n < sim.entities.length; n += 1) {
-        if (sim.entities[n].is_snake) {
-            snake_present = true;
-            break;
-        }
-    }
-
-    if (i > 500 && snake_present === false) {
+    if (i > 500 && sim.boss_present() === false) {
         sim.next_level();
     }
 

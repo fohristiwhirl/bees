@@ -1,30 +1,44 @@
 "use strict";
 
-function draw_boss_hitpoints(fraction) {
-    var x1;
-    var y1;
-    var w;
-    var h;
+function make_boss_hp_drawer() {
+    var last_draw_i = 0;
+    var draws_this_i = 0;
 
-    // Outline...
+    return function (fraction) {
+        var x1;
+        var y1;
+        var w;
+        var h;
 
-    x1 = canvas.width / 4;
-    y1 = 10;
-    w = canvas.width / 2;
-    h = 15;
+        if (last_draw_i !== sim.iteration_total) {
+            draws_this_i = 1;
+            last_draw_i = sim.iteration_total;
+        }
 
-    virtue.lineWidth = 3;
+        // Outline...
 
-    virtue.strokeStyle = "#ff0000";
-    virtue.beginPath();
-    virtue.rect(x1, y1, w, h);
-    virtue.stroke();
+        x1 = canvas.width / 4;
+        y1 = 20 * draws_this_i - 10;
+        w = canvas.width / 2;
+        h = 10;
 
-    // Filled rect...
+        virtue.lineWidth = 3;
 
-    virtue.fillStyle = "#ff0000";
-    virtue.fillRect(x1, y1, w * fraction, h);
+        virtue.strokeStyle = "#ff0000";
+        virtue.beginPath();
+        virtue.rect(x1, y1, w, h);
+        virtue.stroke();
+
+        // Filled rect...
+
+        virtue.fillStyle = "#ff0000";
+        virtue.fillRect(x1, y1, w * fraction, h);
+
+        draws_this_i += 1;
+    };
 }
+var draw_boss_hitpoints = make_boss_hp_drawer();
+
 
 function draw_lightning(x1, y1, x2, y2, colour) {
     var n;
@@ -70,6 +84,7 @@ function draw_lightning(x1, y1, x2, y2, colour) {
     }
 }
 
+
 function draw_line(x1, y1, x2, y2, colour) {
     virtue.lineWidth = 3;
     virtue.strokeStyle = colour;
@@ -78,6 +93,7 @@ function draw_line(x1, y1, x2, y2, colour) {
     virtue.lineTo(x2, y2);
     virtue.stroke();
 }
+
 
 function draw_circle(x, y, radius, colour) {
     virtue.lineWidth = 5;

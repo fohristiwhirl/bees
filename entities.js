@@ -15,6 +15,7 @@ var base_entity = {
     harmless: false,
     death_sound: "enemy_death",
     low_priority: false,
+    is_boss: false,
     score: 0
 };
 

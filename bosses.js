@@ -9,6 +9,7 @@ function make_revolver() {
     var revolver = Object.create(base_entity);
     var new_sub;
 
+    revolver.is_boss = true;
     revolver.score = 1000;
     revolver.subentities = [];
     revolver.death_sound = null;        // We do our own sounds, so this means the main loop doesn't.
@@ -151,17 +152,16 @@ function make_shooter_shooter() {
 
     var shooter_shooter = Object.create(base_shooter_yellow);
 
+    shooter_shooter.is_boss = true;
     shooter_shooter.thing_we_shoot = base_pointless_shooter;
     shooter_shooter.shotspeed = 4;
     shooter_shooter.shotrate = 40;
     shooter_shooter.hp = 350;
     shooter_shooter.score = 1000;
-
     shooter_shooter.x = canvas.width + 32;
     shooter_shooter.y = Math.random() * canvas.height;
     shooter_shooter.speedx = -2;
     shooter_shooter.speedy = -1;
-
     shooter_shooter.last_sound_iteration = 0;
     shooter_shooter.initial_health = shooter_shooter.hp;
 
@@ -232,7 +232,7 @@ function make_snake() {
     var snake = Object.create(base_entity);
     snake.sprites = newimagearray("res/ship2.png", "res/ship1.png");
 
-    snake.is_snake = true;
+    snake.is_boss = true;
     snake.score = 1000;
     snake.scary = true;
     snake.hp = 1500;
