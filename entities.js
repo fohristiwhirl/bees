@@ -196,8 +196,8 @@ base_chaser.move = function () {
 
     if (sim.player.alive && this.finished === false) {
         var vector = this.unit_vector_to_player();
-        this.speedx = vector[0] * 8;
-        this.speedy = vector[1] * 8;
+        this.speedx = vector[0] * 7.5;
+        this.speedy = vector[1] * 7.5;
     } else {
         this.finished = true;
     }

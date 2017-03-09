@@ -297,7 +297,7 @@ function make_snake() {
         var n;
         var len;
         var arr;
-        var new_shot;
+        var new_ent;
         var vector;
 
         // Set target to null if it has no hp...
@@ -338,17 +338,27 @@ function make_snake() {
 
         if (sim.iteration_total % 45 === 44) {
 
-            new_shot = Object.create(base_shot);
-            new_shot.x = this.x;
-            new_shot.y = this.y;
+            new_ent = Object.create(base_shot);
+            new_ent.x = this.x;
+            new_ent.y = this.y;
 
             // Some randomness on the shot...
             vector = unit_vector(this.x, this.y, sim.player.x + Math.random() * 400 - 200, sim.player.y + Math.random() * 400 - 200);
-            new_shot.speedx = vector[0] * 10;
-            new_shot.speedy = vector[1] * 10;
+            new_ent.speedx = vector[0] * 10;
+            new_ent.speedy = vector[1] * 10;
 
-            sim.entities.push(new_shot);
+            sim.entities.push(new_ent);
         }
+/*
+        // Launch chasers sometimes...
+
+        if (sim.iteration_total % 275 === 274) {
+            new_ent = Object.create(base_chaser);
+            new_ent.x = this.x;
+            new_ent.y = this.y;
+            sim.entities.push(new_ent);
+        }
+*/
     };
 
     snake.x = canvas.width + 32;
