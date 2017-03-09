@@ -24,7 +24,7 @@ function level_two() {
 
     if (i === 300) {
         ret.push(make_revolver());
-        mixer.play("warning");
+        mixer("warning");
     }
 
     if (i > 500 && sim.entities.length === 0) {
@@ -60,7 +60,7 @@ function level_four() {
 
     if (i === 100) {
         ret.push(make_shooter_shooter());
-        mixer.play("warning");
+        mixer("warning");
     }
 
     if (i > 300 && sim.entities.length === 0) {
@@ -96,7 +96,7 @@ function level_six() {
     }
     if (i === 300) {
         ret.push(make_snake());
-        mixer.play("warning");
+        mixer("warning");
     }
 
     if (i > 500 && sim.boss_present() === false) {

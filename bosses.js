@@ -73,14 +73,14 @@ function make_revolver() {
             this.subentities[n].damage();
             if (this.subentities[n].hp <= 0) {
                 this.subentities.splice(n, 1);
-                mixer.play("enemy_death");
+                mixer("enemy_death");
             }
         }
 
         if (this.hp !== hp_before) {                                        // We took damage.
             if (sim.iteration_total - this.last_sound_iteration > 3) {
                 this.last_sound_iteration = sim.iteration_total;
-                mixer.play("click");
+                mixer("click");
             }
         }
     };
@@ -212,7 +212,7 @@ function make_shooter_shooter() {
         if (this.hp !== hp_before) {                                        // We took damage.
             if (sim.iteration_total - this.last_sound_iteration > 3) {
                 this.last_sound_iteration = sim.iteration_total;
-                mixer.play("click");
+                mixer("click");
             }
         }
     };

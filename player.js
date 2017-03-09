@@ -123,7 +123,7 @@ function make_player() {
                     this.alive = false;
                     this.lives -= 1;
                     this.crack();
-                    mixer.play("enemy_death");      // FIXME: better sound.
+                    mixer("enemy_death");
                     break;
                 }
             }

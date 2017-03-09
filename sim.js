@@ -70,7 +70,7 @@ function setup_sim() {
                 arr.splice(n, 1);           // Deletes from array in place; the reference arr thus works.
                 if (oob === false) {
                     if (item.death_sound !== null && item.death_sound !== undefined) {
-                        mixer.play(item.death_sound);
+                        mixer(item.death_sound);
                     }
                     this.score += item.score;
                 }
