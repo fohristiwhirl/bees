@@ -37,6 +37,10 @@ base_entity.act = function () {
 };
 
 base_entity.out_of_bounds = function () {
+
+    // Called each iteration to check whether the entity should be removed as out of bounds.
+    // Bosses should override this with a simple "return false" function.
+
     if (this.x < -200 || this.x > canvas.width + 200 || this.y < -200 || this.y > canvas.height + 200) {
         return true;
     }
@@ -44,6 +48,9 @@ base_entity.out_of_bounds = function () {
 };
 
 base_entity.damage = function () {
+
+    // Apply damage to this entity, if needed. Default is to check proximity to bees.
+
     var n;
     var arr = sim.bees;
     var len = sim.bees.length;

@@ -1,7 +1,6 @@
 "use strict";
 
 document.addEventListener("keydown", function (evt) {
-
     if (evt.key === "n") {
         sim.next_level();
         alert("Skipped to level " + sim.level);

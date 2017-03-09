@@ -117,8 +117,6 @@ function level_six() {
     return ret;
 }
 
-                                // FIXME: end level 6
-
 function enemy_gen() {
 
     // Each level_x function is responsible for calling sim.next_level() when it's done.
