@@ -272,12 +272,3 @@ function new_apple(params) {
 
     return apple;
 }
-
-// ---------------------------------------------------------------------------------------------
-
-// These objects exist as globals just so that bosses can use their methods.
-// This is slightly lame...
-
-var base_entity = new_entity();
-var base_shooter = new_shooter();
-var base_boulder = new_boulder();
