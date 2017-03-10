@@ -146,20 +146,20 @@ function new_shooter(params) {
     shooter.act = function () {
         this.age += 1;
 
-        var new_shot;
+        var s;
         var vector;
 
         if (this.can_shoot()) {
 
-            new_shot = this.shot_constructor();     // Don't pass parameters, so we can easily use lambdas that modify the shot.
-            new_shot.x = this.x;
-            new_shot.y = this.y;
+            s = this.shot_constructor();     // Don't pass parameters, so we can easily use lambdas that modify the shot.
+            s.x = this.x;
+            s.y = this.y;
 
             vector = this.unit_vector_to_player();
-            new_shot.speedx = vector[0] * this.shotspeed;
-            new_shot.speedy = vector[1] * this.shotspeed;
+            s.speedx = vector[0] * this.shotspeed;
+            s.speedy = vector[1] * this.shotspeed;
 
-            sim.entities.push(new_shot);
+            sim.entities.push(s);
         }
     };
 
