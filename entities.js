@@ -208,7 +208,7 @@ function new_chaser(params) {
 }
 
 function new_bouncer(params) {              // Not an actual enemy, but boulder and apple inherit from this.
-    var bouncer = new_shot(params);
+    var bouncer = new_entity(params);
 
     bouncer.lifespan = 500;
     bouncer.age = 0;
@@ -240,6 +240,11 @@ function new_boulder(params) {
     var boulder = new_bouncer(params);
     boulder.sprites = newimagearray("res/ship2.png", "res/ship1.png");
     boulder.scary = true;
+
+    shot.damage = function () {
+        return;
+    };
+
     return boulder;
 }
 
