@@ -241,7 +241,7 @@ function new_boulder(params) {
     boulder.sprites = sprites.boulder;
     boulder.scary = true;
 
-    shot.damage = function () {
+    boulder.damage = function () {
         return;
     };
 
