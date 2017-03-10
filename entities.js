@@ -129,7 +129,7 @@ function new_shooter(params) {
     var shooter = new_entity(params);
     shooter.sprites = sprites.shooter;
     shooter.score = 100;
-    shooter.shot_constructor = new_shot;
+    shooter.shot_constructor = new_shot;            // Function to use when constructing a shot. e.g. use new_chaser to shoot chasers.
     shooter.shotspeed = 5;
     shooter.shotrate = 50;
     shooter.age = 0;
@@ -151,7 +151,7 @@ function new_shooter(params) {
 
         if (this.can_shoot()) {
 
-            new_shot = this.shot_constructor();
+            new_shot = this.shot_constructor();     // Don't pass parameters, so we can easily use lambdas that modify the shot.
             new_shot.x = this.x;
             new_shot.y = this.y;
 

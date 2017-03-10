@@ -43,6 +43,8 @@ function border_params(o_min, o_max, t_max) {
     return e;
 }
 
+// Construct a params object to spawn at left / right but away from player. For chasers...
+
 function away_from_player_params() {
     var e = {};
     if (sim.player.x > canvas.width / 2) {

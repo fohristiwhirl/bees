@@ -340,14 +340,13 @@ function make_snake() {
         // Shoot sometimes...
 
         if (sim.iteration_total % 45 === 44) {
-
-            new_ent = new_shot({x: this.x, y: this.y});
-
             // Some randomness on the shot...
             vector = unit_vector(this.x, this.y, sim.player.x + Math.random() * 400 - 200, sim.player.y + Math.random() * 400 - 200);
+            new_ent = new_shot();
+            new_ent.x = this.x;
+            new_ent.y = this.y;
             new_ent.speedx = vector[0] * 10;
             new_ent.speedy = vector[1] * 10;
-
             sim.entities.push(new_ent);
         }
     };
