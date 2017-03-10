@@ -7,7 +7,7 @@ function make_player() {
 
     var player = {
         max_speed: PLAYER_MAX_SPEED,
-        sprites: newimagearray("res/ship1.png", "res/ship2.png"),
+        sprites: sprites.player,
         framerate: 60,
         lives: PLAYER_LIVES,
         keyboard: {"w": false, "a": false, "s": false, "d": false}
@@ -128,8 +128,8 @@ function make_player() {
         var cracked_left = new_entity(params);
         var cracked_right = new_entity(params);
 
-        cracked_left.sprites = newimagearray("res/cracked_left.png");
-        cracked_right.sprites = newimagearray("res/cracked_right.png");
+        cracked_left.sprites = sprites.cracked_left;
+        cracked_right.sprites = sprites.cracked_right;
 
         cracked_left.speedx = this.speedx - 2;
         cracked_right.speedx = this.speedx + 2;

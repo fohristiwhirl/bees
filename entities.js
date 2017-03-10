@@ -8,7 +8,7 @@ function new_entity(params) {
         speedx: 0,
         speedy: 0,
         hp: 1,
-        sprites: newimagearray("res/diamond.png"),
+        sprites: sprites.diamond,
         framerate: 60,
         scary: false,
         harmless: false,
@@ -108,14 +108,14 @@ function new_entity(params) {
 
 function new_stupid(params) {
     var stupid = new_entity(params);
-    stupid.sprites = newimagearray("res/stupid.png");
+    stupid.sprites = sprites.stupid;
     stupid.score = 10;
     return stupid;
 }
 
 function new_shot(params) {
     var shot = new_entity(params);
-    shot.sprites = newimagearray("res/shot.png");
+    shot.sprites = sprites.shot;
     shot.low_priority = true;
 
     shot.damage = function () {
@@ -127,7 +127,7 @@ function new_shot(params) {
 
 function new_shooter(params) {
     var shooter = new_entity(params);
-    shooter.sprites = newimagearray("res/shooter.png");
+    shooter.sprites = sprites.shooter;
     shooter.score = 100;
     shooter.shot_constructor = new_shot;
     shooter.shotspeed = 5;
@@ -168,7 +168,7 @@ function new_shooter(params) {
 
 function new_chaser(params) {
     var chaser = new_entity(params);
-    chaser.sprites = newimagearray("res/chaser.png");
+    chaser.sprites = sprites.chaser;
     chaser.score = 100;
     chaser.finished = false;
     chaser.chase_speed = 7;
@@ -238,7 +238,7 @@ function new_bouncer(params) {              // Not an actual enemy, but boulder 
 
 function new_boulder(params) {
     var boulder = new_bouncer(params);
-    boulder.sprites = newimagearray("res/ship2.png", "res/ship1.png");
+    boulder.sprites = sprites.boulder;
     boulder.scary = true;
 
     shot.damage = function () {
@@ -250,7 +250,7 @@ function new_boulder(params) {
 
 function new_apple(params) {
     var apple = new_bouncer(params);
-    apple.sprites = newimagearray("res/apple.png");
+    apple.sprites = sprites.apple;
     apple.low_priority = true;
     apple.harmless = true;
     apple.is_apple = true;

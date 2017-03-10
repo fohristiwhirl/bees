@@ -16,14 +16,9 @@ function make_revolver() {
 
     for (i = 0; i < 3; i += 1) {
         new_sub = new_shooter();
-        new_sub.sprites = newimagearray(
-            "res/skull1.png", "res/skull2.png", "res/skull3.png",
-            "res/skull4.png", "res/skull5.png", "res/skull6.png",
-            "res/skull5.png", "res/skull4.png", "res/skull3.png",
-            "res/skull2.png"
-        );
+        new_sub.sprites = sprites.skull;
         new_sub.framerate = 15;
-        new_sub.shot_constructor = function () { var e = new_shot(); e.sprites = newimagearray("res/shot_blue.png"); return e; };
+        new_sub.shot_constructor = function () { var e = new_shot(); e.sprites = sprites.shot_blue; return e; };
         new_sub.hp = 60;
         new_sub.angle = 2.094 * i;
         revolver.subentities.push(new_sub);
@@ -158,7 +153,7 @@ function make_revolver() {
 function make_shooter_shooter() {
 
     var shooter_shooter = new_shooter();
-    shooter_shooter.sprites = newimagearray("res/shooter_shooter.png");
+    shooter_shooter.sprites = sprites.shooter_shooter;
 
     shooter_shooter.is_boss = true;
     shooter_shooter.shot_constructor = function () { var e = new_shooter(); e.score = 0; return e; };
@@ -238,7 +233,7 @@ function make_shooter_shooter() {
 function make_snake() {
 
     var snake = new_entity();
-    snake.sprites = newimagearray("res/ship2.png", "res/ship1.png");
+    snake.sprites = sprites.snake;
 
     snake.is_boss = true;
     snake.score = 1000;
