@@ -197,11 +197,13 @@ function new_chaser(params) {
         this.y += this.speedy;
     };
 
+    chaser.__super__draw = chaser.draw;
+
     chaser.draw = function () {
         if (sim.player.alive && this.finished === false) {
             draw_line(this.x, this.y, sim.player.x, sim.player.y, "#ff0000");
         }
-        base_entity.draw.apply(this);
+        this.__super__draw();
     };
 
     return chaser;
@@ -255,11 +257,13 @@ function new_apple(params) {
     apple.harmless = true;
     apple.is_apple = true;
 
+    apple.__super__damage = apple.damage;
+
     apple.damage = function () {
 
         // Damage from bees...
 
-        base_entity.damage.apply(this);
+        this.__super__damage();
 
         // Or from player...
 
