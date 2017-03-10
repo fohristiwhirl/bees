@@ -1,91 +1,96 @@
 "use strict";
 
-var base_bee = {
-    x: 0,
-    y: 0,
-    lastx: 0,
-    lasty: 0,
-    oldx: 0,
-    oldy: 0,
-    speedx: 0,
-    speedy: 0,
-    accel_mod: 0.57,
-    max_speed: 9,
-    colour: "#ffffff",
-    avoidance: 5000
-};
+function new_bee() {
 
-base_bee.move = function (scary_points) {
+    var bee = {
+        x: 0,
+        y: 0,
+        lastx: 0,
+        lasty: 0,
+        oldx: 0,
+        oldy: 0,
+        speedx: 0,
+        speedy: 0,
+        accel_mod: 0.57,
+        max_speed: 9,
+        colour: "#ffffff",
+        avoidance: 5000
+    };
 
-    this.oldx = this.lastx;
-    this.oldy = this.lasty;
-    this.lastx = this.x;
-    this.lasty = this.y;
+    bee.move = function (scary_points) {
 
-    // Chase target...
+        this.oldx = this.lastx;
+        this.oldy = this.lasty;
+        this.lastx = this.x;
+        this.lasty = this.y;
 
-    var vector;
-    var vecx;
-    var vecy;
+        // Chase target...
 
-    if (sim.player.alive) {
-        vector = this.unit_vector_to_player();
-        vecx = vector[0];
-        vecy = vector[1];
-        if (vecx === 0 && vecy === 0) {
-            this.speedx += Math.random() * this.accel_mod;
-            this.speedy += Math.random() * this.accel_mod;
+        var vector;
+        var vecx;
+        var vecy;
+
+        if (sim.player.alive) {
+            vector = this.unit_vector_to_player();
+            vecx = vector[0];
+            vecy = vector[1];
+            if (vecx === 0 && vecy === 0) {
+                this.speedx += Math.random() * this.accel_mod;
+                this.speedy += Math.random() * this.accel_mod;
+            } else {
+                this.speedx += vecx * Math.random() * 2 * this.accel_mod / 2;
+                this.speedy += vecy * Math.random() * 2 * this.accel_mod / 2;
+            }
         } else {
-            this.speedx += vecx * Math.random() * 2 * this.accel_mod / 2;
-            this.speedy += vecy * Math.random() * 2 * this.accel_mod / 2;
+            this.speedx *= 2;
+            this.speedy *= 2;
         }
-    } else {
-        this.speedx *= 2;
-        this.speedy *= 2;
-    }
 
-    // Avoid scary entities...
+        // Avoid scary entities...
 
-    var coord;
-    var distance;
-    var distance_squared;
-    var adjusted_force;
-    var dx;
-    var dy;
+        var coord;
+        var distance;
+        var distance_squared;
+        var adjusted_force;
+        var dx;
+        var dy;
 
-    var n;
-    var len = scary_points.length;
+        var n;
+        var len = scary_points.length;
 
-    for (n = 0; n < len; n += 1) {
-        coord = scary_points[n];
-        dx = (coord[0] - this.x);
-        dy = (coord[1] - this.y);
-        distance_squared = dx * dx + dy * dy;
-        distance = Math.sqrt(distance_squared);
-        if (distance > 0.01) {
-            adjusted_force = this.avoidance / (distance_squared * distance);
-            this.speedx -= dx * adjusted_force * Math.random();
-            this.speedy -= dy * adjusted_force * Math.random();
+        for (n = 0; n < len; n += 1) {
+            coord = scary_points[n];
+            dx = (coord[0] - this.x);
+            dy = (coord[1] - this.y);
+            distance_squared = dx * dx + dy * dy;
+            distance = Math.sqrt(distance_squared);
+            if (distance > 0.01) {
+                adjusted_force = this.avoidance / (distance_squared * distance);
+                this.speedx -= dx * adjusted_force * Math.random();
+                this.speedy -= dy * adjusted_force * Math.random();
+            }
         }
-    }
 
-    // Throttle speed...
+        // Throttle speed...
 
-    var speed = Math.sqrt(this.speedx * this.speedx + this.speedy * this.speedy);
-    if (speed > this.max_speed) {
-        this.speedx *= this.max_speed / speed;
-        this.speedy *= this.max_speed / speed;
-    }
+        var speed = Math.sqrt(this.speedx * this.speedx + this.speedy * this.speedy);
+        if (speed > this.max_speed) {
+            this.speedx *= this.max_speed / speed;
+            this.speedy *= this.max_speed / speed;
+        }
 
-    // Update position...
+        // Update position...
 
-    this.x += this.speedx;
-    this.y += this.speedy;
-};
+        this.x += this.speedx;
+        this.y += this.speedy;
+    };
 
-base_bee.unit_vector_to_player = function () {
-    return unit_vector(this.x, this.y, sim.player.x, sim.player.y);
-};
+    bee.unit_vector_to_player = function () {
+        return unit_vector(this.x, this.y, sim.player.x, sim.player.y);
+    };
+
+    return bee;
+}
 
 // ---------------------------------------------------------------------------------------------
 // BEE ARRAY CONSTRUCTOR
@@ -100,7 +105,7 @@ function make_bees() {
     var b;
 
     while (bees.length < BEECOUNT) {
-        bee = Object.create(base_bee);
+        bee = new_bee();
         r = Math.floor(Math.random() * 127 + 128);
         g = Math.floor(Math.random() * 127 + 128);
         b = Math.floor(Math.random() * 127 + 128);
