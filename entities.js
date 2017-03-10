@@ -125,12 +125,6 @@ function new_shot(params) {
     return shot;
 }
 
-function new_shot_blue(params) {
-    var shot_blue = new_shot(params);
-    shot_blue.sprites = newimagearray("res/shot_blue.png");
-    return shot_blue;
-}
-
 function new_shooter(params) {
     var shooter = new_entity(params);
     shooter.sprites = newimagearray("res/shooter.png");
@@ -170,30 +164,6 @@ function new_shooter(params) {
     };
 
     return shooter;
-}
-
-function new_pointless_shooter(params) {
-    var pointless_shooter = new_shooter(params);
-    pointless_shooter.score = 0;
-    return pointless_shooter;
-}
-
-function new_skull(params) {
-    var skull = new_shooter(params);
-    skull.sprites = newimagearray(
-        "res/skull1.png", "res/skull2.png", "res/skull3.png",
-        "res/skull4.png", "res/skull5.png", "res/skull6.png",
-        "res/skull5.png", "res/skull4.png", "res/skull3.png",
-        "res/skull2.png"
-    );
-    skull.framerate = 15;
-    return skull;
-}
-
-function new_shooter_yellow(params) {
-    var shooter_yellow = new_shooter(params);
-    shooter_yellow.sprites = newimagearray("res/shooter_shooter.png");
-    return shooter_yellow;
 }
 
 function new_chaser(params) {
@@ -237,14 +207,13 @@ function new_chaser(params) {
     return chaser;
 }
 
-function new_boulder(params) {
-    var boulder = new_shot(params);
-    boulder.sprites = newimagearray("res/ship2.png", "res/ship1.png");
-    boulder.scary = true;
-    boulder.lifespan = 500;
-    boulder.age = 0;
+function new_bouncer(params) {              // Not an actual enemy, but boulder and apple inherit from this.
+    var bouncer = new_shot(params);
 
-    boulder.move = function () {
+    bouncer.lifespan = 500;
+    bouncer.age = 0;
+
+    bouncer.move = function () {
         this.age += 1;
         if (this.age < this.lifespan) {      // Only the young can bounce.
             if (this.x < this.sprites[0].width / 2) {
@@ -264,19 +233,22 @@ function new_boulder(params) {
         this.y += this.speedy;
     };
 
+    return bouncer;
+}
+
+function new_boulder(params) {
+    var boulder = new_bouncer(params);
+    boulder.sprites = newimagearray("res/ship2.png", "res/ship1.png");
+    boulder.scary = true;
     return boulder;
 }
 
 function new_apple(params) {
-    var apple = new_entity(params);
+    var apple = new_bouncer(params);
     apple.sprites = newimagearray("res/apple.png");
     apple.low_priority = true;
     apple.harmless = true;
-    apple.lifespan = 500;
-    apple.age = 0;
     apple.is_apple = true;
-
-    apple.move = base_boulder.move;
 
     apple.damage = function () {
 

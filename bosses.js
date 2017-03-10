@@ -15,8 +15,15 @@ function make_revolver() {
     revolver.death_sound = null;        // We do our own sounds, so this means the main loop doesn't.
 
     for (i = 0; i < 3; i += 1) {
-        new_sub = new_skull();
-        new_sub.shot_constructor = new_shot_blue;
+        new_sub = new_shooter();
+        new_sub.sprites = newimagearray(
+            "res/skull1.png", "res/skull2.png", "res/skull3.png",
+            "res/skull4.png", "res/skull5.png", "res/skull6.png",
+            "res/skull5.png", "res/skull4.png", "res/skull3.png",
+            "res/skull2.png"
+        );
+        new_sub.framerate = 15;
+        new_sub.shot_constructor = function () { var e = new_shot(); e.sprites = newimagearray("res/shot_blue.png"); return e; };
         new_sub.hp = 60;
         new_sub.angle = 2.094 * i;
         revolver.subentities.push(new_sub);
@@ -150,10 +157,11 @@ function make_revolver() {
 
 function make_shooter_shooter() {
 
-    var shooter_shooter = new_shooter_yellow();
+    var shooter_shooter = new_shooter();
+    shooter_shooter.sprites = newimagearray("res/shooter_shooter.png");
 
     shooter_shooter.is_boss = true;
-    shooter_shooter.shot_constructor = new_pointless_shooter;
+    shooter_shooter.shot_constructor = function () { var e = new_shooter(); e.score = 0; return e; };
     shooter_shooter.shotspeed = 4;
     shooter_shooter.shotrate = 40;
     shooter_shooter.hp = 350;
