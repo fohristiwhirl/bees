@@ -1,27 +1,6 @@
 "use strict";
 
 // ---------------------------------------------------------------------------------------------
-// CRACKED SHIP
-
-var base_cracked = Object.create(base_entity);
-base_cracked.harmless = true;
-base_cracked.death_sound = null;
-base_cracked.age = 0;
-
-base_cracked.damage = function () {
-    this.age += 1;
-    if (this.age > 60) {
-        this.hp = 0;
-    }
-};
-
-var base_cracked_left = Object.create(base_cracked);
-base_cracked_left.sprites = newimagearray("res/cracked_left.png");
-
-var base_cracked_right = Object.create(base_cracked);
-base_cracked_right.sprites = newimagearray("res/cracked_right.png");
-
-// ---------------------------------------------------------------------------------------------
 // PLAYER CONSTRUCTOR
 
 function make_player() {
@@ -131,19 +110,32 @@ function make_player() {
     };
 
     player.crack = function () {
-        var left = Object.create(base_cracked_left);
-        left.x = this.x;
-        left.y = this.y;
-        left.speedx = this.speedx - 2;
-        left.speedy = this.speedy;
-        sim.entities.push(left);
 
-        var right = Object.create(base_cracked_right);
-        right.x = this.x;
-        right.y = this.y;
-        right.speedx = this.speedx + 2;
-        right.speedy = this.speedy;
-        sim.entities.push(right);
+        var params = {};
+        params.harmless = true;
+        params.death_sound = null;
+        params.age = 0;
+        params.x = this.x;
+        params.y = this.y;
+        params.speedy = this.speedy;
+        params.damage = function () {
+            this.age += 1;
+            if (this.age > 60) {
+                this.hp = 0;
+            }
+        };
+
+        var cracked_left = new_entity(params);
+        var cracked_right = new_entity(params);
+
+        cracked_left.sprites = newimagearray("res/cracked_left.png");
+        cracked_right.sprites = newimagearray("res/cracked_right.png");
+
+        cracked_left.speedx = this.speedx - 2;
+        cracked_right.speedx = this.speedx + 2;
+
+        sim.entities.push(cracked_left);
+        sim.entities.push(cracked_right);
     };
 
     player.draw = function () {

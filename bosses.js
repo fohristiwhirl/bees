@@ -6,7 +6,7 @@
 function make_revolver() {
 
     var i;
-    var revolver = Object.create(base_entity);
+    var revolver = new_entity();
     var new_sub;
 
     revolver.is_boss = true;
@@ -15,8 +15,8 @@ function make_revolver() {
     revolver.death_sound = null;        // We do our own sounds, so this means the main loop doesn't.
 
     for (i = 0; i < 3; i += 1) {
-        new_sub = Object.create(base_skull);
-        new_sub.thing_we_shoot = base_shot_blue;
+        new_sub = new_skull();
+        new_sub.shot_constructor = new_shot_blue;
         new_sub.hp = 60;
         new_sub.angle = 2.094 * i;
         revolver.subentities.push(new_sub);
@@ -150,10 +150,10 @@ function make_revolver() {
 
 function make_shooter_shooter() {
 
-    var shooter_shooter = Object.create(base_shooter_yellow);
+    var shooter_shooter = new_shooter_yellow();
 
     shooter_shooter.is_boss = true;
-    shooter_shooter.thing_we_shoot = base_pointless_shooter;
+    shooter_shooter.shot_constructor = new_pointless_shooter;
     shooter_shooter.shotspeed = 4;
     shooter_shooter.shotrate = 40;
     shooter_shooter.hp = 350;
@@ -187,7 +187,7 @@ function make_shooter_shooter() {
             this.scary = true;
         } else {
             this.scary = false;
-            base_shooter.act.apply(this);   // Does the actual shooting.
+            base_shooter.act.apply(this);
         }
     };
 
@@ -229,7 +229,7 @@ function make_shooter_shooter() {
 
 function make_snake() {
 
-    var snake = Object.create(base_entity);
+    var snake = new_entity();
     snake.sprites = newimagearray("res/ship2.png", "res/ship1.png");
 
     snake.is_boss = true;
@@ -338,9 +338,7 @@ function make_snake() {
 
         if (sim.iteration_total % 45 === 44) {
 
-            new_ent = Object.create(base_shot);
-            new_ent.x = this.x;
-            new_ent.y = this.y;
+            new_ent = new_shot({x: this.x, y: this.y});
 
             // Some randomness on the shot...
             vector = unit_vector(this.x, this.y, sim.player.x + Math.random() * 400 - 200, sim.player.y + Math.random() * 400 - 200);
