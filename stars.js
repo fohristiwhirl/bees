@@ -4,10 +4,10 @@ function make_stars() {
 
     var stars = [];
 
-    var lookup = [];        // Convert a magnitude 0-255 into a colour #000000 - #ffffff
-
     var i;
     var mag_string;
+
+    stars.lookup = [];        // Convert a magnitude 0-255 into a colour #000000 - #ffffff
 
     for (i = 0; i <= 255; i += 1) {
 
@@ -16,7 +16,7 @@ function make_stars() {
             mag_string = "0" + mag_string;
         }
 
-        lookup[i] = "#" + mag_string + mag_string + mag_string;
+        stars.lookup[i] = "#" + mag_string + mag_string + mag_string;
     }
 
     stars.draw = function () {
@@ -45,7 +45,7 @@ function make_stars() {
             // We save a little on computation by drawing each star twice.
             // But I think the fillRect is the real performance-killer.
 
-            virtue.fillStyle = lookup[mag];
+            virtue.fillStyle = this.lookup[mag];
             virtue.fillRect(Math.floor(x), Math.floor(y), 1, 1);
             virtue.fillRect(Math.floor(canvas.width - x), Math.floor(canvas.height - y), 1, 1);
         }
