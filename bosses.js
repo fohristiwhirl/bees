@@ -350,16 +350,6 @@ function make_snake() {
 
             sim.entities.push(new_ent);
         }
-/*
-        // Launch chasers sometimes...
-
-        if (sim.iteration_total % 275 === 274) {
-            new_ent = Object.create(base_chaser);
-            new_ent.x = this.x;
-            new_ent.y = this.y;
-            sim.entities.push(new_ent);
-        }
-*/
     };
 
     snake.x = canvas.width + 32;
