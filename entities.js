@@ -334,6 +334,7 @@ function new_pusher(params) {
 function new_minor_shooter_shooter(params) {
     var mss = new_shooter();
     mss.sprites = sprites.shooter_shooter;
+    mss.score = 300;
     mss.shot_constructor = new_shooter;
     mss.shotrate = 85;
 
