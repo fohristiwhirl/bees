@@ -337,6 +337,7 @@ function new_minor_shooter_shooter(params) {
     mss.score = 300;
     mss.shot_constructor = new_shooter;
     mss.shotrate = 85;
+    mss.shotspeed = 4;
 
     mss.set_params(params);
     return mss;
