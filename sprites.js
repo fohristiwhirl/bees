@@ -13,6 +13,7 @@ sprites.shooter = newimagearray("res/shooter.png");
 sprites.chaser = newimagearray("res/chaser.png");
 sprites.boulder = newimagearray("res/ship2.png", "res/ship1.png");
 sprites.apple = newimagearray("res/apple.png");
+sprites.pusher = newimagearray("res/pusher.png");
 sprites.skull = newimagearray(
     "res/skull1.png", "res/skull2.png", "res/skull3.png",
     "res/skull4.png", "res/skull5.png", "res/skull6.png",

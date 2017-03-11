@@ -18,7 +18,7 @@ function make_revolver() {
         new_sub = new_shooter();
         new_sub.sprites = sprites.skull;
         new_sub.framerate = 15;
-        new_sub.shot_constructor = function () { var e = new_shot(); e.sprites = sprites.shot_blue; return e; };
+        new_sub.shot_constructor = function () { var e = new_shot({sprites: sprites.shot_blue}); return e; };
         new_sub.hp = 60;
         new_sub.angle = 2.094 * i;
         revolver.subentities.push(new_sub);
@@ -156,7 +156,7 @@ function make_shooter_shooter() {
     shooter_shooter.sprites = sprites.shooter_shooter;
 
     shooter_shooter.is_boss = true;
-    shooter_shooter.shot_constructor = function () { var e = new_shooter(); e.score = 0; return e; };
+    shooter_shooter.shot_constructor = function () { var e = new_shooter({score: 0}); return e; };
     shooter_shooter.shotspeed = 4;
     shooter_shooter.shotrate = 40;
     shooter_shooter.hp = 350;

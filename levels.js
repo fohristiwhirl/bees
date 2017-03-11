@@ -45,14 +45,27 @@ function border_params(o_min, o_max, t_max) {
 
 // Construct a params object to spawn at left / right but away from player. For chasers...
 
-function away_from_player_params() {
+function away_from_player_params(speedx, speedy) {      // parameters are optional
     var e = {};
+
     if (sim.player.x > canvas.width / 2) {
         e.x = -32;
+        if (speedx) {
+            e.speedx = Math.abs(speedx);
+        }
     } else {
         e.x = canvas.width + 32;
+        if (speedx) {
+            e.speedx = Math.abs(speedx) * -1;
+        }
     }
+
+    if (speedy) {
+        e.speedy = speedy;
+    }
+
     e.y = Math.random() * canvas.height;
+
     return e;
 }
 
@@ -166,6 +179,30 @@ levels[6] = function () {
     }
 
     if (i > 500 && sim.boss_present() === false) {
+        sim.next_level();
+    }
+
+    return ret;
+};
+
+levels[7] = function () {
+    var i = sim.iteration;
+    var ret = [];
+    var new_ent;
+
+    if (i % 35 === 34) {
+        ret.push(new_pusher({x: canvas.width + 32, y: Math.random() * canvas.height, speedx: -3, speedy: 0}));
+    }
+
+    if (i % 400 === 399) {
+        ret.push(new_minor_shooter_shooter({x: canvas.width + 32, y: Math.random() * canvas.height, speedx: -3, speedy: 0}));
+    }
+
+    if (i % 220 === 219) {
+        ret.push(new_stupid(away_from_player_params(2.5, Math.random() * 4 - 2)));
+    }
+
+    if (i > 2500) {
         sim.next_level();
     }
 

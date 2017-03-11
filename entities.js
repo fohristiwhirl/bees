@@ -93,28 +93,33 @@ function new_entity(params) {
         return [];
     };
 
-    var n;
-    var keys;
+    entity.set_params = function (params) {
+        var n;
+        var keys;
 
-    if (params) {
-        keys = Object.keys(params);
-        for (n = 0; n < keys.length; n += 1) {
-            entity[keys[n]] = params[keys[n]];
+        if (params) {
+            keys = Object.keys(params);
+            for (n = 0; n < keys.length; n += 1) {
+                entity[keys[n]] = params[keys[n]];
+            }
         }
-    }
+    };
 
+    entity.set_params(params);
     return entity;
 }
 
 function new_stupid(params) {
-    var stupid = new_entity(params);
+    var stupid = new_entity();
     stupid.sprites = sprites.stupid;
     stupid.score = 10;
+
+    stupid.set_params(params);
     return stupid;
 }
 
 function new_shot(params) {
-    var shot = new_entity(params);
+    var shot = new_entity();
     shot.sprites = sprites.shot;
     shot.low_priority = true;
 
@@ -122,11 +127,12 @@ function new_shot(params) {
         return;
     };
 
+    shot.set_params(params);
     return shot;
 }
 
 function new_shooter(params) {
-    var shooter = new_entity(params);
+    var shooter = new_entity();
     shooter.sprites = sprites.shooter;
     shooter.score = 100;
     shooter.shot_constructor = new_shot;            // Function to use when constructing a shot. e.g. use new_chaser to shoot chasers.
@@ -163,11 +169,12 @@ function new_shooter(params) {
         }
     };
 
+    shooter.set_params(params);
     return shooter;
 }
 
 function new_chaser(params) {
-    var chaser = new_entity(params);
+    var chaser = new_entity();
     chaser.sprites = sprites.chaser;
     chaser.score = 100;
     chaser.finished = false;
@@ -206,11 +213,12 @@ function new_chaser(params) {
         this.__super__draw();
     };
 
+    chaser.set_params(params);
     return chaser;
 }
 
 function new_bouncer(params) {              // Not an actual enemy, but boulder and apple inherit from this.
-    var bouncer = new_entity(params);
+    var bouncer = new_entity();
 
     bouncer.lifespan = 500;
     bouncer.age = 0;
@@ -235,11 +243,12 @@ function new_bouncer(params) {              // Not an actual enemy, but boulder 
         this.y += this.speedy;
     };
 
+    bouncer.set_params(params);
     return bouncer;
 }
 
 function new_boulder(params) {
-    var boulder = new_bouncer(params);
+    var boulder = new_bouncer();
     boulder.sprites = sprites.boulder;
     boulder.scary = true;
 
@@ -247,11 +256,12 @@ function new_boulder(params) {
         return;
     };
 
+    boulder.set_params(params);
     return boulder;
 }
 
 function new_apple(params) {
-    var apple = new_bouncer(params);
+    var apple = new_bouncer();
     apple.sprites = sprites.apple;
     apple.low_priority = true;
     apple.harmless = true;
@@ -274,5 +284,61 @@ function new_apple(params) {
         }
     };
 
+    apple.set_params(params);
     return apple;
+}
+
+function new_pusher(params) {
+    var pusher = new_entity();
+    pusher.sprites = sprites.pusher;
+
+    pusher.score = 250;
+    pusher.scary = true;
+    pusher.force = 20000;
+    pusher.harmless = true;
+
+    pusher.damage = function () {
+        return;
+    };
+
+    pusher.act = function () {
+        var dx;
+        var dy;
+        var distance;
+        var distance_squared;
+        var adjusted_force;
+
+        if (sim.player.alive) {
+
+            dx = (sim.player.x - this.x);
+            dy = (sim.player.y - this.y);
+            distance_squared = dx * dx + dy * dy;
+            distance = Math.sqrt(distance_squared);
+            if (distance > 0.01 && distance < 100) {
+                adjusted_force = this.force / (distance_squared * distance);
+                sim.player.speedx += dx * adjusted_force;
+                sim.player.speedy += dy * adjusted_force;
+            }
+        }
+    };
+
+    pusher.__super__draw = pusher.draw;
+
+    pusher.draw = function () {
+        draw_circle(this.x, this.y, sim.iteration_total % 30 + 30, "#003366");
+        this.__super__draw();
+    };
+
+    pusher.set_params(params);
+    return pusher;
+}
+
+function new_minor_shooter_shooter(params) {
+    var mss = new_shooter();
+    mss.sprites = sprites.shooter_shooter;
+    mss.shot_constructor = new_shooter;
+    mss.shotrate = 85;
+
+    mss.set_params(params);
+    return mss;
 }
