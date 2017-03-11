@@ -292,7 +292,6 @@ function new_pusher(params) {
     var pusher = new_entity();
     pusher.sprites = sprites.pusher;
 
-    pusher.score = 250;
     pusher.scary = true;
     pusher.force = 20000;
     pusher.harmless = true;
@@ -309,7 +308,6 @@ function new_pusher(params) {
         var adjusted_force;
 
         if (sim.player.alive) {
-
             dx = (sim.player.x - this.x);
             dy = (sim.player.y - this.y);
             distance_squared = dx * dx + dy * dy;
