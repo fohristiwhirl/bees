@@ -185,7 +185,7 @@ function new_chaser(params) {
 
         // Make sure that finished chasers eventually go out of bounds to get removed...
 
-        if (this.finished && Math.abs(this.speedx) < 1 && Math.abs(this.speedy) < 1) {
+        if (this.finished && Math.abs(this.speedx) < 3 && Math.abs(this.speedy) < 3) {
             if (this.x > canvas.width / 2) {
                 this.speedx += 0.4;
             } else {
