@@ -100,7 +100,7 @@ function new_entity(params) {
         if (params) {
             keys = Object.keys(params);
             for (n = 0; n < keys.length; n += 1) {
-                entity[keys[n]] = params[keys[n]];
+                this[keys[n]] = params[keys[n]];
             }
         }
     };
