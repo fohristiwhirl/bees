@@ -188,7 +188,6 @@ levels[6] = function () {
 levels[7] = function () {
     var i = sim.iteration;
     var ret = [];
-    var new_ent;
 
     if (i % 35 === 34) {
         ret.push(new_pusher({x: canvas.width + 32, y: Math.random() * canvas.height, speedx: -3, speedy: 0}));
