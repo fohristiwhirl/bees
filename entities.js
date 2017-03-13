@@ -1,42 +1,69 @@
 "use strict";
 
-function new_entity(params) {
+function make(base, params) {
 
-    var entity = {
-        x: 0,
-        y: 0,
-        speedx: 0,
-        speedy: 0,
-        hp: 1,
-        sprites: sprites.diamond,
-        framerate: 60,
-        scary: false,
-        harmless: false,
-        death_sound: "enemy_death",
-        low_priority: false,
-        is_boss: false,
-        score: 0
-    };
+    // More or less equivalent to Object.assign(Object.create(base), params);
+    // But supporting IE9+
 
-    entity.draw = function () {
+    var that = Object.create(base);
+    var n;
+    var keys;
+    if (params) {                       // Might be undefined.
+        keys = Object.keys(params);
+        for (n = 0; n < keys.length; n += 1) {
+            that[keys[n]] = params[keys[n]];
+        }
+    }
+    return that;
+}
+
+/* ------------------------------------------------------------------------------------------ *\
+
+    All the objects defined here are used as prototypes. They get created once, then future
+    objects have their [[Prototype]] point to them. To make such an "instance", use:
+
+                make(type, params);
+
+    Where params is an object of properties to be added (or overwritten) in the thing. The
+    params argument is optional, however.
+
+\* ------------------------------------------------------------------------------------------ */
+
+var Entity = make(null, {
+
+    x: 0,
+    y: 0,
+    speedx: 0,
+    speedy: 0,
+    hp: 1,
+    sprites: sprites.diamond,
+    framerate: 60,
+    scary: false,
+    harmless: false,
+    death_sound: "enemy_death",
+    low_priority: false,
+    is_boss: false,
+    score: 0,
+
+    draw: function () {
         var sprite_index;
         var sprite;
 
         sprite_index = Math.floor(sim.iteration_total / this.framerate) % this.sprites.length;
         sprite = this.sprites[sprite_index];
         virtue.drawImage(sprite, this.x - sprite.width / 2, this.y - sprite.height / 2);
-    };
+    },
 
-    entity.move = function () {
+    move: function () {
         this.x += this.speedx;
         this.y += this.speedy;
-    };
+    },
 
-    entity.act = function () {
+    act: function () {
         return;
-    };
+    },
 
-    entity.out_of_bounds = function () {
+    out_of_bounds: function () {
 
         // Called each iteration to check whether the entity should be removed as out of bounds.
         // Bosses should override this with a simple "return false" function.
@@ -45,9 +72,9 @@ function new_entity(params) {
             return true;
         }
         return false;
-    };
+    },
 
-    entity.damage = function () {
+    damage: function () {
 
         // Apply damage to this entity, if needed. Default is to check proximity to bees.
 
@@ -72,84 +99,73 @@ function new_entity(params) {
         if (this.hp < 0) {
             this.hp = 0;
         }
-    };
+    },
 
-    entity.unit_vector_to_player = function () {
+    unit_vector_to_player: function () {
         return unit_vector(this.x, this.y, sim.player.x, sim.player.y);
-    };
+    },
 
-    entity.collides_with_player = function () {
+    collides_with_player: function () {
         var distance = get_distance(this.x, this.y, sim.player.x, sim.player.y);
         if (distance < sim.player.sprites[0].width / 2 + this.sprites[0].width / 2 - MARGIN_OF_ERROR) {
             return true;
         }
         return false;
-    };
+    },
 
-    entity.list_scary_points = function () {       // List all points that should scare the bees.
+    list_scary_points: function () {       // List all points that should scare the bees.
         if (this.scary) {
             return [[this.x, this.y]];
         }
         return [];
-    };
+    },
+});
 
-    entity.set_params = function (params) {
-        var n;
-        var keys;
+// ---------------------------------------------------------------------------------------------
 
-        if (params) {
-            keys = Object.keys(params);
-            for (n = 0; n < keys.length; n += 1) {
-                this[keys[n]] = params[keys[n]];
-            }
-        }
-    };
+var Stupid = make(Entity, {
 
-    entity.set_params(params);
-    return entity;
-}
+    sprites: sprites.stupid,
+    score: 10
 
-function new_stupid(params) {
-    var stupid = new_entity();
-    stupid.sprites = sprites.stupid;
-    stupid.score = 10;
+});
 
-    stupid.set_params(params);
-    return stupid;
-}
+// ---------------------------------------------------------------------------------------------
 
-function new_shot(params) {
-    var shot = new_entity();
-    shot.sprites = sprites.shot;
-    shot.low_priority = true;
+var Shot = make(Entity, {
 
-    shot.damage = function () {
+    sprites: sprites.shot,
+    low_priority: true,
+
+    damage: function () {
         return;
-    };
+    }
+});
 
-    shot.set_params(params);
-    return shot;
-}
+// ---------------------------------------------------------------------------------------------
 
-function new_shooter(params) {
-    var shooter = new_entity();
-    shooter.sprites = sprites.shooter;
-    shooter.score = 100;
-    shooter.shot_constructor = new_shot;            // Function to use when constructing a shot. e.g. use new_chaser to shoot chasers.
-    shooter.shotspeed = 5;
-    shooter.shotrate = 50;
-    shooter.age = 0;
+var Shooter = make(Entity, {
 
-    shooter.can_shoot = function () {
+    sprites: sprites.shooter,
+    score: 100,
+    shotspeed: 5,
+    shotrate: 50,
+    age: 0,
+
+    shot_constructor: function () {
+        return make(Shot);
+    },
+
+    can_shoot: function () {
         if (this.age % this.shotrate === Math.floor(this.shotrate / 2) && sim.player.alive) {
             if (this.x > 0 && this.x < canvas.width && this.y > 0 && this.y < canvas.height) {
                 return true;
             }
         }
         return false;
-    };
+    },
 
-    shooter.act = function () {
+    act: function () {
         this.age += 1;
 
         var s;
@@ -167,20 +183,19 @@ function new_shooter(params) {
 
             sim.entities.push(s);
         }
-    };
+    }
+});
 
-    shooter.set_params(params);
-    return shooter;
-}
+// ---------------------------------------------------------------------------------------------
 
-function new_chaser(params) {
-    var chaser = new_entity();
-    chaser.sprites = sprites.chaser;
-    chaser.score = 100;
-    chaser.finished = false;
-    chaser.chase_speed = 7;
+var Chaser = make(Entity, {
 
-    chaser.move = function () {
+    sprites: sprites.chaser,
+    score: 100,
+    finished: false,
+    chase_speed: 7,
+
+    move: function () {
 
         if (sim.player.alive && this.finished === false) {
             var vector = this.unit_vector_to_player();
@@ -202,30 +217,26 @@ function new_chaser(params) {
 
         this.x += this.speedx;
         this.y += this.speedy;
-    };
+    },
 
-    chaser.__super__draw = chaser.draw;
-
-    chaser.draw = function () {
+    draw: function () {
         if (sim.player.alive && this.finished === false) {
             draw_line(this.x, this.y, sim.player.x, sim.player.y, "#ff0000");
         }
-        this.__super__draw();
-    };
+        Entity.draw.call(this);
+    }
+});
 
-    chaser.set_params(params);
-    return chaser;
-}
+// ---------------------------------------------------------------------------------------------
 
-function new_bouncer(params) {              // Not an actual enemy, but boulder and apple inherit from this.
-    var bouncer = new_entity();
+var Bouncer = make(Entity, {
 
-    bouncer.lifespan = 500;
-    bouncer.age = 0;
+    lifespan: 500,
+    age: 0,
 
-    bouncer.move = function () {
+    move: function () {
         this.age += 1;
-        if (this.age < this.lifespan) {      // Only the young can bounce.
+        if (this.age < this.lifespan) {                     // Only the young can bounce.
             if (this.x < this.sprites[0].width / 2) {
                 this.speedx = Math.abs(this.speedx);
             }
@@ -241,39 +252,35 @@ function new_bouncer(params) {              // Not an actual enemy, but boulder 
         }
         this.x += this.speedx;
         this.y += this.speedy;
-    };
+    }
+});
 
-    bouncer.set_params(params);
-    return bouncer;
-}
+// ---------------------------------------------------------------------------------------------
 
-function new_boulder(params) {
-    var boulder = new_bouncer();
-    boulder.sprites = sprites.boulder;
-    boulder.scary = true;
+var Boulder = make(Bouncer, {
 
-    boulder.damage = function () {
+    sprites: sprites.boulder,
+    scary: true,
+
+    damage: function () {
         return;
-    };
+    }
+});
 
-    boulder.set_params(params);
-    return boulder;
-}
+// ---------------------------------------------------------------------------------------------
 
-function new_apple(params) {
-    var apple = new_bouncer();
-    apple.sprites = sprites.apple;
-    apple.low_priority = true;
-    apple.harmless = true;
-    apple.is_apple = true;
+var Apple = make(Bouncer, {
 
-    apple.__super__damage = apple.damage;
+    sprites: sprites.apple,
+    low_priority: true,
+    harmless: true,
+    is_apple: true,
 
-    apple.damage = function () {
+    damage: function () {
 
         // Damage from bees...
 
-        this.__super__damage();
+        Entity.damage.call(this);
 
         // Or from player...
 
@@ -282,25 +289,23 @@ function new_apple(params) {
                 this.hp = 0;
             }
         }
-    };
+    }
+});
 
-    apple.set_params(params);
-    return apple;
-}
+// ---------------------------------------------------------------------------------------------
 
-function new_pusher(params) {
-    var pusher = new_entity();
-    pusher.sprites = sprites.pusher;
+var Pusher = make(Entity, {
 
-    pusher.scary = true;
-    pusher.force = 20000;
-    pusher.harmless = true;
+    sprites: sprites.pusher,
+    scary: true,
+    force: 20000,
+    harmless: true,
 
-    pusher.damage = function () {
+    damage: function () {
         return;
-    };
+    },
 
-    pusher.act = function () {
+    act: function () {
         var dx;
         var dy;
         var distance;
@@ -318,27 +323,24 @@ function new_pusher(params) {
                 sim.player.speedy += dy * adjusted_force;
             }
         }
-    };
+    },
 
-    pusher.__super__draw = pusher.draw;
-
-    pusher.draw = function () {
+    draw: function () {
         draw_circle(this.x, this.y, sim.iteration_total % 30 + 30, "#003366");
-        this.__super__draw();
-    };
+        Entity.draw.call(this);
+    }
+});
 
-    pusher.set_params(params);
-    return pusher;
-}
+// ---------------------------------------------------------------------------------------------
 
-function new_minor_shooter_shooter(params) {
-    var mss = new_shooter();
-    mss.sprites = sprites.shooter_shooter;
-    mss.score = 300;
-    mss.shot_constructor = new_shooter;
-    mss.shotrate = 85;
-    mss.shotspeed = 4;
+var Mss = make(Shooter, {           // "Minor shooter shooter"
 
-    mss.set_params(params);
-    return mss;
-}
+    sprites: sprites.shooter_shooter,
+    score: 300,
+    shotrate: 85,
+    shotspeed: 4,
+
+    shot_constructor: function () {
+        return make(Shooter);
+    }
+});

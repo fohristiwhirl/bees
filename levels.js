@@ -84,10 +84,10 @@ levels[1] = function () {
     var ret = [];
 
     if (i % 100 === 99) {
-        ret.push(new_stupid({x: canvas.width + 32, y: Math.random() * canvas.height, speedx: Math.random() * -3 - 1, speedy: Math.random() * 4 - 2}));
+        ret.push(make(Stupid, {x: canvas.width + 32, y: Math.random() * canvas.height, speedx: Math.random() * -3 - 1, speedy: Math.random() * 4 - 2}));
     }
     if (i % 450 === 449) {
-        ret.push(new_shooter({x: canvas.width + 32, y: Math.random() * canvas.height, speedx: -3, speedy: 0}));
+        ret.push(make(Shooter, {x: canvas.width + 32, y: Math.random() * canvas.height, speedx: -3, speedy: 0}));
     }
 
     if (i === 1500) {
@@ -123,10 +123,10 @@ levels[3] = function () {
         }
     } else {
         if (i % 100 === 99) {
-            ret.push(new_chaser(away_from_player_params()));
+            ret.push(make(Chaser, away_from_player_params()));
         }
         if (i % 350 === 349) {
-            ret.push(new_shooter({x: canvas.width + 32, y: Math.random() * canvas.height, speedx: -3, speedy: 0}));
+            ret.push(make(Shooter, {x: canvas.width + 32, y: Math.random() * canvas.height, speedx: -3, speedy: 0}));
         }
     }
 
@@ -159,7 +159,7 @@ levels[5] = function () {
         }
     } else {
         if (i % 40 === 39) {
-            ret.push(new_boulder(border_params(4, 8, 2)));
+            ret.push(make(Boulder, border_params(4, 8, 2)));
         }
     }
 
@@ -171,7 +171,7 @@ levels[6] = function () {
     var ret = [];
 
     if (i % 100 === 99) {
-        ret.push(new_apple(border_params(4, 4, 2)));
+        ret.push(make(Apple, border_params(4, 4, 2)));
     }
     if (i === 300) {
         ret.push(make_snake());
@@ -190,15 +190,15 @@ levels[7] = function () {
     var ret = [];
 
     if (i % 35 === 34) {
-        ret.push(new_pusher({x: canvas.width + 32, y: Math.random() * canvas.height, speedx: -3, speedy: 0}));
+        ret.push(make(Pusher, {x: canvas.width + 32, y: Math.random() * canvas.height, speedx: -3, speedy: 0}));
     }
 
     if (i % 400 === 399) {
-        ret.push(new_minor_shooter_shooter({x: canvas.width + 32, y: Math.random() * canvas.height, speedx: -3, speedy: 0}));
+        ret.push(make(Mss, {x: canvas.width + 32, y: Math.random() * canvas.height, speedx: -3, speedy: 0}));
     }
 
     if (i % 220 === 219) {
-        ret.push(new_stupid(away_from_player_params(2.5, Math.random() * 4 - 2)));
+        ret.push(make(Stupid, away_from_player_params(2.5, Math.random() * 4 - 2)));
     }
 
     if (i > 2500) {
