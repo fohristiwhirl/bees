@@ -194,29 +194,23 @@ function make_shooter_shooter() {
         this.y += this.speedy;
     };
 
-    shooter_shooter.__super__act = shooter_shooter.act;
-
     shooter_shooter.act = function () {
         if (Math.floor(sim.iteration / 200) % 2 === 0) {
             this.scary = true;
         } else {
             this.scary = false;
-            this.__super__act();
+            Shooter.act.call(this);
         }
     };
-
-    shooter_shooter.__super__draw = shooter_shooter.draw;
 
     shooter_shooter.draw = function () {
         if (this.scary) {
             draw_circle(this.x, this.y, 45, "#ccffcc");
         }
-        this.__super__draw();
+        Entity.draw.call(this);
 
         draw_boss_hitpoints(this.hp / this.initial_health);
     };
-
-    shooter_shooter.__super__damage = shooter_shooter.damage;
 
     shooter_shooter.damage = function () {
         var hp_before = this.hp;
@@ -225,7 +219,7 @@ function make_shooter_shooter() {
             return;
         }
 
-        this.__super__damage();
+        Entity.damage.call(this);
 
         if (this.hp !== hp_before) {                                        // We took damage.
             if (sim.iteration_total - this.last_sound_iteration > 3) {
@@ -259,15 +253,13 @@ function make_snake() {
     snake.accel_mod = 2;
     snake.max_speed = 8;
 
-    snake.__super__damage = snake.damage;
-
     snake.damage = function () {
         if (this.hp > 1) {
             this.scary = true;
             this.hp -= 1;
         } else {
             this.scary = false;
-            this.__super__damage();     // When at 1 hp, the shield is down and we can take damage.
+            Entity.damage.call(this);   // When at 1 hp, the shield is down and we can take damage.
         }
     };
 
@@ -275,13 +267,11 @@ function make_snake() {
         return false;
     };
 
-    snake.__super__draw = snake.draw;
-
     snake.draw = function () {
         if (this.hp > 1) {
             draw_circle(this.x, this.y, 45, "#ccffcc");
         }
-        this.__super__draw();
+        Entity.draw.call(this);
         draw_boss_hitpoints(this.hp / this.max_health);
     };
 
