@@ -23,11 +23,7 @@ function make_revolver() {
             hp: 60,
             angle: 2.094 * i,
 
-            shot_constructor: function () {
-                return make(Shot, {
-                    sprites: sprites.shot_blue
-                });
-            }
+            shot_constructor: function () {return make(Shot, {sprites: sprites.shot_blue});}
         });
 
         revolver.subentities.push(new_sub);
@@ -165,7 +161,7 @@ function make_shooter_shooter() {
     shooter_shooter.sprites = sprites.shooter_shooter;
 
     shooter_shooter.is_boss = true;
-    shooter_shooter.shot_constructor = function () { return make(Shooter, {score: 0}); };
+    shooter_shooter.shot_constructor = function () {return make(Shooter, {score: 0});};
     shooter_shooter.shotspeed = 4;
     shooter_shooter.shotrate = 40;
     shooter_shooter.hp = 350;
