@@ -6,7 +6,7 @@
 function make_revolver() {
 
     var i;
-    var revolver = new_entity();
+    var revolver = make(Entity);
     var new_sub;
 
     revolver.is_boss = true;
@@ -15,12 +15,17 @@ function make_revolver() {
     revolver.death_sound = null;        // We do our own sounds, so this means the main loop doesn't.
 
     for (i = 0; i < 3; i += 1) {
-        new_sub = new_shooter();
-        new_sub.sprites = sprites.skull;
-        new_sub.framerate = 15;
-        new_sub.shot_constructor = function () { var e = new_shot({sprites: sprites.shot_blue}); return e; };
-        new_sub.hp = 60;
-        new_sub.angle = 2.094 * i;
+
+        new_sub = make(Shooter, {
+
+            sprites: sprites.skull,
+            framerate: 15,
+            hp: 60,
+            angle: 2.094 * i,
+
+            shot_constructor: function () {return make(Shot, {sprites: sprites.shot_blue});}
+        });
+
         revolver.subentities.push(new_sub);
     }
 
@@ -152,11 +157,11 @@ function make_revolver() {
 
 function make_shooter_shooter() {
 
-    var shooter_shooter = new_shooter();
+    var shooter_shooter = make(Shooter);
     shooter_shooter.sprites = sprites.shooter_shooter;
 
     shooter_shooter.is_boss = true;
-    shooter_shooter.shot_constructor = function () { var e = new_shooter({score: 0}); return e; };
+    shooter_shooter.shot_constructor = function () {return make(Shooter, {score: 0});};
     shooter_shooter.shotspeed = 4;
     shooter_shooter.shotrate = 40;
     shooter_shooter.hp = 350;
@@ -185,29 +190,23 @@ function make_shooter_shooter() {
         this.y += this.speedy;
     };
 
-    shooter_shooter.__super__act = shooter_shooter.act;
-
     shooter_shooter.act = function () {
         if (Math.floor(sim.iteration / 200) % 2 === 0) {
             this.scary = true;
         } else {
             this.scary = false;
-            this.__super__act();
+            Shooter.act.call(this);
         }
     };
-
-    shooter_shooter.__super__draw = shooter_shooter.draw;
 
     shooter_shooter.draw = function () {
         if (this.scary) {
             draw_circle(this.x, this.y, 45, "#ccffcc");
         }
-        this.__super__draw();
+        Entity.draw.call(this);
 
         draw_boss_hitpoints(this.hp / this.initial_health);
     };
-
-    shooter_shooter.__super__damage = shooter_shooter.damage;
 
     shooter_shooter.damage = function () {
         var hp_before = this.hp;
@@ -216,7 +215,7 @@ function make_shooter_shooter() {
             return;
         }
 
-        this.__super__damage();
+        Entity.damage.call(this);
 
         if (this.hp !== hp_before) {                                        // We took damage.
             if (sim.iteration_total - this.last_sound_iteration > 3) {
@@ -238,7 +237,7 @@ function make_shooter_shooter() {
 
 function make_snake() {
 
-    var snake = new_entity();
+    var snake = make(Entity);
     snake.sprites = sprites.snake;
 
     snake.is_boss = true;
@@ -250,15 +249,13 @@ function make_snake() {
     snake.accel_mod = 2;
     snake.max_speed = 8;
 
-    snake.__super__damage = snake.damage;
-
     snake.damage = function () {
         if (this.hp > 1) {
             this.scary = true;
             this.hp -= 1;
         } else {
             this.scary = false;
-            this.__super__damage();     // When at 1 hp, the shield is down and we can take damage.
+            Entity.damage.call(this);   // When at 1 hp, the shield is down and we can take damage.
         }
     };
 
@@ -266,13 +263,11 @@ function make_snake() {
         return false;
     };
 
-    snake.__super__draw = snake.draw;
-
     snake.draw = function () {
         if (this.hp > 1) {
             draw_circle(this.x, this.y, 45, "#ccffcc");
         }
-        this.__super__draw();
+        Entity.draw.call(this);
         draw_boss_hitpoints(this.hp / this.max_health);
     };
 
@@ -352,7 +347,7 @@ function make_snake() {
         if (sim.iteration_total % 45 === 44) {
             // Some randomness on the shot...
             vector = unit_vector(this.x, this.y, sim.player.x + Math.random() * 400 - 200, sim.player.y + Math.random() * 400 - 200);
-            new_ent = new_shot();
+            new_ent = make(Shot);
             new_ent.x = this.x;
             new_ent.y = this.y;
             new_ent.speedx = vector[0] * 10;

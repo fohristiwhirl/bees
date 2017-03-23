@@ -125,8 +125,8 @@ function make_player() {
             }
         };
 
-        var cracked_left = new_entity(params);
-        var cracked_right = new_entity(params);
+        var cracked_left = make(Entity, params);
+        var cracked_right = make(Entity, params);
 
         cracked_left.sprites = sprites.cracked_left;
         cracked_right.sprites = sprites.cracked_right;

@@ -1,23 +1,21 @@
 "use strict";
 
-function new_bee() {
+var Bee = make(null, {
 
-    var bee = {
-        x: 0,
-        y: 0,
-        lastx: 0,
-        lasty: 0,
-        oldx: 0,
-        oldy: 0,
-        speedx: 0,
-        speedy: 0,
-        accel_mod: 0.57,
-        max_speed: 9,
-        colour: "#ffffff",
-        avoidance: 5000
-    };
+    x: 0,
+    y: 0,
+    lastx: 0,
+    lasty: 0,
+    oldx: 0,
+    oldy: 0,
+    speedx: 0,
+    speedy: 0,
+    accel_mod: 0.57,
+    max_speed: 9,
+    colour: "#ffffff",
+    avoidance: 5000,
 
-    bee.move = function (scary_points) {
+    move: function (scary_points) {
 
         this.oldx = this.lastx;
         this.oldy = this.lasty;
@@ -83,14 +81,12 @@ function new_bee() {
 
         this.x += this.speedx;
         this.y += this.speedy;
-    };
+    },
 
-    bee.unit_vector_to_player = function () {
+    unit_vector_to_player: function () {
         return unit_vector(this.x, this.y, sim.player.x, sim.player.y);
-    };
-
-    return bee;
-}
+    }
+});
 
 // ---------------------------------------------------------------------------------------------
 // BEE ARRAY CONSTRUCTOR
@@ -105,7 +101,7 @@ function make_bees() {
     var b;
 
     while (bees.length < BEECOUNT) {
-        bee = new_bee();
+        bee = make(Bee);
         r = Math.floor(Math.random() * 127 + 128);
         g = Math.floor(Math.random() * 127 + 128);
         b = Math.floor(Math.random() * 127 + 128);

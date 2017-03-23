@@ -1,6 +1,23 @@
 "use strict";
 
-function newimagearray() {      // Accepts variable number of arguments.
+function make(base, params) {
+
+    // More or less equivalent to Object.assign(Object.create(base), params);
+    // But supporting IE9+
+
+    var that = Object.create(base);
+    var n;
+    var keys;
+    if (params) {                       // Might be undefined.
+        keys = Object.keys(params);
+        for (n = 0; n < keys.length; n += 1) {
+            that[keys[n]] = params[keys[n]];
+        }
+    }
+    return that;
+}
+
+function new_image_array() {            // Accepts variable number of arguments.
     var ret = [];
     var img;
     var i;
