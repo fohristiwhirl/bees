@@ -1,22 +1,5 @@
 "use strict";
 
-function make(base, params) {
-
-    // More or less equivalent to Object.assign(Object.create(base), params);
-    // But supporting IE9+
-
-    var that = Object.create(base);
-    var n;
-    var keys;
-    if (params) {                       // Might be undefined.
-        keys = Object.keys(params);
-        for (n = 0; n < keys.length; n += 1) {
-            that[keys[n]] = params[keys[n]];
-        }
-    }
-    return that;
-}
-
 /* ------------------------------------------------------------------------------------------ *\
 
     All the objects defined here are used as prototypes. They get created once, then future
