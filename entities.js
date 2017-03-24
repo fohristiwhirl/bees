@@ -148,23 +148,26 @@ var Shooter = make(Entity, {
         return false;
     },
 
-    act: function () {
-        this.age += 1;
-
+    shoot: function () {
         var s;
         var vector;
 
+        s = this.shot_constructor();     // Don't pass parameters, so we can easily construct modified entities with different shot_constructor functions.
+        s.x = this.x;
+        s.y = this.y;
+
+        vector = this.unit_vector_to_player();
+        s.speedx = vector[0] * this.shotspeed;
+        s.speedy = vector[1] * this.shotspeed;
+
+        sim.entities.push(s);
+    },
+
+    act: function () {
+        this.age += 1;
+
         if (this.can_shoot()) {
-
-            s = this.shot_constructor();     // Don't pass parameters, so we can easily use lambdas that modify the shot.
-            s.x = this.x;
-            s.y = this.y;
-
-            vector = this.unit_vector_to_player();
-            s.speedx = vector[0] * this.shotspeed;
-            s.speedy = vector[1] * this.shotspeed;
-
-            sim.entities.push(s);
+            this.shoot();
         }
     }
 });

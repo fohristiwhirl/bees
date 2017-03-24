@@ -207,3 +207,19 @@ levels[7] = function () {
 
     return ret;
 };
+
+levels[8] = function () {
+    var i = sim.iteration;
+    var ret = [];
+
+    if (i === 300) {
+        ret.push(make_hydra());
+        mixer("warning");
+    }
+
+    if (i > 500 && sim.boss_present() === false) {
+        sim.next_level();
+    }
+
+    return ret;
+}

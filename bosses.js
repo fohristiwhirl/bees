@@ -363,3 +363,166 @@ function make_snake() {
 
     return snake;
 }
+
+// ---------------------------------------------------------------------------------------------
+// HYDRA
+
+function make_hydra() {
+    var i;
+    var new_sub;
+    var hydra = make(Entity);
+
+    hydra.is_boss = true;
+    hydra.score = 1000;
+    hydra.subentities = [];
+    hydra.death_sound = null;       // We do our own sounds, so this means the main loop doesn't.
+    hydra.last_sound_iteration = 0;
+
+    var sub_act = function () {
+
+        var distance;
+        var vector;
+
+        switch (this.phase) {
+        case 0:
+
+            if (this.x < 32) {
+                this.x += 1;
+            } else if (this.x > canvas.width - 32) {
+                this.x -= 1;
+            } else {
+                this.home_x = this.x;
+                this.home_y = this.y;
+                this.phase = 1;
+            }
+            break;
+
+        case 1:                     // Waiting at home
+            if (sim.iteration % (hydra.subentities.length * 12) === 0) {
+                if (sim.player.alive) {
+                    this.shoot();
+                }
+            }
+            if (sim.iteration % 500 === this.id * 125 && sim.player.immune_timer === 0) {
+                this.target_x = sim.player.x;
+                this.target_y = sim.player.y;
+                vector = unit_vector(this.x, this.y, this.target_x, this.target_y);
+                this.speedx = vector[0] * 13;
+                this.speedy = vector[1] * 13;
+                this.phase = 2;
+            }
+            break;
+
+        case 2:                     // Outgoing
+            distance = get_distance(this.x, this.y, this.target_x, this.target_y);
+            if (distance < 16) {
+                this.speedx *= -1;
+                this.speedy *= -1;
+                this.phase = 3;
+            } else {
+                this.x += this.speedx;
+                this.y += this.speedy;
+            }
+            break;
+
+        case 3:                     // Coming back
+            distance = get_distance(this.x, this.y, this.home_x, this.home_y);
+            if (distance < 8) {
+                this.speedx = 0;
+                this.speedy = 0;
+                this.x = this.home_x;
+                this.y = this.home_y;
+                this.phase = 1
+            } else {
+                this.x += this.speedx;
+                this.y += this.speedy;
+            }
+            break;
+
+        }
+    }
+
+    var initials = [{x: -100, y: 128}, {x: canvas.width + 100, y: 128}, {x: -100, y: canvas.height - 128}, {x: canvas.width + 100, y: canvas.height - 128}];
+
+    for (i = 0; i < 4 ; i += 1) {
+        new_sub = make(Shooter, {
+            act: sub_act,
+            sprites: sprites.hydra,
+            id: i,
+            hp: 125,
+            phase: 0,
+            x: initials[i].x,
+            y: initials[i].y
+        })
+
+        hydra.subentities.push(new_sub);
+    }
+
+    Object.defineProperty(hydra, "hp", {                                    // hp getter.
+        get: function () {
+            var n;
+            var total_health = 0;
+            for (n = 0; n < this.subentities.length; n += 1) {
+                total_health += Math.max(0, this.subentities[n].hp);        // Count negatives as zero.
+            }
+            return total_health;
+        }
+    });
+
+    hydra.initial_health = hydra.hp;
+
+    hydra.out_of_bounds = function () {
+        return false;
+    };
+
+    hydra.act = function () {
+        var n;
+        for (n = 0; n < this.subentities.length; n += 1) {
+            hydra.subentities[n].act();
+        }
+    }
+
+    hydra.move = function () {
+        return;
+    }
+
+    hydra.draw = function () {
+        var n;
+        for (n = 0; n < this.subentities.length; n += 1) {
+            hydra.subentities[n].draw();
+        }
+        draw_boss_hitpoints(this.hp / this.initial_health);
+    }
+
+    hydra.damage = function () {
+        var n;
+        var hp_before = this.hp;
+
+        for (n = this.subentities.length - 1; n >= 0; n -= 1) {             // Reversed so we can pop.
+            this.subentities[n].damage();
+            if (this.subentities[n].hp <= 0) {
+                this.subentities.splice(n, 1);
+                mixer("enemy_death");
+            }
+        }
+
+        if (this.hp !== hp_before) {                                        // We took damage.
+            if (sim.iteration_total - this.last_sound_iteration > 3) {
+                this.last_sound_iteration = sim.iteration_total;
+                mixer("click");
+            }
+        }
+    };
+
+    hydra.collides_with_player = function () {
+        var n;
+        for (n = 0; n < this.subentities.length; n += 1) {
+            if (this.subentities[n].collides_with_player()) {
+                return true;
+            }
+        }
+        return false;
+    };
+
+    return hydra;
+}

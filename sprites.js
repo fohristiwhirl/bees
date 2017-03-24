@@ -23,3 +23,4 @@ sprites.skull = new_image_array(
 sprites.shot_blue = new_image_array("res/shot_blue.png");
 sprites.shooter_shooter = new_image_array("res/shooter_shooter.png");
 sprites.snake = new_image_array("res/ship2.png", "res/ship1.png");
+sprites.hydra = new_image_array("res/hydra.png");
