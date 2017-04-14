@@ -8,6 +8,7 @@ sounds.warning = new Audio("res/warning.mp3")
 
 // ---------------------------------------------------------------------------------------------
 // Mixer based on ideas by Thomas Sturm: http://www.storiesinflight.com/html5/audio.html
+// Seems to have some issues in IE, not sure why.
 
 function make_mixer() {
     var audiochannels = [];
@@ -17,7 +18,7 @@ function make_mixer() {
 
     return function (s) {       // For historical reasons, s is a string specifying the key in the sounds object
 
-        var sound = sounds[s]
+        var sound = sounds[s];
 
         if (sound === undefined) {
             return;
@@ -30,7 +31,7 @@ function make_mixer() {
             if (audiochannels[a].finished < thistime) {
                 audiochannels[a].finished = thistime + sound.duration * 1000;
                 audiochannels[a].channel.src = sound.src;
-                audiochannels[a].channel.load();
+                // audiochannels[a].channel.load();         // Is this needed?
                 audiochannels[a].channel.play();
                 break;
             }
