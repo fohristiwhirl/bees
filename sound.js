@@ -11,14 +11,15 @@ sounds.warning = new Audio("res/warning.mp3")
 // Seems to have some issues in IE, not sure why.
 
 function make_mixer() {
-    var audiochannels = [];
-    while (audiochannels.length < 8) {
-        audiochannels.push({channel: new Audio(), finished: -1});
+    var finishtimes = [];
+    while (finishtimes.length < 8) {
+        finishtimes.push(-1);
     }
 
     return function (s) {       // For historical reasons, s is a string specifying the key in the sounds object
 
         var sound = sounds[s];
+        var newsound;
 
         if (sound === undefined) {
             return;
@@ -27,12 +28,11 @@ function make_mixer() {
         var a;
         var thistime = Date.now();
 
-        for (a = 0; a < audiochannels.length; a += 1) {
-            if (audiochannels[a].finished < thistime) {
-                audiochannels[a].finished = thistime + sound.duration * 1000;
-                audiochannels[a].channel.src = sound.src;
-                // audiochannels[a].channel.load();         // Is this needed?
-                audiochannels[a].channel.play();
+        for (a = 0; a < finishtimes.length; a += 1) {
+            if (finishtimes[a] < thistime) {
+                finishtimes[a] = thistime + sound.duration * 1000;
+                newsound = sound.cloneNode();
+                newsound.play();
                 break;
             }
         }
